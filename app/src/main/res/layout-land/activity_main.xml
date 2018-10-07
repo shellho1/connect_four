@@ -27,14 +27,14 @@
             android:id="@+id/playerOneText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="false"
             android:layout_alignWithParentIfMissing="false"
-            android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="false"
             android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:ems="10"
-            android:inputType="textPersonName"
-            android:text="@string/player_one" />
+            android:hint="@string/player_one"
+            android:inputType="textPersonName" />
 
         <EditText
             android:id="@+id/playerTwoText"
@@ -43,8 +43,8 @@
             android:layout_below="@+id/playerOneText"
             android:layout_centerHorizontal="true"
             android:ems="10"
+            android:hint="@string/player_two"
             android:inputType="textPersonName"
-            android:text="@string/player_two"
             tools:layout_alignParentBottom="false" />
 
         <Button

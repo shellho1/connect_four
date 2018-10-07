@@ -35,8 +35,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:ems="10"
-            android:inputType="textPersonName"
-            android:text="@string/player_one" />
+            android:hint="@string/player_one"
+            android:inputType="textPersonName" />
     </FrameLayout>
 
     <FrameLayout
@@ -50,8 +50,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:ems="10"
-            android:inputType="textPersonName"
-            android:text="@string/player_two" />
+            android:hint="@string/player_two"
+            android:inputType="textPersonName" />
     </FrameLayout>
 
     <FrameLayout
