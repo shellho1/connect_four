@@ -9,4 +9,7 @@
     <string name="undo">Undo</string>
     <string name="done">Done</string>
     <string name="playerText">Player 1\'s Turn</string>
+    <string name="winner_string">Winner:</string>
+    <string name="restart_button">Restart</string>
+    <string name="loser_string">Loser:</string>
 </resources>
