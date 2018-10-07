@@ -5,4 +5,8 @@
     <string name="titleText">Connect 4 Game</string>
     <string name="start_game">Start</string>
     <string name="imageDesc">Basic graphic of game</string>
+    <string name="surrender">Surrender</string>
+    <string name="undo">Undo</string>
+    <string name="done">Done</string>
+    <string name="playerText">Player 1\'s Turn</string>
 </resources>
