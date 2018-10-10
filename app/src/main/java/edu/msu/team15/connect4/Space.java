@@ -6,6 +6,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 
 public class Space {
+    private static final double COLUMN_OFFSET = .5;
+    private static final int ROW_OFFSET = 1;
     /**
      * The image for the actual piece.
      */
@@ -39,16 +41,17 @@ public class Space {
 
         spaceBackground = BitmapFactory.decodeResource(context.getResources(), R.drawable.empty_space);
 
-        this.x = (float) ((column+.5) * getSpaceBackground().getWidth()) / (getSpaceBackground().getWidth() * 7);
-        this.y = (float) ((row+1) * getSpaceBackground().getHeight()) / (getSpaceBackground().getWidth() * 7);
+        this.x = (float) ((column + COLUMN_OFFSET) * getWidth()) / (getWidth() * ConnectFour.NUM_COLUMNS);
+        this.y = (float) ((row + ROW_OFFSET) * getHeight()) / (getWidth() * ConnectFour.NUM_COLUMNS);
     }
 
     /**
      * Draw the puzzle piece
-     * @param canvas Canvas we are drawing on
-     * @param marginX Margin x value in pixels
-     * @param marginY Margin y value in pixels
-     * @param boardSize Size we draw the puzzle in pixels
+     *
+     * @param canvas      Canvas we are drawing on
+     * @param marginX     Margin x value in pixels
+     * @param marginY     Margin y value in pixels
+     * @param boardSize   Size we draw the puzzle in pixels
      * @param scaleFactor Amount we scale the puzzle pieces when we draw them
      */
     public void draw(Canvas canvas, int marginX, int marginY,
@@ -69,7 +72,38 @@ public class Space {
         canvas.restore();
     }
 
-    public Bitmap getSpaceBackground() {
-        return spaceBackground;
+    public int getWidth() {
+        return spaceBackground.getWidth();
+    }
+
+    public int getHeight() {
+        return spaceBackground.getHeight();
+    }
+
+    /**
+     * Test to see if we have touched a puzzle piece
+     * @param testX X location as a normalized coordinate (0 to 1)
+     * @param testY Y location as a normalized coordinate (0 to 1)
+     * @param boardSize the size of the puzzle in pixels
+     * @param scaleFactor the amount to scale a piece by
+     * @return true if we hit the piece
+     */
+    public boolean hit(float testX, float testY,
+                       int boardSize, float scaleFactor) {
+
+        // Make relative to the location and size to the piece size
+        int pX = (int)((testX - x) * boardSize / scaleFactor) +
+                getWidth() / 2;
+        int pY = (int)((testY - y) * boardSize / scaleFactor) +
+                getHeight() / 2;
+
+        if(pX < 0 || pX >= getWidth() ||
+                pY < 0 || pY >= getHeight()) {
+            return false;
+        }
+
+        // We are within the rectangle of the piece.
+        // Are we touching actual picture?
+        return (spaceBackground.getPixel(pX, pY) & 0xff000000) != 0;
     }
 }

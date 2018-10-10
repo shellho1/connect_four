@@ -2,7 +2,9 @@ package edu.msu.team15.connect4;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Paint;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
 
 import java.util.ArrayList;
 
@@ -31,32 +33,11 @@ public class ConnectFour {
     private float scaleFactor;
 
     /**
-     * Paint for filling the area the puzzle is in
-     */
-    private Paint fillPaint;
-
-    /**
-     * Paint for outlining the area the puzzle is in
-     */
-    private Paint outlinePaint;
-
-    /**
      * Collection of spaces
      */
-    public ArrayList<ArrayList<Space>> board = new ArrayList<ArrayList<Space>>();
+    private ArrayList<ArrayList<Space>> board = new ArrayList<ArrayList<Space>>();
 
     public ConnectFour(Context context) {
-        // Create paint for filling the area the puzzle will
-        // be solved in.
-        fillPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        fillPaint.setColor(0xffcccccc);
-
-        outlinePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        outlinePaint.setColor(0xff008000);
-        outlinePaint.setStyle(Paint.Style.STROKE);
-        outlinePaint.setStrokeWidth(1);
-
-
         for (int i = 0; i < NUM_COLUMNS; i++) {
             ArrayList<Space> column = new ArrayList<>();
             for (int j = 0; j < NUM_ROWS; j++) {
@@ -64,8 +45,6 @@ public class ConnectFour {
             }
             board.add(column);
         }
-
-
     }
 
     public void draw(Canvas canvas) {
@@ -78,12 +57,65 @@ public class ConnectFour {
         marginX = (wid - boardSize) / 2;
         marginY = (hit - boardSize) / 2;
 
-        scaleFactor = (float) boardSize / (board.get(0).get(0).getSpaceBackground().getWidth() * 7);
+        scaleFactor = (float) boardSize / (board.get(0).get(0).getWidth() * NUM_COLUMNS);
 
         for (ArrayList<Space> column : board) {
-            for (Space space: column) {
+            for (Space space : column) {
                 space.draw(canvas, marginX, marginY, boardSize, scaleFactor);
             }
         }
+    }
+
+    /**
+     * Handle a touch event from the view.
+     *
+     * @param view  The view that is the source of the touch
+     * @param event The motion event describing the touch
+     * @return true if the touch is handled.
+     */
+    public boolean onTouchEvent(View view, MotionEvent event) {
+        //
+        // Convert an x,y location to a relative location in the
+        // board.
+        //
+        float relX = (event.getX() - marginX) / boardSize;
+        float relY = (event.getY() - marginY) / boardSize;
+
+        switch (event.getActionMasked()) {
+
+            case MotionEvent.ACTION_DOWN:
+                return onTouched(relX, relY);
+
+            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_CANCEL:
+                break;
+
+            case MotionEvent.ACTION_MOVE:
+                break;
+        }
+
+        return false;
+    }
+
+    /**
+     * Handle a touch message. This is when we get an initial touch
+     * @param x x location for the touch, relative to the puzzle - 0 to 1 over the puzzle
+     * @param y y location for the touch, relative to the puzzle - 0 to 1 over the puzzle
+     * @return true if the touch is handled
+     */
+    private boolean onTouched(float x, float y) {
+
+        for(int i = 0; i < board.size(); i++) {
+            for(int j = 0; j < board.get(i).size(); j++) {
+                if(board.get(i).get(j).hit(x, y, boardSize, scaleFactor)) {
+                    // We hit a piece!
+                    Log.i("PIECE", "col: " + i + " row: " + j);
+
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }

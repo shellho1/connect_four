@@ -3,6 +3,7 @@ package edu.msu.team15.connect4;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 
 /**
@@ -38,5 +39,10 @@ public class ConnectFourView extends View {
         super.onDraw(canvas);
 
         connectFour.draw(canvas);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return connectFour.onTouchEvent(this, event);
     }
 }
