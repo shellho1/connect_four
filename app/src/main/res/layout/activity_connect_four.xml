@@ -70,8 +70,8 @@
         android:paddingTop="10dp"
         android:text="@string/playerText" />
 
-    <View
-        android:id="@+id/view"
+    <view
+        android:id="@+id/connectFourView"
         class="edu.msu.team15.connect4.ConnectFourView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
