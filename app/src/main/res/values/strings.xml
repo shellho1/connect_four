@@ -9,4 +9,5 @@
     <string name="undo">Undo</string>
     <string name="done">Done</string>
     <string name="playerText">Player 1\'s Turn</string>
+    <string name="howToPlay">How to Play</string>
 </resources>

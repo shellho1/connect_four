@@ -23,31 +23,43 @@
         android:layout_weight="2"
         android:padding="20dp">
 
+        <Button
+            android:id="@+id/buttonHow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="false"
+            android:layout_above="@+id/playerOneText"
+            android:layout_centerHorizontal="true"
+            android:text="@string/howToPlay" />
+
         <EditText
             android:id="@+id/playerOneText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignWithParentIfMissing="false"
             android:layout_alignParentTop="false"
-            android:layout_centerInParent="true"
+            android:layout_alignWithParentIfMissing="false"
             android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
+            android:layout_centerInParent="false"
+            android:layout_centerVertical="false"
+            android:layout_above="@+id/playerTwoText"
+            android:autofillHints=""
             android:ems="10"
             android:hint="@string/player_one"
-            android:inputType="textPersonName"
-            android:autofillHints="" />
+            android:inputType="textPersonName" />
 
         <EditText
             android:id="@+id/playerTwoText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/playerOneText"
+
             android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:autofillHints=""
             android:ems="10"
             android:hint="@string/player_two"
             android:inputType="textPersonName"
-            tools:layout_alignParentBottom="false"
-            android:autofillHints="" />
+            tools:layout_alignParentBottom="false" />
 
         <Button
             android:id="@+id/buttonStart"
