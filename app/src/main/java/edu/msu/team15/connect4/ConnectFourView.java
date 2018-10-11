@@ -43,6 +43,12 @@ public class ConnectFourView extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        performClick();
         return connectFour.onTouchEvent(this, event);
+    }
+
+    @Override
+    public boolean performClick() {
+        return super.performClick();
     }
 }

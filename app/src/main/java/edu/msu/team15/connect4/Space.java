@@ -18,12 +18,12 @@ public class Space {
      * We use relative x locations in the range 0-1 for the center
      * of the space.
      */
-    private float x = 0;
+    private float x;
 
     /**
      * y location
      */
-    private float y = 0;
+    private float y;
 
     /**
      * Space's Row
