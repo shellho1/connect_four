@@ -16,16 +16,16 @@
         android:contentDescription="@string/congrats_image"
         app:srcCompat="@drawable/congratulations" />
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/winnerPlayer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
             android:gravity="center"
             android:text="@string/winner_string" />
 
@@ -33,24 +33,19 @@
             android:id="@+id/nameWinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/winnerPlayer"
             android:gravity="center"
+            android:paddingBottom="20dp"
             android:text="@string/player_one" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/loserPlayer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/nameWinner"
             android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
             android:gravity="center"
             android:text="@string/loser_string" />
 
@@ -58,11 +53,14 @@
             android:id="@+id/nameLoser"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/loserPlayer"
             android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
             android:gravity="center"
+            android:paddingBottom="20dp"
             android:text="@string/player_two" />
-    </LinearLayout>
+
+    </RelativeLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
