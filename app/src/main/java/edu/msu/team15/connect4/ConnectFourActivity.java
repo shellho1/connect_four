@@ -16,5 +16,6 @@ public class ConnectFourActivity extends AppCompatActivity {
     public void onSurrender(View view) {
         Intent intent = new Intent(this, WinnerScreenActivity.class);
         startActivity(intent);
+        finish();
     }
 }

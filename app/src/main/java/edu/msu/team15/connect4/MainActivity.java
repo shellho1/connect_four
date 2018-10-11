@@ -18,5 +18,6 @@ public class MainActivity extends AppCompatActivity {
     public void onStart(View view) {
         Intent intent = new Intent(this, ConnectFourActivity.class);
         startActivity(intent);
+        finish();
     }
 }
