@@ -12,7 +12,7 @@
         android:layout_margin="10dp"
         android:layout_weight="3"
         android:contentDescription="@string/congrats_image"
-        app:srcCompat="@drawable/images" />
+        app:srcCompat="@drawable/congratulations" />
 
     <RelativeLayout
         android:layout_width="0dp"
