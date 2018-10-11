@@ -1,0 +1,37 @@
+
+Project 1 Submission
+
+Group Name:   Team 15
+
+When you have completed the project, complete the following form and include it with your project. Include this file as a text file in the folder with your project when you turn it in. 
+
+
+Member 1: Matthew Dennis
+
+Responsiblity:
+
+    Checkpoint: Game activity layout and game Grid
+
+    Project: The discs, including dragging and deciding what goes where, and detecting "connected 4"
+
+Member 2: Weston Shellhorn
+
+Responsiblity:
+
+    Checkpoint: Opening/Home Screen
+
+    Project: The custom game play view and zooming behavior.
+
+Member 3: Dowool Chong
+
+Responsiblity:
+
+    Checkpoint: Winner Screen
+
+    Project: The activities including the opening, game play, and end of game activities.
+
+Member 4 (if applicable): 
+
+Responsiblity:
+
+

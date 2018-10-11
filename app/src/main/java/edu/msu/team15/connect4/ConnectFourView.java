@@ -3,12 +3,18 @@ package edu.msu.team15.connect4;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 
 /**
  * The view we will draw out hatter in
  */
 public class ConnectFourView extends View {
+    /**
+     * The game state
+     */
+    private ConnectFour connectFour;
+
     public ConnectFourView(Context context) {
         super(context);
         init(null, 0);
@@ -25,13 +31,18 @@ public class ConnectFourView extends View {
     }
 
     private void init(AttributeSet attrs, int defStyle) {
-
+        connectFour = new ConnectFour(getContext());
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
+        connectFour.draw(canvas);
+    }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return connectFour.onTouchEvent(this, event);
     }
 }

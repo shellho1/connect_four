@@ -14,71 +14,70 @@
         android:layout_alignParentTop="true"
         android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/playerText"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_weight="0.5"
+            android:gravity="center"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:text="@string/playerText" />
+
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
 
             <Button
                 android:id="@+id/button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_below="@+id/button3"
                 android:layout_gravity="center"
-                android:text="Button" />
+                android:text="@string/done" />
         </FrameLayout>
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:padding="10dp">
 
             <Button
                 android:id="@+id/button2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_below="@+id/textView"
                 android:layout_gravity="center"
-                android:text="Button" />
+                android:text="@string/undo" />
         </FrameLayout>
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:padding="10dp">
 
             <Button
                 android:id="@+id/button3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_below="@+id/button2"
                 android:layout_gravity="center"
-                android:text="Button" />
+                android:text="@string/surrender" />
         </FrameLayout>
 
     </LinearLayout>
 
-    <View
+    <view
         android:id="@+id/connectFourView"
         class="edu.msu.team15.connect4.ConnectFourView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="false"
-        android:layout_below="@+id/textView"
         android:layout_toStartOf="@+id/buttonsLayout" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="false"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_toStartOf="@+id/buttonsLayout"
-        android:text="TextView" />
 
 </RelativeLayout>
