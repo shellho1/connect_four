@@ -13,4 +13,5 @@
     <string name="winner_string">Winner:</string>
     <string name="restart_button">Restart</string>
     <string name="loser_string">Loser:</string>
+    <string name="congrats_image">Congrats!</string>
 </resources>
