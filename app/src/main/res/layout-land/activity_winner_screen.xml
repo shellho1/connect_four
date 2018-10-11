@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/congrats_image"
+        android:id="@+id/imageView4"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_margin="10dp"
@@ -20,53 +20,58 @@
         android:layout_weight="2">
 
         <Button
-            android:id="@+id/restart_button"
+            android:id="@+id/button4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
+            android:layout_alignParentBottom="false"
+            android:layout_below="@+id/Name2"
             android:layout_centerHorizontal="true"
+            android:layout_centerInParent="false"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="50dp"
             android:onClick="onRestart"
             android:text="@string/restart_button" />
 
         <TextView
-            android:id="@+id/winner_player"
-            android:layout_width="match_parent"
+            android:id="@+id/WinnerPlayer"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="50dp"
-            android:gravity="center"
+            android:layout_above="@+id/Name1"
+            android:layout_alignParentStart="false"
+            android:layout_alignParentTop="false"
+            android:layout_centerHorizontal="true"
             android:text="@string/winner_string" />
 
         <TextView
-            android:id="@+id/name_winner"
-            android:layout_width="match_parent"
+            android:id="@+id/Name1"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/winner_player"
-            android:gravity="center"
+            android:layout_above="@+id/LoserPlayer"
+            android:layout_alignParentStart="false"
+            android:layout_centerHorizontal="true"
+            android:paddingBottom="15dp"
             android:text="@string/player_one" />
 
         <TextView
-            android:id="@+id/loser_player"
-            android:layout_width="match_parent"
+            android:id="@+id/LoserPlayer"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/name_loser"
-            android:layout_alignParentStart="true"
-            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
             android:text="@string/loser_string" />
 
         <TextView
-            android:id="@+id/name_loser"
-            android:layout_width="match_parent"
+            android:id="@+id/Name2"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginBottom="135dp"
+            android:layout_alignParentBottom="false"
+            android:layout_alignParentStart="false"
+            android:layout_below="@+id/LoserPlayer"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="false"
+            android:layout_marginBottom="0dp"
             android:contentDescription="@string/player_two"
-            android:gravity="center"
+            android:paddingBottom="15dp"
             android:text="@string/player_two" />
 
     </RelativeLayout>
