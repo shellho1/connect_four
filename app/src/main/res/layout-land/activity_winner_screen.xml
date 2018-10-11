@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/congratsImage"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_margin="10dp"
@@ -20,11 +20,11 @@
         android:layout_weight="2">
 
         <Button
-            android:id="@+id/button4"
+            android:id="@+id/restartButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="false"
-            android:layout_below="@+id/Name2"
+            android:layout_below="@+id/nameLoser"
             android:layout_centerHorizontal="true"
             android:layout_centerInParent="false"
             android:layout_gravity="center_horizontal"
@@ -32,27 +32,27 @@
             android:text="@string/restart_button" />
 
         <TextView
-            android:id="@+id/WinnerPlayer"
+            android:id="@+id/winnerPlayer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/Name1"
+            android:layout_above="@+id/nameWinner"
             android:layout_alignParentStart="false"
             android:layout_alignParentTop="false"
             android:layout_centerHorizontal="true"
             android:text="@string/winner_string" />
 
         <TextView
-            android:id="@+id/Name1"
+            android:id="@+id/nameWinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/LoserPlayer"
+            android:layout_above="@+id/loserPlayer"
             android:layout_alignParentStart="false"
             android:layout_centerHorizontal="true"
             android:paddingBottom="15dp"
             android:text="@string/player_one" />
 
         <TextView
-            android:id="@+id/LoserPlayer"
+            android:id="@+id/loserPlayer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
@@ -61,12 +61,12 @@
             android:text="@string/loser_string" />
 
         <TextView
-            android:id="@+id/Name2"
+            android:id="@+id/nameLoser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="false"
             android:layout_alignParentStart="false"
-            android:layout_below="@+id/LoserPlayer"
+            android:layout_below="@+id/loserPlayer"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="false"
             android:layout_marginBottom="0dp"
