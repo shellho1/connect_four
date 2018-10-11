@@ -8,7 +8,7 @@ When you have completed the project, complete the following form and include it 
 
 Member 1: Matthew Dennis
 
-Responsiblity:
+Responsibility:
 
     Checkpoint: Game activity layout and game Grid
 
@@ -16,7 +16,7 @@ Responsiblity:
 
 Member 2: Weston Shellhorn
 
-Responsiblity:
+Responsibility:
 
     Checkpoint: Opening/Home Screen
 
@@ -24,7 +24,7 @@ Responsiblity:
 
 Member 3: Dowool Chong
 
-Responsiblity:
+Responsibility:
 
     Checkpoint: Winner Screen
 
@@ -32,6 +32,6 @@ Responsiblity:
 
 Member 4 (if applicable): 
 
-Responsiblity:
+Responsibility:
 
 
