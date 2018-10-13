@@ -27,9 +27,10 @@
             android:id="@+id/buttonHow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="false"
             android:layout_above="@+id/playerOneText"
+            android:layout_alignParentBottom="false"
             android:layout_centerHorizontal="true"
+            android:onClick="onInstruct"
             android:text="@string/howToPlay" />
 
         <EditText
