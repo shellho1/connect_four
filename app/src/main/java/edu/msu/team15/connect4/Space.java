@@ -111,4 +111,12 @@ public class Space {
         // Are we touching actual picture?
         return (spaceBackground.getPixel(pX, pY) & 0xff000000) != 0;
     }
+
+    public float getX(){
+        return x;
+    }
+
+    public float getY() {
+        return y;
+    }
 }

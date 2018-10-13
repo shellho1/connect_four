@@ -172,12 +172,13 @@ public class ConnectFour {
      * @return true if the touch is handled
      */
     private boolean onReleased(View view, float x, float y) {
-
+        //TODO: Game piece should only be able to snap to next available location from the bottom of the grid
+        
         if(dragging != null) {
             for(int i = 0; i < board.size(); i++) {
                 for(int j = 0; j < board.get(i).size(); j++) {
                     if(board.get(i).get(j).hit(x, y, boardSize, scaleFactor)) {
-                        if(dragging.maybeSnap(x,y)) {
+                        if(dragging.maybeSnap(board.get(i).get(j).getX(),board.get(i).get(j).getY())) {
                             // We hit a piece!
                             Log.i("SPACE", "col: " + i + " row: " + j);
                             Log.i("Coords", "x: " + x + " y: " + y);
