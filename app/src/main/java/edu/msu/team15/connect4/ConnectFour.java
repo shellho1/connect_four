@@ -37,6 +37,28 @@ public class ConnectFour {
      */
     private ArrayList<ArrayList<Space>> board = new ArrayList<>();
 
+    /**
+     * Collection of game pieces
+     */
+    public ArrayList<GamePiece> pieces = new ArrayList<GamePiece>();
+
+
+    /**
+     * This variable is set to a piece we are dragging. If
+     * we are not dragging, the variable is null.
+     */
+    private GamePiece dragging = null;
+
+    /**
+     * Most recent relative X touch when dragging
+     */
+    private float lastRelX;
+
+    /**
+     * Most recent relative Y touch when dragging
+     */
+    private float lastRelY;
+
     public ConnectFour(Context context) {
         for (int i = 0; i < NUM_COLUMNS; i++) {
             ArrayList<Space> column = new ArrayList<>();
@@ -45,6 +67,9 @@ public class ConnectFour {
             }
             board.add(column);
         }
+
+        // Load a game piece
+        pieces.add(new GamePiece(context, R.drawable.spartan_green, 0.259f, 0.238f));
     }
 
     public void draw(Canvas canvas) {
@@ -63,6 +88,10 @@ public class ConnectFour {
             for (Space space : column) {
                 space.draw(canvas, marginX, marginY, boardSize, scaleFactor);
             }
+        }
+
+        for(GamePiece piece : pieces) {
+            piece.draw(canvas, marginX, marginY, boardSize, scaleFactor);
         }
     }
 
@@ -88,10 +117,17 @@ public class ConnectFour {
 
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
-                break;
+                return onReleased(view, relX, relY);
 
             case MotionEvent.ACTION_MOVE:
-                break;
+                // If we are dragging, move the piece and force a redraw
+                if(dragging != null) {
+                    dragging.move(relX - lastRelX, relY - lastRelY);
+                    lastRelX = relX;
+                    lastRelY = relY;
+                    view.invalidate();
+                    return true;
+                }
         }
 
         return false;
@@ -109,9 +145,47 @@ public class ConnectFour {
             for(int j = 0; j < board.get(i).size(); j++) {
                 if(board.get(i).get(j).hit(x, y, boardSize, scaleFactor)) {
                     // We hit a piece!
-                    Log.i("PIECE", "col: " + i + " row: " + j);
+                    Log.i("SPACE", "col: " + i + " row: " + j);
 
                     return true;
+                }
+            }
+        }
+        for (int p=pieces.size()-1; p>=0; p--){
+            if(pieces.get(p).hit(x,y,boardSize, scaleFactor)) {
+                // We hit a piece
+                dragging = pieces.get(p);
+                lastRelX = x;
+                lastRelY = y;
+                Log.i("PIECE",": " + p);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Handle a release of a touch message.
+     * @param x x location for the touch release, relative to the puzzle - 0 to 1 over the puzzle
+     * @param y y location for the touch release, relative to the puzzle - 0 to 1 over the puzzle
+     * @return true if the touch is handled
+     */
+    private boolean onReleased(View view, float x, float y) {
+
+        if(dragging != null) {
+            for(int i = 0; i < board.size(); i++) {
+                for(int j = 0; j < board.get(i).size(); j++) {
+                    if(board.get(i).get(j).hit(x, y, boardSize, scaleFactor)) {
+                        if(dragging.maybeSnap(x,y)) {
+                            // We hit a piece!
+                            Log.i("SPACE", "col: " + i + " row: " + j);
+                            Log.i("Coords", "x: " + x + " y: " + y);
+                            view.invalidate();
+                        }
+                            dragging = null;
+                            return true;
+                    }
                 }
             }
         }
