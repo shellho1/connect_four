@@ -1,6 +1,7 @@
 package edu.msu.team15.connect4;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.view.MotionEvent;
 import android.view.View;
@@ -11,6 +12,8 @@ public class ConnectFour {
 
     public static final int NUM_COLUMNS = 7;
     public static final int NUM_ROWS = 6;
+    public static final String WINNER_NAME = "winner_name";
+    public static final String LOSER_NAME = "loser_name";
 
     /**
      * The size of the board in pixels
@@ -140,7 +143,7 @@ public class ConnectFour {
 
     private boolean onMove(View view, float x, float y) {
         // If we are dragging, move the piece and force a redraw
-        if(dragging != null) {
+        if (dragging != null) {
             dragging.move(x, y);
             view.invalidate();
             return true;
@@ -150,6 +153,7 @@ public class ConnectFour {
 
     /**
      * Handle a touch message. This is when we get an initial touch
+     *
      * @param x x location for the touch, relative to the puzzle - 0 to 1 over the puzzle
      * @param y y location for the touch, relative to the puzzle - 0 to 1 over the puzzle
      * @return true if the touch is handled
@@ -162,17 +166,18 @@ public class ConnectFour {
 
     /**
      * Handle a release of a touch message.
+     *
      * @param x x location for the touch release, relative to the puzzle - 0 to 1 over the puzzle
      * @param y y location for the touch release, relative to the puzzle - 0 to 1 over the puzzle
      * @return true if the touch is handled
      */
     private boolean onReleased(View view, float x, float y) {
         //TODO: Game piece should only be able to snap to next available location from the bottom of the grid
-        
-        if(dragging != null) {
-            for(int col = 0; col < board.size(); col++) { //column
-                for(int row = 0; row < board.get(col).size(); row++) { //row
-                    if(board.get(col).get(row).hit(x, y, boardSize, scaleFactor)) {
+
+        if (dragging != null) {
+            for (int col = 0; col < board.size(); col++) { //column
+                for (int row = 0; row < board.get(col).size(); row++) { //row
+                    if (board.get(col).get(row).hit(x, y, boardSize, scaleFactor)) {
                         dragging = null;
                         int openRow = legalMove(col);
                         if (openRow == -1) {
@@ -195,12 +200,13 @@ public class ConnectFour {
 
     /**
      * function to decide if move is legal
+     *
      * @param col column to check
      * @return if legal next open space in column or -1 if illegal
      */
     private int legalMove(int col) {
         if (played == -1) {
-            for (int row = NUM_ROWS-1; row >= 0; row--) {
+            for (int row = NUM_ROWS - 1; row >= 0; row--) {
                 if (board.get(col).get(row).getState() == Space.State.NONE) {
                     return row;
                 }
@@ -225,6 +231,7 @@ public class ConnectFour {
 
     /**
      * try to end the player's turn and switch to other player
+     *
      * @return if the end turn succeeded
      */
     public boolean endTurn() {
@@ -237,8 +244,18 @@ public class ConnectFour {
         }
     }
 
+    public Intent endGame(Intent intent, Player winner, Player loser) {
+        intent.putExtra(WINNER_NAME, winner.name);
+        intent.putExtra(LOSER_NAME, loser.name);
+        return intent;
+    }
+
     public Player getCurrPlayer() {
         return currPlayer == 1 ? player1 : player2;
+    }
+
+    public Player getOtherPlayer() {
+        return currPlayer != 1 ? player1 : player2;
     }
 
     private class Player {

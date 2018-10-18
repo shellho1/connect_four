@@ -15,6 +15,9 @@ public class ConnectFourActivity extends AppCompatActivity {
 
     public void onSurrender(View view) {
         Intent intent = new Intent(this, WinnerScreenActivity.class);
+        intent = getConnectFourView().getConnectFour().endGame(intent,
+                getConnectFourView().getConnectFour().getOtherPlayer(),
+                getConnectFourView().getConnectFour().getCurrPlayer());
         startActivity(intent);
         finish();
     }
