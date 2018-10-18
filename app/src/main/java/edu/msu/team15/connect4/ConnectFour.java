@@ -3,6 +3,7 @@ package edu.msu.team15.connect4;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -73,6 +74,12 @@ public class ConnectFour {
      * Most recent relative Y touch when dragging
      */
     private float lastRelY;
+
+    /**
+     * number in a row to win. default 4
+     * (could add constructor to change if desired)
+     */
+    private int winSize = 4;
 
     public ConnectFour(Context context) {
         for (int i = 0; i < NUM_COLUMNS; i++) {
@@ -186,6 +193,11 @@ public class ConnectFour {
                             board.get(col).get(openRow).setSpaceState(view, getCurrPlayer().color);
                             played = col;
                         }
+
+                        if (isWin()) {
+                            Log.i("WINNER", getCurrPlayer().name);
+                        }
+
                         view.invalidate();
                         return true;
                     }
@@ -222,6 +234,43 @@ public class ConnectFour {
                     board.get(played).get(row).setSpaceState(view, Space.State.NONE);
                     played = -1;
                     view.invalidate();
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     *
+     * @return whether the last play produced a win
+     */
+    private boolean isWin() {
+        for (int i = 0; i < NUM_COLUMNS; i++) {
+            for (int j = 0; j < NUM_ROWS-winSize+1; j++) {
+                boolean win = true;
+                for (int x = 0; x < winSize; x++) {
+                    if (board.get(i).get(j+x).getState() != getCurrPlayer().color) {
+                        win = false;
+                        break;
+                    }
+                }
+                if (win) {
+                    return true;
+                }
+            }
+        }
+
+        for (int i = 0; i < NUM_COLUMNS-winSize+1; i++) {
+            for (int j = 0; j < NUM_ROWS; j++) {
+                boolean win = true;
+                for (int x = 0; x < winSize; x++) {
+                    if (board.get(i+x).get(j).getState() != getCurrPlayer().color) {
+                        win = false;
+                        break;
+                    }
+                }
+                if (win) {
                     return true;
                 }
             }
