@@ -10,9 +10,11 @@ import android.view.View;
  * The view we will draw out hatter in
  */
 public class ConnectFourView extends View {
+
     /**
      * The game state
      */
+
     private ConnectFour connectFour;
 
     public ConnectFourView(Context context) {
@@ -50,5 +52,13 @@ public class ConnectFourView extends View {
     @Override
     public boolean performClick() {
         return super.performClick();
+    }
+
+    public ConnectFour getConnectFour() {
+        return connectFour;
+    }
+
+    public boolean doUndo() {
+       return connectFour.undo(this);
     }
 }

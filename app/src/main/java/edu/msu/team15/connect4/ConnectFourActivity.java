@@ -18,4 +18,20 @@ public class ConnectFourActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
+    public void onDone(View view) {
+        if (!getConnectFourView().getConnectFour().endTurn()) {
+            //TODO: pop up dialog that turn is not ended cause they didnt play
+        }
+    }
+
+    public void onUndo(View view) {
+        if (!getConnectFourView().doUndo()) {
+            //TODO: Pop up dialog that undo did not work
+        }
+    }
+
+    private ConnectFourView getConnectFourView() {
+        return (ConnectFourView) findViewById(R.id.connectFourView);
+    }
 }

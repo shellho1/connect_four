@@ -45,6 +45,23 @@ public class ConnectFour {
     private GamePiece dragging = null;
 
     /**
+     * Our player information for player 1
+     */
+    private Player player1;
+
+    /**
+     * Our player information for player 2
+     */
+    private Player player2;
+
+    private int currPlayer = 1;
+
+    /**
+     * holds the column that was played or -1 if nothing has been played yet
+     */
+    private int played = -1;
+
+    /**
      * Most recent relative X touch when dragging
      */
     private float lastRelX;
@@ -62,6 +79,9 @@ public class ConnectFour {
             }
             board.add(column);
         }
+
+        player1 = new Player("player1", Space.State.GREEN);
+        player2 = new Player("player2", Space.State.WHITE);
     }
 
     public void draw(Canvas canvas) {
@@ -135,10 +155,8 @@ public class ConnectFour {
      * @return true if the touch is handled
      */
     private boolean onTouched(View view, float x, float y) {
-        dragging = new GamePiece(view, R.drawable.spartan_green, x, y);
-
+        dragging = new GamePiece(view, getCurrPlayer().color, x, y);
         view.invalidate();
-
         return true;
     }
 
@@ -160,7 +178,8 @@ public class ConnectFour {
                         if (openRow == -1) {
                             //TODO: column is full pop up message saying full
                         } else {
-                            board.get(col).get(openRow).setSpaceState(view, Space.State.GREEN);
+                            board.get(col).get(openRow).setSpaceState(view, getCurrPlayer().color);
+                            played = col;
                         }
                         view.invalidate();
                         return true;
@@ -168,6 +187,8 @@ public class ConnectFour {
                 }
             }
         }
+        dragging = null;
+        view.invalidate();
 
         return false;
     }
@@ -178,11 +199,56 @@ public class ConnectFour {
      * @return if legal next open space in column or -1 if illegal
      */
     private int legalMove(int col) {
-        for (int row = NUM_ROWS; row > 0; row--) {
-            if (board.get(col).get(row-1).getState() == Space.State.NONE) {
-                return row-1;
+        if (played == -1) {
+            for (int row = NUM_ROWS-1; row >= 0; row--) {
+                if (board.get(col).get(row).getState() == Space.State.NONE) {
+                    return row;
+                }
             }
         }
         return -1;
+    }
+
+    public boolean undo(View view) {
+        if (played != -1) {
+            for (int row = 0; row < NUM_ROWS; row++) {
+                if (board.get(played).get(row).getState() != Space.State.NONE) {
+                    board.get(played).get(row).setSpaceState(view, Space.State.NONE);
+                    played = -1;
+                    view.invalidate();
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * try to end the player's turn and switch to other player
+     * @return if the end turn succeeded
+     */
+    public boolean endTurn() {
+        if (played != -1) {
+            currPlayer = currPlayer == 1 ? 2 : 1;
+            played = -1;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public Player getCurrPlayer() {
+        return currPlayer == 1 ? player1 : player2;
+    }
+
+    private class Player {
+        public String name;
+
+        public Space.State color;
+
+        public Player(String name, Space.State color) {
+            this.name = name;
+            this.color = color;
+        }
     }
 }

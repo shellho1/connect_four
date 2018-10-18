@@ -24,6 +24,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:onClick="onDone"
                 android:text="@string/done"
                 android:textSize="12sp" />
         </FrameLayout>
@@ -38,6 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:onClick="onUndo"
                 android:text="@string/undo"
                 android:textSize="12sp" />
         </FrameLayout>

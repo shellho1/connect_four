@@ -40,11 +40,20 @@ public class GamePiece {
      */
     final static float SNAP_DISTANCE = 0.05f;
 
-    public GamePiece(View view, int id, float x, float y){
+    public GamePiece(View view, Space.State color, float x, float y){
         this.x = x;
         this.y = y;
 
-        piece = BitmapFactory.decodeResource(view.getResources(), id);
+        switch (color) {
+            case NONE:
+            case GREEN:
+                piece = BitmapFactory.decodeResource(view.getResources(), R.drawable.spartan_green);
+                break;
+            case WHITE:
+                piece = BitmapFactory.decodeResource(view.getResources(), R.drawable.spartan_white);
+                break;
+
+        }
     }
 
     /**
