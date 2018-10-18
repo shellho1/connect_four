@@ -1,10 +1,10 @@
 package edu.msu.team15.connect4;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.util.Log;
+import android.view.View;
 
 public class GamePiece {
     /**
@@ -17,12 +17,12 @@ public class GamePiece {
      * We use relative x locations in the range 0-1 for the center
      * of the puzzle piece.
      */
-    private float x = 0;
+    private float x;
 
     /**
      * y location
      */
-    private float y = 0;
+    private float y;
 
     /**
      * x location when the puzzle is solved
@@ -40,11 +40,11 @@ public class GamePiece {
      */
     final static float SNAP_DISTANCE = 0.05f;
 
-    public GamePiece(Context context, int id, float finalX, float finalY){
-        this.finalX = finalX;
-        this.finalY = finalY;
+    public GamePiece(View view, int id, float x, float y){
+        this.x = x;
+        this.y = y;
 
-        piece = BitmapFactory.decodeResource(context.getResources(), id);
+        piece = BitmapFactory.decodeResource(view.getResources(), id);
     }
 
     /**
@@ -114,8 +114,8 @@ public class GamePiece {
      * @param dy y amount to move
      */
     public void move(float dx, float dy) {
-        x += dx;
-        y += dy;
+        x = dx;
+        y = dy;
     }
 
     /**

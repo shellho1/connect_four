@@ -4,19 +4,26 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 
-import java.util.ArrayList;
-
 public class Space {
+    public enum State {
+        NONE, GREEN, WHITE
+    }
+
     private static final double COLUMN_OFFSET = .5;
     private static final int ROW_OFFSET = 1;
     /**
-     * The image for the actual piece.
+     * The image for the space.
      */
     private Bitmap spaceBackground;
+
+    /**
+     * Image for gamePiece if one is in the space
+     */
+    private Bitmap gamePieceBitmap = null;
+
+    private State state = State.NONE;
 
     /**
      * x location.
@@ -74,6 +81,13 @@ public class Space {
 
         // Draw the bitmap
         canvas.drawBitmap(spaceBackground, 0, 0, null);
+
+
+        if (gamePieceBitmap != null) {
+            // Draw the bitmap
+            canvas.drawBitmap(gamePieceBitmap, 0, 0, null);
+        }
+
         canvas.restore();
     }
 
@@ -112,11 +126,24 @@ public class Space {
         return (spaceBackground.getPixel(pX, pY) & 0xff000000) != 0;
     }
 
-    public float getX(){
-        return x;
+    public void setSpaceState(View view, State newState) {
+        gamePieceBitmap = null;
+        state = newState;
+
+        switch (state) {
+            case GREEN:
+                gamePieceBitmap = BitmapFactory.decodeResource(view.getResources(), R.drawable.spartan_green);
+                break;
+            case WHITE:
+                gamePieceBitmap = BitmapFactory.decodeResource(view.getResources(), R.drawable.spartan_white);
+                break;
+            case NONE:
+                gamePieceBitmap = null;
+                break;
+        }
     }
 
-    public float getY() {
-        return y;
+    public State getState() {
+        return state;
     }
 }
