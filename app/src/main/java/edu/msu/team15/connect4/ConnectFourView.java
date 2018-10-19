@@ -61,4 +61,8 @@ public class ConnectFourView extends View {
     public boolean doUndo() {
        return connectFour.undo(this);
     }
+
+    public void setConnectFour(ConnectFour connectFour) {
+        this.connectFour = connectFour;
+    }
 }

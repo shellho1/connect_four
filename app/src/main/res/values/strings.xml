@@ -14,6 +14,10 @@
     <string name="loser_string">Loser:</string>
     <string name="congrats_image">Congrats!</string>
     <string name="instruction">How to play</string>
-    <string name="instruct_body">Enter player names below and click start. Drop game pieces to align
-    four of the same color in a row horizontally, vertically, or diagonally.</string>
+    <string name="instruct_body">Enter player names below and press START. Touch and drag to make a game piece appear.
+        Release to drop game pieces in a column. The goal is to align four of the your color in a row horizontally, vertically, or diagonally.
+        Press DONE to end your turn. Press UNDO to remove the piece you already played this turn.
+        Press SURRENDER to give up.</string>
+    <string name="column_full">Move failed. Column is full!</string>
+    <string name="played_error">Move failed. Already played!</string>
 </resources>

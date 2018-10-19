@@ -7,10 +7,19 @@ import android.view.View;
 
 public class ConnectFourActivity extends AppCompatActivity {
 
+    public static final String GAME_STATE = "game_state";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connect_four);
+
+        /*
+         * Restore any state
+         */
+        if(savedInstanceState != null) {
+            getConnectFourView().setConnectFour((ConnectFour)savedInstanceState.getSerializable(GAME_STATE));
+        }
     }
 
     public void onSurrender(View view) {
@@ -35,6 +44,14 @@ public class ConnectFourActivity extends AppCompatActivity {
     }
 
     private ConnectFourView getConnectFourView() {
+
         return (ConnectFourView) findViewById(R.id.connectFourView);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putSerializable(GAME_STATE, getConnectFourView().getConnectFour());
     }
 }

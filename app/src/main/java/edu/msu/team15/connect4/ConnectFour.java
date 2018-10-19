@@ -6,10 +6,12 @@ import android.graphics.Canvas;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class ConnectFour {
+public class ConnectFour implements Serializable {
 
     public static final int NUM_COLUMNS = 7;
     public static final int NUM_ROWS = 6;
@@ -40,7 +42,6 @@ public class ConnectFour {
      * Collection of spaces
      */
     private ArrayList<ArrayList<Space>> board = new ArrayList<>();
-
 
     /**
      * This variable is set to a piece we are dragging. If
@@ -179,7 +180,6 @@ public class ConnectFour {
      * @return true if the touch is handled
      */
     private boolean onReleased(View view, float x, float y) {
-        //TODO: Game piece should only be able to snap to next available location from the bottom of the grid
 
         if (dragging != null) {
             for (int col = 0; col < board.size(); col++) { //column
@@ -189,13 +189,15 @@ public class ConnectFour {
                         int openRow = legalMove(col);
                         if (openRow == -1) {
                             //TODO: column is full pop up message saying full
+                            Toast.makeText(view.getContext(), R.string.column_full, Toast.LENGTH_SHORT).show();
+                        } else if (openRow == -2) {
+                            Toast.makeText(view.getContext(), R.string.played_error, Toast.LENGTH_SHORT).show();
                         } else {
                             board.get(col).get(openRow).setSpaceState(view, getCurrPlayer().color);
                             played = col;
-                        }
-
-                        if (isWin()) {
-                            Log.i("WINNER", getCurrPlayer().name);
+                            if (isWin()) {
+                                Log.i("WINNER", getCurrPlayer().name);
+                            }
                         }
 
                         view.invalidate();
@@ -223,10 +225,17 @@ public class ConnectFour {
                     return row;
                 }
             }
+        } else {
+            return -2;
         }
         return -1;
     }
 
+    /**
+     * perform and undo on the board if possible
+     * @param view
+     * @return if the undo was successful
+     */
     public boolean undo(View view) {
         if (played != -1) {
             for (int row = 0; row < NUM_ROWS; row++) {
@@ -242,7 +251,7 @@ public class ConnectFour {
     }
 
     /**
-     *
+     * check if the board is in a winnning state
      * @return whether the last play produced a win
      */
     private boolean isWin() {
@@ -307,7 +316,7 @@ public class ConnectFour {
         return currPlayer != 1 ? player1 : player2;
     }
 
-    private class Player {
+    private class Player implements Serializable {
         public String name;
 
         public Space.State color;
