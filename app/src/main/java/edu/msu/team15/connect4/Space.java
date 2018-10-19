@@ -6,7 +6,9 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.view.View;
 
-public class Space {
+import java.io.Serializable;
+
+public class Space implements Serializable {
     public enum State {
         NONE, GREEN, WHITE
     }

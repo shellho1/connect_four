@@ -6,12 +6,10 @@ import android.graphics.Canvas;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class ConnectFour extends ConnectFourActivity{
+public class ConnectFour {
 
     public static final int NUM_COLUMNS = 7;
     public static final int NUM_ROWS = 6;
@@ -54,13 +52,11 @@ public class ConnectFour extends ConnectFourActivity{
      * Our player information for player 1
      */
     private Player player1;
-    private String p1_name;
 
     /**
      * Our player information for player 2
      */
     private Player player2;
-    private String p2_name;
 
     private int currPlayer = 1;
 

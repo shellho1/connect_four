@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -13,6 +14,8 @@ public class ConnectFourActivity extends AppCompatActivity{
 
     private String player_one;
     private String player_two;
+
+    public static final String GAME_STATE = "game_state";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +27,13 @@ public class ConnectFourActivity extends AppCompatActivity{
         player_two = intent.getStringExtra("p2");
         TextView initial_turn = findViewById(R.id.playerText);
         initial_turn.setText(player_one);
+
+        /*
+         * Restore any state
+         */
+        if(savedInstanceState != null) {
+            getConnectFourView().setConnectFour((ConnectFour)savedInstanceState.getSerializable(GAME_STATE));
+        }
     }
 
     public void onSurrender(View view) {
@@ -39,7 +49,7 @@ public class ConnectFourActivity extends AppCompatActivity{
 
     public void onDone(View view) {
         if (!getConnectFourView().getConnectFour().endTurn()) {
-            //TODO: pop up dialog that turn is not ended cause they didnt play
+            Toast.makeText(view.getContext(), R.string.turn_error, Toast.LENGTH_SHORT).show();
         }
         else {
             Intent intent = getIntent();
@@ -58,21 +68,12 @@ public class ConnectFourActivity extends AppCompatActivity{
 
     public void onUndo(View view) {
         if (!getConnectFourView().doUndo()) {
-            //TODO: Pop up dialog that undo did not work
+            Toast.makeText(view.getContext(), R.string.undo_error, Toast.LENGTH_SHORT).show();
         }
     }
 
     private ConnectFourView getConnectFourView() {
-        return (ConnectFourView) findViewById(R.id.connectFourView);
-    }
 
-    public ArrayList<String> getNames(){
-        ArrayList<String> names = new ArrayList<String>();
-        Intent intent = getIntent();
-        String player_one = intent.getStringExtra("p1");
-        String player_two = intent.getStringExtra("p2");
-        names.add(player_one);
-        names.add(player_two);
-        return names;
+        return (ConnectFourView) findViewById(R.id.connectFourView);
     }
 }
