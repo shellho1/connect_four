@@ -284,6 +284,37 @@ public class ConnectFour implements Serializable {
                 }
             }
         }
+
+        for (int i = 0; i < NUM_COLUMNS-winSize+1; i++) {
+            for (int j = winSize-1; j < NUM_ROWS; j++) {
+                boolean win = true;
+                for (int x = 0; x < winSize; x++) {
+                    if (board.get(i+x).get(j-x).getState() != getCurrPlayer().color) {
+                        win = false;
+                        break;
+                    }
+                }
+                if (win) {
+                    return true;
+                }
+            }
+        }
+
+        for (int i = winSize-1; i < NUM_COLUMNS; i++) {
+            for (int j = winSize-1; j < NUM_ROWS; j++) {
+                boolean win = true;
+                for (int x = 0; x < winSize; x++) {
+                    if (board.get(i-x).get(j-x).getState() != getCurrPlayer().color) {
+                        win = false;
+                        break;
+                    }
+                }
+                if (win) {
+                    return true;
+                }
+            }
+        }
+
         return false;
     }
 
