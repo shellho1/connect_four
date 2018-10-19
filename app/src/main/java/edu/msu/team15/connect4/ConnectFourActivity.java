@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ConnectFourActivity extends AppCompatActivity {
 
@@ -40,7 +41,7 @@ public class ConnectFourActivity extends AppCompatActivity {
 
     public void onDone(View view) {
         if (!getConnectFourView().getConnectFour().endTurn()) {
-            //TODO: pop up dialog that turn is not ended cause they didnt play
+            Toast.makeText(view.getContext(), R.string.turn_error, Toast.LENGTH_SHORT).show();
         }
         else {
             Intent intent = getIntent();
@@ -59,7 +60,7 @@ public class ConnectFourActivity extends AppCompatActivity {
 
     public void onUndo(View view) {
         if (!getConnectFourView().doUndo()) {
-            //TODO: Pop up dialog that undo did not work
+            Toast.makeText(view.getContext(), R.string.undo_error, Toast.LENGTH_SHORT).show();
         }
     }
 

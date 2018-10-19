@@ -20,4 +20,6 @@
         Press SURRENDER to give up.</string>
     <string name="column_full">Move failed. Column is full!</string>
     <string name="played_error">Move failed. Already played!</string>
+    <string name="undo_error">Undo not possible!</string>
+    <string name="turn_error">You must play before ending your turn!</string>
 </resources>
