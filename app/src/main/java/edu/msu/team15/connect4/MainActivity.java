@@ -6,8 +6,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
+
+    private EditText player1;
+    private EditText player2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,7 +21,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onStart(View view) {
+        player1 = (EditText)findViewById(R.id.playerOneText);
+        String p1 = player1.getText().toString();
+
+        player2 = (EditText)findViewById(R.id.playerTwoText);
+        String p2 = player2.getText().toString();
+
         Intent intent = new Intent(this, ConnectFourActivity.class);
+        intent.putExtra("p1", p1);
+        intent.putExtra("p2", p2);
         startActivity(intent);
         finish();
     }
