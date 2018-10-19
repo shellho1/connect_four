@@ -7,7 +7,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-public class ConnectFourActivity extends AppCompatActivity {
+import java.util.ArrayList;
+
+public class ConnectFourActivity extends AppCompatActivity{
+
+    private String player_one;
+    private String player_two;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,7 +20,8 @@ public class ConnectFourActivity extends AppCompatActivity {
         setContentView(R.layout.activity_connect_four);
 
         Intent intent = getIntent();
-        String player_one = intent.getStringExtra("p1");
+        player_one = intent.getStringExtra("p1");
+        player_two = intent.getStringExtra("p2");
         TextView initial_turn = findViewById(R.id.playerText);
         initial_turn.setText(player_one);
     }
@@ -25,6 +31,8 @@ public class ConnectFourActivity extends AppCompatActivity {
         intent = getConnectFourView().getConnectFour().endGame(intent,
                 getConnectFourView().getConnectFour().getOtherPlayer(),
                 getConnectFourView().getConnectFour().getCurrPlayer());
+        intent.putExtra("p1",player_one);
+        intent.putExtra("p2",player_two);
         startActivity(intent);
         finish();
     }
@@ -56,5 +64,15 @@ public class ConnectFourActivity extends AppCompatActivity {
 
     private ConnectFourView getConnectFourView() {
         return (ConnectFourView) findViewById(R.id.connectFourView);
+    }
+
+    public ArrayList<String> getNames(){
+        ArrayList<String> names = new ArrayList<String>();
+        Intent intent = getIntent();
+        String player_one = intent.getStringExtra("p1");
+        String player_two = intent.getStringExtra("p2");
+        names.add(player_one);
+        names.add(player_two);
+        return names;
     }
 }
