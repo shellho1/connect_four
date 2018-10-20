@@ -76,4 +76,12 @@ public class ConnectFourActivity extends AppCompatActivity{
 
         return (ConnectFourView) findViewById(R.id.connectFourView);
     }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putSerializable(GAME_STATE, getConnectFourView().getConnectFour());
+    }
+
 }

@@ -7,9 +7,10 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class ConnectFour {
+public class ConnectFour implements Serializable{
 
     public static final int NUM_COLUMNS = 7;
     public static final int NUM_ROWS = 6;
@@ -307,7 +308,7 @@ public class ConnectFour {
         return currPlayer != 1 ? player1 : player2;
     }
 
-    private class Player {
+    private class Player implements Serializable {
         public String name;
 
         public Space.State color;
