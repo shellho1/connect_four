@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/congratsImage"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:layout_weight="3"
+        android:contentDescription="@string/congrats_image"
+        app:srcCompat="@drawable/tie_game" />
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/restartButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="false"
+            android:layout_below="@+id/nameLoser"
+            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="false"
+            android:layout_gravity="center_horizontal"
+            android:onClick="onRestart"
+            android:text="@string/restart_button" />
+
+        <TextView
+            android:id="@+id/nameLoser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/player_two"
+            android:gravity="center_horizontal"
+            android:paddingBottom="15dp"
+            android:text="@string/rematch"
+            android:textSize="24sp" />
+
+    </RelativeLayout>
+
+</LinearLayout>
