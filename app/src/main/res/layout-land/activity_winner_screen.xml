@@ -23,10 +23,8 @@
             android:id="@+id/restartButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="false"
             android:layout_below="@+id/nameLoser"
             android:layout_centerHorizontal="true"
-            android:layout_centerInParent="false"
             android:layout_gravity="center_horizontal"
             android:onClick="onRestart"
             android:text="@string/restart_button" />
@@ -35,10 +33,9 @@
             android:id="@+id/winnerPlayer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/rematch"
-            android:layout_alignParentStart="false"
-            android:layout_alignParentTop="false"
+            android:layout_above="@+id/nameWinner"
             android:layout_centerHorizontal="true"
+            android:textSize="22sp"
             android:text="@string/winner_string" />
 
         <TextView
@@ -46,9 +43,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@+id/loserPlayer"
-            android:layout_alignParentStart="false"
             android:layout_centerHorizontal="true"
             android:paddingBottom="15dp"
+            android:textSize="26sp"
             android:text="@string/player_one" />
 
         <TextView
@@ -64,11 +61,8 @@
             android:id="@+id/nameLoser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="false"
-            android:layout_alignParentStart="false"
             android:layout_below="@+id/loserPlayer"
             android:layout_centerHorizontal="true"
-            android:layout_centerVertical="false"
             android:layout_marginBottom="0dp"
             android:contentDescription="@string/player_two"
             android:paddingBottom="15dp"
