@@ -35,14 +35,14 @@
             android:id="@+id/winnerPlayer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/nameWinner"
+            android:layout_above="@+id/rematch"
             android:layout_alignParentStart="false"
             android:layout_alignParentTop="false"
             android:layout_centerHorizontal="true"
             android:text="@string/winner_string" />
 
         <TextView
-            android:id="@+id/nameWinner"
+            android:id="@+id/rematch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@+id/loserPlayer"

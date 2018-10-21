@@ -35,7 +35,7 @@ public class WinnerScreenActivity extends AppCompatActivity {
             loserName = player_one;
         }
 
-        TextView winnerTextView = findViewById(R.id.nameWinner);
+        TextView winnerTextView = findViewById(R.id.rematch);
         winnerTextView.setText(winnerName);
 
         TextView loserTextView = findViewById(R.id.nameLoser);
