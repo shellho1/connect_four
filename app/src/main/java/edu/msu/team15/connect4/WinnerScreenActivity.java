@@ -14,26 +14,8 @@ public class WinnerScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_winner_screen);
 
-        Intent intent = getIntent();
-        String player_one = intent.getStringExtra("p1");
-        String player_two = intent.getStringExtra("p2");
-
         String winnerName = getIntent().getStringExtra(ConnectFour.WINNER_NAME);
         String loserName = getIntent().getStringExtra(ConnectFour.LOSER_NAME);
-
-        Log.i("one and two", player_one + " " + player_two);
-        Log.i("winner and loser", winnerName + " " + loserName);
-
-
-        // TODO: need a way to differentiate between intents from Surrender button and actually winning the game normally
-        if (winnerName == "player1"){
-            winnerName = player_one;
-            loserName = player_two;
-        }
-        else {
-            winnerName = player_two;
-            loserName = player_one;
-        }
 
         TextView winnerTextView = findViewById(R.id.nameWinner);
         winnerTextView.setText(winnerName);

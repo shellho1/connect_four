@@ -10,8 +10,10 @@ import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
 
-    private EditText player1;
-    private EditText player2;
+    public static final String PLAYER1_DEFAULT = "player1";
+    public static final String PLAYER2_DEFAULT = "player2";
+    public static final String PLAYER1_NAME = "p1";
+    public static final String PLAYER2_NAME = "p2";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,15 +23,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onStart(View view) {
-        player1 = (EditText)findViewById(R.id.playerOneText);
-        String p1 = player1.getText().toString();
+        EditText player1 = findViewById(R.id.playerOneText);
+        String p1 = player1.getText().toString().equals("") ? PLAYER1_DEFAULT : player1.getText().toString();
 
-        player2 = (EditText)findViewById(R.id.playerTwoText);
-        String p2 = player2.getText().toString();
+        EditText player2 = findViewById(R.id.playerTwoText);
+        String p2 = player2.getText().toString().equals("") ? PLAYER2_DEFAULT : player2.getText().toString();
 
         Intent intent = new Intent(this, ConnectFourActivity.class);
-        intent.putExtra("p1", p1);
-        intent.putExtra("p2", p2);
+        intent.putExtra(PLAYER1_NAME, p1);
+        intent.putExtra(PLAYER2_NAME, p2);
         startActivity(intent);
         finish();
     }

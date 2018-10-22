@@ -7,7 +7,7 @@
     <string name="surrender">Surrender</string>
     <string name="undo">Undo</string>
     <string name="done">Done</string>
-    <string name="playerText">Player 1\'s Turn</string>
+    <string name="playerText">%s\'s Turn</string>
     <string name="howToPlay">How to Play</string>
     <string name="winner_string">Winner:</string>
     <string name="restart_button">Restart</string>

@@ -54,12 +54,12 @@ public class ConnectFour implements Serializable {
     /**
      * Our player information for player 1
      */
-    private Player player1;
+    private Player player1 = new Player(Space.State.GREEN);
 
     /**
      * Our player information for player 2
      */
-    private Player player2;
+    private Player player2 = new Player(Space.State.WHITE);;
 
     private int currPlayer = 1;
 
@@ -106,9 +106,6 @@ public class ConnectFour implements Serializable {
             }
             board.add(column);
         }
-
-        player1 = new Player("player1", Space.State.GREEN);
-        player2 = new Player("player2",Space.State.WHITE);
     }
 
     public void draw(Canvas canvas) {
@@ -430,13 +427,24 @@ public class ConnectFour implements Serializable {
         return currPlayer != 1 ? player1 : player2;
     }
 
+    public String getCurrPlayerName() {
+        return currPlayer == 1 ? player1.name : player2.name;
+    }
+
+    public void setPlayer1Name(String name) {
+        player1.name = name;
+    }
+
+    public void setPlayer2Name(String name) {
+        player2.name = name;
+    }
+
     private class Player implements Serializable {
-        public String name;
+        public String name = null;
 
         public Space.State color;
 
-        public Player(String name, Space.State color) {
-            this.name = name;
+        public Player(Space.State color) {
             this.color = color;
         }
     }

@@ -12,9 +12,6 @@ import java.util.ArrayList;
 
 public class ConnectFourActivity extends AppCompatActivity{
 
-    private String player_one;
-    private String player_two;
-
     public static final String GAME_STATE = "game_state";
 
     @Override
@@ -23,10 +20,14 @@ public class ConnectFourActivity extends AppCompatActivity{
         setContentView(R.layout.activity_connect_four);
 
         Intent intent = getIntent();
-        player_one = intent.getStringExtra("p1");
-        player_two = intent.getStringExtra("p2");
+        String player_one = intent.getStringExtra(MainActivity.PLAYER1_NAME);
+        String player_two = intent.getStringExtra(MainActivity.PLAYER2_NAME);
+
+        getConnectFourView().getConnectFour().setPlayer1Name(player_one);
+        getConnectFourView().getConnectFour().setPlayer2Name(player_two);
+
         TextView initial_turn = findViewById(R.id.playerText);
-        initial_turn.setText(player_one);
+        initial_turn.setText(getResources().getString(R.string.playerText, getConnectFourView().getConnectFour().getCurrPlayerName()));
 
         /*
          * Restore any state
@@ -45,14 +46,10 @@ public class ConnectFourActivity extends AppCompatActivity{
     public void onDone(View view) {
         if (!getConnectFourView().getConnectFour().endTurn()) {
             Toast.makeText(view.getContext(), R.string.turn_error, Toast.LENGTH_SHORT).show();
-        } else {
+        }
+        else {
             TextView turn = findViewById(R.id.playerText);
-            if (player_one == turn.getText()){
-                turn.setText(player_two);
-            }
-            else {
-                turn.setText(player_one);
-            }
+            turn.setText(getResources().getString(R.string.playerText, getConnectFourView().getConnectFour().getCurrPlayerName()));
             turn.invalidate();
         }
     }
