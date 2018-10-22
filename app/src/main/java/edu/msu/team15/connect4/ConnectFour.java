@@ -82,6 +82,17 @@ public class ConnectFour implements Serializable{
      */
     private int winSize = 4;
 
+    /**
+     * First touch status
+     */
+    private Touch touch1 = new Touch();
+
+    /**
+     * Second touch status
+     */
+    private Touch touch2 = new Touch();
+
+
     public ConnectFour(Context context) {
         for (int i = 0; i < NUM_COLUMNS; i++) {
             ArrayList<Space> column = new ArrayList<>();
@@ -133,25 +144,100 @@ public class ConnectFour implements Serializable{
         float relX = (event.getX() - marginX) / boardSize;
         float relY = (event.getY() - marginY) / boardSize;
 
+        int id = event.getPointerId(event.getActionIndex());
+
         switch (event.getActionMasked()) {
 
             case MotionEvent.ACTION_DOWN:
+                touch1.id = id;
+                touch2.id = -1;
+                getPositions(event);
+                view.invalidate();
+                touch1.copyToLast();
                 return onTouched(view, relX, relY);
+
+            case MotionEvent.ACTION_POINTER_DOWN:
+                if (touch1.id >= 0 && touch2.id < 0) {
+                    touch2.id = id;
+                    getPositions(event);
+                    view.invalidate();
+                    touch2.copyToLast();
+                    return true;
+                }
 
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
+                touch1.id = -1;
+                touch2.id = -1;
+                view.invalidate();
                 return onReleased(view, relX, relY);
 
+            case MotionEvent.ACTION_POINTER_UP:
+                if (id == touch2.id) {
+                    touch2.id = -1;
+                }
+                else if (id == touch1.id) {
+                    // Make what was touch2 now be touch 1 by swapping objects
+                    Touch t = touch1;
+                    touch1 = touch2;
+                    touch2 = t;
+                    touch2.id = -1;
+                }
+                view.invalidate();
+                return true;
+
             case MotionEvent.ACTION_MOVE:
+                getPositions(event);
                 return onMove(view, relX, relY);
         }
 
         return false;
     }
 
+    private void getPositions(MotionEvent event){
+        for (int i = 0; i < event.getPointerCount(); i++){
+            // Get the pointer id
+            int id = event.getPointerId(i);
+
+            //Convert the image coords
+            float relX = (event.getX() - marginX) / boardSize;
+            float relY = (event.getY() - marginY) / boardSize;
+
+            if (id == touch1.id) {
+                touch1.copyToLast();;
+                touch1.x = relX;
+                touch2.y = relY;
+            }
+            else if (id == touch2.id) {
+                touch2.copyToLast();
+                touch2.x = relX;
+                touch1.y = relY;
+            }
+        }
+
+    }
     private boolean onMove(View view, float x, float y) {
         // If we are dragging, move the piece and force a redraw
-        if (dragging != null) {
+
+        if (touch1.id < 0) {
+            return false;
+        }
+
+        if (touch2.id >= 0) {
+            /*
+             * Scaling
+             */
+            double d1 = Math.sqrt(Math.pow(touch2.x-touch1.x,2) + Math.pow(touch2.y-touch1.y,2));
+            double d2 = Math.sqrt(Math.pow(touch2.lastX-touch1.lastX,2) + Math.pow(touch2.lastY-touch1.lastY,2));
+            double diff = d1 - d2;
+            double total = d1 + diff;
+            Log.i("Is scaling?","YES");
+            scaleFactor = scaleFactor * (float)(total/d1);
+            Log.i("New scalefactor", Double.toString(scaleFactor) + " " + Double.toString(d2));
+            view.invalidate();
+            return true;
+        }
+        if (dragging != null && touch1.id >= 0) {
             dragging.move(x, y);
             view.invalidate();
             return true;
@@ -347,6 +433,57 @@ public class ConnectFour implements Serializable{
         public Player(String name, Space.State color) {
             this.name = name;
             this.color = color;
+        }
+    }
+
+
+    /**
+     * Local class to handle the touch status for one touch.
+     * We will have one object of this type for each of the
+     * two possible touches.
+     */
+    private class Touch {
+        /**
+         * Touch id
+         */
+        public int id = -1;
+
+        /**
+         * Current x location
+         */
+        public float x = 0;
+
+        /**
+         * Current y location
+         */
+        public float y = 0;
+
+        /**
+         * Previous x location
+         */
+        public float lastX = 0;
+
+        /**
+         * Previous y location
+         */
+        public float lastY = 0;
+
+        /**
+         * Change in x value from previous
+         */
+        public float dX = 0;
+
+        /**
+         * Change in y value from previous
+         */
+        public float dY = 0;
+
+        /**
+         * Copy the current values to the previous values
+         */
+        public void copyToLast() {
+            lastX = x;
+            lastY = y;
         }
     }
 }
