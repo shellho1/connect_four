@@ -1,5 +1,6 @@
 package edu.msu.team15.connect4;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
@@ -8,9 +9,10 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import java.io.Serializable;
+import java.net.ConnectException;
 import java.util.ArrayList;
 
-public class ConnectFour implements Serializable{
+public class ConnectFour implements Serializable {
 
     public static final int NUM_COLUMNS = 7;
     public static final int NUM_ROWS = 6;
@@ -47,7 +49,7 @@ public class ConnectFour implements Serializable{
      * This variable is set to a piece we are dragging. If
      * we are not dragging, the variable is null.
      */
-    private GamePiece dragging = null;
+    transient private GamePiece dragging = null;
 
     /**
      * Our player information for player 1
@@ -92,8 +94,11 @@ public class ConnectFour implements Serializable{
      */
     private Touch touch2 = new Touch();
 
+    transient private Context context;
+
 
     public ConnectFour(Context context) {
+        this.context = context;
         for (int i = 0; i < NUM_COLUMNS; i++) {
             ArrayList<Space> column = new ArrayList<>();
             for (int j = 0; j < NUM_ROWS; j++) {
@@ -266,8 +271,6 @@ public class ConnectFour implements Serializable{
      * @return true if the touch is handled
      */
     private boolean onReleased(View view, float x, float y) {
-        //TODO: Game piece should only be able to snap to next available location from the bottom of the grid
-
         if (dragging != null) {
             for (int col = 0; col < board.size(); col++) { //column
                 for (int row = 0; row < board.get(col).size(); row++) { //row
@@ -282,7 +285,7 @@ public class ConnectFour implements Serializable{
                         }
 
                         if (isWin()) {
-                            Log.i("WINNER", getCurrPlayer().name);
+                            endGame(getCurrPlayer(), getOtherPlayer());
                         }
 
                         view.invalidate();
@@ -411,10 +414,12 @@ public class ConnectFour implements Serializable{
         }
     }
 
-    public Intent endGame(Intent intent, Player winner, Player loser) {
+    public void endGame(Player winner, Player loser) {
+        Intent intent = new Intent(context, WinnerScreenActivity.class);
         intent.putExtra(WINNER_NAME, winner.name);
         intent.putExtra(LOSER_NAME, loser.name);
-        return intent;
+        context.startActivity(intent);
+        ((Activity) context).finish();
     }
 
     public Player getCurrPlayer() {
@@ -442,7 +447,7 @@ public class ConnectFour implements Serializable{
      * We will have one object of this type for each of the
      * two possible touches.
      */
-    private class Touch {
+    private class Touch implements Serializable {
         /**
          * Touch id
          */

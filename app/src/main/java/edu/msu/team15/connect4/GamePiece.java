@@ -6,6 +6,8 @@ import android.graphics.Canvas;
 import android.util.Log;
 import android.view.View;
 
+import java.io.Serializable;
+
 public class GamePiece {
     /**
      * The image for the actual piece.

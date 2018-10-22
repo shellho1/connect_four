@@ -37,24 +37,15 @@ public class ConnectFourActivity extends AppCompatActivity{
     }
 
     public void onSurrender(View view) {
-        Intent intent = new Intent(this, WinnerScreenActivity.class);
-        intent = getConnectFourView().getConnectFour().endGame(intent,
+        getConnectFourView().getConnectFour().endGame(
                 getConnectFourView().getConnectFour().getOtherPlayer(),
                 getConnectFourView().getConnectFour().getCurrPlayer());
-        intent.putExtra("p1",player_one);
-        intent.putExtra("p2",player_two);
-        startActivity(intent);
-        finish();
     }
 
     public void onDone(View view) {
         if (!getConnectFourView().getConnectFour().endTurn()) {
             Toast.makeText(view.getContext(), R.string.turn_error, Toast.LENGTH_SHORT).show();
-        }
-        else {
-            Intent intent = getIntent();
-            String player_one = intent.getStringExtra("p1");
-            String player_two = intent.getStringExtra("p2");
+        } else {
             TextView turn = findViewById(R.id.playerText);
             if (player_one == turn.getText()){
                 turn.setText(player_two);

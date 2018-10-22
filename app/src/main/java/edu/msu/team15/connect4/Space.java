@@ -18,12 +18,12 @@ public class Space implements Serializable {
     /**
      * The image for the space.
      */
-    private Bitmap spaceBackground;
+    transient private Bitmap spaceBackground;
 
     /**
      * Image for gamePiece if one is in the space
      */
-    private Bitmap gamePieceBitmap = null;
+    transient private Bitmap gamePieceBitmap = null;
 
     private State state = State.NONE;
 
