@@ -37,7 +37,7 @@ public class ConnectFour implements Serializable {
     /**
      * How much we scale the spaces
      */
-    private float scaleFactor;
+    private float scaleFactor = 0.45f;
 
     /**
      * Collection of spaces
@@ -118,7 +118,9 @@ public class ConnectFour implements Serializable {
         marginX = (wid - boardSize) / 2;
         marginY = (hit - boardSize) / 2;
 
-        scaleFactor = (float) boardSize / (board.get(0).get(0).getWidth() * NUM_COLUMNS);
+        if (scaleFactor == 0.45f) {
+            scaleFactor = (float) boardSize / (board.get(0).get(0).getWidth() * NUM_COLUMNS);
+        }
 
         for (ArrayList<Space> column : board) {
             for (Space space : column) {
@@ -129,6 +131,8 @@ public class ConnectFour implements Serializable {
         if (dragging != null) {
             dragging.draw(canvas, marginX, marginY, boardSize, scaleFactor);
         }
+
+        canvas.restore();
     }
 
     /**
@@ -202,8 +206,8 @@ public class ConnectFour implements Serializable {
             int id = event.getPointerId(i);
 
             //Convert the image coords
-            float relX = (event.getX() - marginX) / boardSize;
-            float relY = (event.getY() - marginY) / boardSize;
+            float relX = (event.getX(i) - marginX) / boardSize;
+            float relY = (event.getY(i) - marginY) / boardSize;
 
             if (id == touch1.id) {
                 touch1.copyToLast();;
@@ -229,13 +233,14 @@ public class ConnectFour implements Serializable {
             /*
              * Scaling
              */
+            Log.i("values:",Float.toString(touch1.x) + " " + Float.toString(touch1.y) + " " + Float.toString(touch2.x) + " " + Float.toString(touch2.y));
             double d1 = Math.sqrt(Math.pow(touch2.x-touch1.x,2) + Math.pow(touch2.y-touch1.y,2));
             double d2 = Math.sqrt(Math.pow(touch2.lastX-touch1.lastX,2) + Math.pow(touch2.lastY-touch1.lastY,2));
             double diff = d1 - d2;
             double total = d1 + diff;
-            Log.i("Is scaling?","YES");
+            //Log.i("Is scaling?","YES");
             scaleFactor = scaleFactor * (float)(total/d1);
-            Log.i("New scalefactor", Double.toString(scaleFactor) + " " + Double.toString(d2));
+            Log.i("New scalefactor", Double.toString(scaleFactor) + " " + Double.toString(d1));
             view.invalidate();
             return true;
         }
