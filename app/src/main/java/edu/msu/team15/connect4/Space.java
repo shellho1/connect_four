@@ -47,12 +47,12 @@ public class Space implements Serializable {
     /**
      * Space's Row
      */
-    private int row;
+    private final int row;
 
     /**
      * Space's column
      */
-    private int column;
+    private final int column;
 
     private float boardScale;
 

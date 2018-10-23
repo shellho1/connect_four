@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import java.io.Serializable;
-import java.net.ConnectException;
 import java.util.ArrayList;
 
 public class ConnectFour implements Serializable {
@@ -19,6 +18,7 @@ public class ConnectFour implements Serializable {
     public static final int NUM_ROWS = 6;
     public static final String WINNER_NAME = "winner_name";
     public static final String LOSER_NAME = "loser_name";
+    private static final int WIN_SIZE = 4;
 
     /**
      * The size of the board in pixels
@@ -43,7 +43,7 @@ public class ConnectFour implements Serializable {
     /**
      * Collection of spaces
      */
-    private ArrayList<ArrayList<Space>> board = new ArrayList<>();
+    private final ArrayList<ArrayList<Space>> board = new ArrayList<>();
 
 
     /**
@@ -55,13 +55,12 @@ public class ConnectFour implements Serializable {
     /**
      * Our player information for player 1
      */
-    private Player player1 = new Player(Space.State.GREEN);
+    private final Player player1 = new Player(Space.State.GREEN);
 
     /**
      * Our player information for player 2
      */
-    private Player player2 = new Player(Space.State.WHITE);
-    ;
+    private final Player player2 = new Player(Space.State.WHITE);
 
     private int currPlayer = 1;
 
@@ -69,22 +68,6 @@ public class ConnectFour implements Serializable {
      * holds the column that was played or -1 if nothing has been played yet
      */
     private int played = -1;
-
-    /**
-     * Most recent relative X touch when dragging
-     */
-    private float lastRelX;
-
-    /**
-     * Most recent relative Y touch when dragging
-     */
-    private float lastRelY;
-
-    /**
-     * number in a row to win. default 4
-     * (could add constructor to change if desired)
-     */
-    private int winSize = 4;
 
     /**
      * First touch status
@@ -96,7 +79,7 @@ public class ConnectFour implements Serializable {
      */
     private Touch touch2 = new Touch();
 
-    transient private Context context;
+    transient private final Context context;
 
     private float gameScale = 1;
 
@@ -160,7 +143,8 @@ public class ConnectFour implements Serializable {
                 getPositions(event);
                 view.invalidate();
                 touch1.copyToLast();
-                return onTouched(view, relX, relY);
+                onTouched(view, relX, relY);
+                return true;
 
             case MotionEvent.ACTION_POINTER_DOWN:
                 if (touch1.id >= 0 && touch2.id < 0) {
@@ -205,13 +189,12 @@ public class ConnectFour implements Serializable {
             // Get the pointer id
             int id = event.getPointerId(i);
 
-            //Convert the image coords
+            //Convert the image coordinates
             float relX = (event.getX(i) - marginX) / boardSize;
             float relY = (event.getY(i) - marginY) / boardSize;
 
             if (id == touch1.id) {
                 touch1.copyToLast();
-                ;
                 touch1.x = relX;
                 touch2.y = relY;
             } else if (id == touch2.id) {
@@ -242,7 +225,7 @@ public class ConnectFour implements Serializable {
             view.invalidate();
             return true;
         }
-        if (dragging != null && touch1.id >= 0) {
+        if (dragging != null) {
             dragging.move(x, y);
             view.invalidate();
             return true;
@@ -285,12 +268,10 @@ public class ConnectFour implements Serializable {
      *
      * @param x x location for the touch, relative to the puzzle - 0 to 1 over the puzzle
      * @param y y location for the touch, relative to the puzzle - 0 to 1 over the puzzle
-     * @return true if the touch is handled
      */
-    private boolean onTouched(View view, float x, float y) {
+    private void onTouched(View view, float x, float y) {
         dragging = new GamePiece(view, getCurrPlayer().color, x, y, gameScale);
         view.invalidate();
-        return true;
     }
 
     /**
@@ -307,13 +288,17 @@ public class ConnectFour implements Serializable {
                     if (board.get(col).get(row).hit(x, y, boardSize, scaleFactor)) {
                         dragging = null;
                         int openRow = legalMove(col);
-                        if (openRow == -1) {
-                            Toast.makeText(view.getContext(), R.string.column_full, Toast.LENGTH_SHORT).show();
-                        } else if (openRow == -2) {
-                            Toast.makeText(view.getContext(), R.string.played_error, Toast.LENGTH_SHORT).show();
-                        } else {
-                            board.get(col).get(openRow).setSpaceState(view, getCurrPlayer().color);
-                            played = col;
+                        switch (openRow) {
+                            case -1:
+                                Toast.makeText(view.getContext(), R.string.column_full, Toast.LENGTH_SHORT).show();
+                                break;
+                            case -2:
+                                Toast.makeText(view.getContext(), R.string.played_error, Toast.LENGTH_SHORT).show();
+                                break;
+                            default:
+                                board.get(col).get(openRow).setSpaceState(view, getCurrPlayer().color);
+                                played = col;
+                                break;
                         }
 
                         if (isWin()) {
@@ -357,7 +342,7 @@ public class ConnectFour implements Serializable {
     /**
      * perform and undo on the board if possible
      *
-     * @param view
+     * @param view button that was pressed to undo
      * @return if the undo was successful
      */
 
@@ -382,9 +367,9 @@ public class ConnectFour implements Serializable {
      */
     private boolean isWin() {
         for (int i = 0; i < NUM_COLUMNS; i++) {
-            for (int j = 0; j < NUM_ROWS - winSize + 1; j++) {
+            for (int j = 0; j < NUM_ROWS - WIN_SIZE + 1; j++) {
                 boolean win = true;
-                for (int x = 0; x < winSize; x++) {
+                for (int x = 0; x < WIN_SIZE; x++) {
                     if (board.get(i).get(j + x).getState() != getCurrPlayer().color) {
                         win = false;
                         break;
@@ -396,10 +381,10 @@ public class ConnectFour implements Serializable {
             }
         }
 
-        for (int i = 0; i < NUM_COLUMNS - winSize + 1; i++) {
+        for (int i = 0; i < NUM_COLUMNS - WIN_SIZE + 1; i++) {
             for (int j = 0; j < NUM_ROWS; j++) {
                 boolean win = true;
-                for (int x = 0; x < winSize; x++) {
+                for (int x = 0; x < WIN_SIZE; x++) {
                     if (board.get(i + x).get(j).getState() != getCurrPlayer().color) {
                         win = false;
                         break;
@@ -411,10 +396,10 @@ public class ConnectFour implements Serializable {
             }
         }
 
-        for (int i = 0; i < NUM_COLUMNS - winSize + 1; i++) {
-            for (int j = winSize - 1; j < NUM_ROWS; j++) {
+        for (int i = 0; i < NUM_COLUMNS - WIN_SIZE + 1; i++) {
+            for (int j = WIN_SIZE - 1; j < NUM_ROWS; j++) {
                 boolean win = true;
-                for (int x = 0; x < winSize; x++) {
+                for (int x = 0; x < WIN_SIZE; x++) {
                     if (board.get(i + x).get(j - x).getState() != getCurrPlayer().color) {
                         win = false;
                         break;
@@ -426,10 +411,10 @@ public class ConnectFour implements Serializable {
             }
         }
 
-        for (int i = winSize - 1; i < NUM_COLUMNS; i++) {
-            for (int j = winSize - 1; j < NUM_ROWS; j++) {
+        for (int i = WIN_SIZE - 1; i < NUM_COLUMNS; i++) {
+            for (int j = WIN_SIZE - 1; j < NUM_ROWS; j++) {
                 boolean win = true;
-                for (int x = 0; x < winSize; x++) {
+                for (int x = 0; x < WIN_SIZE; x++) {
                     if (board.get(i - x).get(j - x).getState() != getCurrPlayer().color) {
                         win = false;
                         break;
@@ -508,7 +493,7 @@ public class ConnectFour implements Serializable {
     private class Player implements Serializable {
         public String name = null;
 
-        public Space.State color;
+        public final Space.State color;
 
         public Player(Space.State color) {
             this.color = color;
@@ -545,16 +530,6 @@ public class ConnectFour implements Serializable {
          * Previous y location
          */
         public float lastY = 0;
-
-        /**
-         * Change in x value from previous
-         */
-        public float dX = 0;
-
-        /**
-         * Change in y value from previous
-         */
-        public float dY = 0;
 
         /**
          * Copy the current values to the previous values

@@ -3,10 +3,7 @@ package edu.msu.team15.connect4;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.util.Log;
 import android.view.View;
-
-import java.io.Serializable;
 
 public class GamePiece {
     /**
@@ -26,23 +23,7 @@ public class GamePiece {
      */
     private float y;
 
-    /**
-     * x location when the puzzle is solved
-     */
-    private float finalX;
-
-    /**
-     * y location when the puzzle is solved
-     */
-    private float finalY;
-
-    /**
-     * We consider a piece to be in the right location if within
-     * this distance.
-     */
-    final static float SNAP_DISTANCE = 0.05f;
-
-    private float pieceScale;
+    private final float pieceScale;
 
     public GamePiece(View view, Space.State color, float x, float y, float gameScale) {
         this.x = x;
@@ -89,42 +70,6 @@ public class GamePiece {
         canvas.restore();
     }
 
-    public int getWidth() {
-        return piece.getWidth();
-    }
-
-    public int getHeight() {
-        return piece.getHeight();
-    }
-
-    /**
-     * Test to see if we have touched a puzzle piece
-     *
-     * @param testX       X location as a normalized coordinate (0 to 1)
-     * @param testY       Y location as a normalized coordinate (0 to 1)
-     * @param boardSize   the size of the puzzle in pixels
-     * @param scaleFactor the amount to scale a piece by
-     * @return true if we hit the piece
-     */
-    public boolean hit(float testX, float testY,
-                       int boardSize, float scaleFactor) {
-
-        // Make relative to the location and size to the piece size
-        int pX = (int) ((testX - x) * boardSize / scaleFactor) +
-                getWidth() / 2;
-        int pY = (int) ((testY - y) * boardSize / scaleFactor) +
-                getHeight() / 2;
-
-        if (pX < 0 || pX >= getWidth() ||
-                pY < 0 || pY >= getHeight()) {
-            return false;
-        }
-
-        // We are within the rectangle of the piece.
-        // Are we touching actual picture?
-        return (piece.getPixel(pX, pY) & 0xff000000) != 0;
-    }
-
     /**
      * Move the puzzle piece by dx, dy
      *
@@ -134,25 +79,5 @@ public class GamePiece {
     public void move(float dx, float dy) {
         x = dx;
         y = dy;
-    }
-
-    /**
-     * If we are within SNAP_DISTANCE of the correct
-     * answer, snap to the correct answer exactly.
-     *
-     * @return
-     */
-    public boolean maybeSnap(float finalX, float finalY) {
-        if (Math.abs(x - finalX) < SNAP_DISTANCE &&
-                Math.abs(y - finalY) < SNAP_DISTANCE) {
-            Log.i("Init coords", "x: " + x + " y:" + y);
-            Log.i("Final coords", "finalx: " + finalX + " finalY:" + finalY);
-
-            x = finalX;
-            y = finalY;
-            return true;
-        }
-
-        return false;
     }
 }
