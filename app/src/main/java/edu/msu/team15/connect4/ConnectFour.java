@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 import java.io.Serializable;
 import java.net.ConnectException;
@@ -296,7 +297,9 @@ public class ConnectFour implements Serializable {
                         dragging = null;
                         int openRow = legalMove(col);
                         if (openRow == -1) {
-                            //TODO: column is full pop up message saying full
+                            Toast.makeText(view.getContext(), R.string.column_full, Toast.LENGTH_SHORT).show();
+                        } else if (openRow == -2) {
+                            Toast.makeText(view.getContext(), R.string.played_error, Toast.LENGTH_SHORT).show();
                         } else {
                             board.get(col).get(openRow).setSpaceState(view, getCurrPlayer().color);
                             played = col;
@@ -334,9 +337,17 @@ public class ConnectFour implements Serializable {
                     return row;
                 }
             }
+        } else {
+            return -2;
         }
         return -1;
     }
+
+    /**
+     * perform and undo on the board if possible
+     * @param view
+     * @return if the undo was successful
+     */
 
     public boolean undo(View view) {
         if (played != -1) {
@@ -353,7 +364,7 @@ public class ConnectFour implements Serializable {
     }
 
     /**
-     *
+     * check if the board is in a winning state
      * @return whether the last play produced a win
      */
     private boolean isWin() {
