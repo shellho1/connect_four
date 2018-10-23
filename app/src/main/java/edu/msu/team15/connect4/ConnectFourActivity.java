@@ -3,12 +3,9 @@ package edu.msu.team15.connect4;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.ArrayList;
 
 public class ConnectFourActivity extends AppCompatActivity {
 
