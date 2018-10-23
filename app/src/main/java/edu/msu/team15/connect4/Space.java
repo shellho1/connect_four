@@ -68,7 +68,7 @@ public class Space implements Serializable {
      * @param boardSize   Size we draw the puzzle in pixels
      * @param scaleFactor Amount we scale the puzzle pieces when we draw them
      */
-    public void draw(Canvas canvas, int marginX, int marginY,
+    public void draw(Canvas canvas, float marginX, float marginY,
                      int boardSize, float scaleFactor) {
         canvas.save();
 
@@ -76,7 +76,7 @@ public class Space implements Serializable {
         canvas.translate(marginX + x * boardSize, marginY + y * boardSize);
 
         // Scale it to the right size
-        canvas.scale(scaleFactor, scaleFactor);
+        canvas.scale(scaleFactor * boardScale, scaleFactor * boardScale);
 
         // This magic code makes the center of the piece at 0, 0
         canvas.translate(-spaceBackground.getWidth() / 2, -spaceBackground.getHeight() / 2);
@@ -147,5 +147,27 @@ public class Space implements Serializable {
 
     public State getState() {
         return state;
+    }
+
+    public float getX() {
+        return x;
+    }
+
+    public void setX(float x) {
+        this.x = x;
+    }
+
+    public float getY() {
+        return y;
+    }
+
+    public void setY(float y) {
+        this.y = y;
+    }
+
+    private float boardScale = 1;
+
+    public void setBoardScale(float boardScale) {
+        this.boardScale *= boardScale;
     }
 }

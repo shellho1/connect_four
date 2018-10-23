@@ -42,9 +42,13 @@ public class GamePiece {
      */
     final static float SNAP_DISTANCE = 0.05f;
 
-    public GamePiece(View view, Space.State color, float x, float y){
+    private float pieceScale;
+
+    public GamePiece(View view, Space.State color, float x, float y, float gameScale){
         this.x = x;
         this.y = y;
+
+        this.pieceScale = gameScale;
 
         switch (color) {
             case NONE:
@@ -66,7 +70,7 @@ public class GamePiece {
      * @param puzzleSize Size we draw the puzzle in pixels
      * @param scaleFactor Amount we scale the puzzle pieces when we draw them
      */
-    public void draw(Canvas canvas, int marginX, int marginY,
+    public void draw(Canvas canvas, float marginX, float marginY,
                      int puzzleSize, float scaleFactor) {
         canvas.save();
 
@@ -74,7 +78,7 @@ public class GamePiece {
         canvas.translate(marginX + x * puzzleSize, marginY + y * puzzleSize);
 
         // Scale it to the right size
-        canvas.scale(scaleFactor, scaleFactor);
+        canvas.scale(scaleFactor * pieceScale, scaleFactor * pieceScale);
 
         // This magic code makes the center of the piece at 0, 0
         canvas.translate(-piece.getWidth() / 2, -piece.getHeight() / 2);

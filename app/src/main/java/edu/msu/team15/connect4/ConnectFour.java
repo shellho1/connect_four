@@ -27,17 +27,17 @@ public class ConnectFour implements Serializable {
     /**
      * Left margin in pixels
      */
-    private int marginX;
+    private float marginX;
 
     /**
      * Top margin in pixels
      */
-    private int marginY;
+    private float marginY;
 
     /**
      * How much we scale the spaces
      */
-    private float scaleFactor = 0.45f;
+    private float scaleFactor;
 
     /**
      * Collection of spaces
@@ -96,6 +96,8 @@ public class ConnectFour implements Serializable {
 
     transient private Context context;
 
+    private float gameScale = 1;
+
 
     public ConnectFour(Context context) {
         this.context = context;
@@ -118,9 +120,7 @@ public class ConnectFour implements Serializable {
         marginX = (wid - boardSize) / 2;
         marginY = (hit - boardSize) / 2;
 
-        if (scaleFactor == 0.45f) {
-            scaleFactor = (float) boardSize / (board.get(0).get(0).getWidth() * NUM_COLUMNS);
-        }
+        scaleFactor = (float) boardSize / (board.get(0).get(0).getWidth() * NUM_COLUMNS);
 
         for (ArrayList<Space> column : board) {
             for (Space space : column) {
@@ -131,8 +131,6 @@ public class ConnectFour implements Serializable {
         if (dragging != null) {
             dragging.draw(canvas, marginX, marginY, boardSize, scaleFactor);
         }
-
-        canvas.restore();
     }
 
     /**
@@ -168,6 +166,7 @@ public class ConnectFour implements Serializable {
                     getPositions(event);
                     view.invalidate();
                     touch2.copyToLast();
+                    dragging = null;
                     return true;
                 }
 
@@ -234,13 +233,10 @@ public class ConnectFour implements Serializable {
              * Scaling
              */
             Log.i("values:",Float.toString(touch1.x) + " " + Float.toString(touch1.y) + " " + Float.toString(touch2.x) + " " + Float.toString(touch2.y));
-            double d1 = Math.sqrt(Math.pow(touch2.x-touch1.x,2) + Math.pow(touch2.y-touch1.y,2));
-            double d2 = Math.sqrt(Math.pow(touch2.lastX-touch1.lastX,2) + Math.pow(touch2.lastY-touch1.lastY,2));
-            double diff = d1 - d2;
-            double total = d1 + diff;
-            //Log.i("Is scaling?","YES");
-            scaleFactor = scaleFactor * (float)(total/d1);
-            Log.i("New scalefactor", Double.toString(scaleFactor) + " " + Double.toString(d1));
+            float d1 = distance(touch1.x, touch1.y, touch2.x, touch2.y);
+            float d2 = distance(touch1.lastX, touch1.lastY, touch2.lastX, touch2.lastY);
+            float moveScale = d1/d2;
+            scale(moveScale, touch1.x, touch1.y);
             view.invalidate();
             return true;
         }
@@ -252,6 +248,26 @@ public class ConnectFour implements Serializable {
         return false;
     }
 
+    public void scale(float moveScale, float x1, float y1) {
+        gameScale *= moveScale;
+
+        for (ArrayList<Space> col : board) {
+            for (Space space : col) {
+                space.setBoardScale(moveScale);
+
+                float xp = (space.getX()-x1) * moveScale + x1;
+                float yp = (space.getY()-y1) * moveScale + y1;
+
+                space.setX(xp);
+                space.setY(yp);
+            }
+        }
+    }
+
+    private float distance(float x1, float y1, float x2, float y2) {
+        return (float) Math.sqrt(Math.pow(x2-x1, 2) + Math.pow(y2-y1, 2));
+    }
+
     /**
      * Handle a touch message. This is when we get an initial touch
      *
@@ -260,7 +276,7 @@ public class ConnectFour implements Serializable {
      * @return true if the touch is handled
      */
     private boolean onTouched(View view, float x, float y) {
-        dragging = new GamePiece(view, getCurrPlayer().color, x, y);
+        dragging = new GamePiece(view, getCurrPlayer().color, x, y, gameScale);
         view.invalidate();
         return true;
     }
@@ -473,7 +489,6 @@ public class ConnectFour implements Serializable {
             this.color = color;
         }
     }
-
 
     /**
      * Local class to handle the touch status for one touch.
