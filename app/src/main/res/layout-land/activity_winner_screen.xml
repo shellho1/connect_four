@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_above="@+id/nameWinner"
             android:layout_centerHorizontal="true"
-            android:textSize="22sp"
+            android:textSize="26sp"
             android:text="@string/winner_string" />
 
         <TextView
@@ -45,7 +45,7 @@
             android:layout_above="@+id/loserPlayer"
             android:layout_centerHorizontal="true"
             android:paddingBottom="15dp"
-            android:textSize="26sp"
+            android:textSize="30sp"
             android:text="@string/player_one" />
 
         <TextView
