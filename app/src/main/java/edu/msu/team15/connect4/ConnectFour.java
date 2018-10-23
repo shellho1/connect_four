@@ -284,6 +284,9 @@ public class ConnectFour implements Serializable {
                         if (isWin()) {
                             endGame(getCurrPlayer(), getOtherPlayer());
                         }
+                        if (isTie()) {
+                            endTieGame();
+                        }
 
                         view.invalidate();
                         return true;
@@ -396,6 +399,17 @@ public class ConnectFour implements Serializable {
         return false;
     }
 
+    public boolean isTie() {
+        for (ArrayList<Space> col : board) {
+            for (Space space : col) {
+                if (space.getState() == Space.State.NONE) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     /**
      * try to end the player's turn and switch to other player
      *
@@ -415,6 +429,12 @@ public class ConnectFour implements Serializable {
         Intent intent = new Intent(context, WinnerScreenActivity.class);
         intent.putExtra(WINNER_NAME, winner.name);
         intent.putExtra(LOSER_NAME, loser.name);
+        context.startActivity(intent);
+        ((Activity) context).finish();
+    }
+
+    public void endTieGame() {
+        Intent intent = new Intent(context, TieScreenActivity.class);
         context.startActivity(intent);
         ((Activity) context).finish();
     }
