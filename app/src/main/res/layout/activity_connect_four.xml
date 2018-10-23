@@ -71,7 +71,8 @@
         android:gravity="center"
         android:paddingBottom="10dp"
         android:paddingTop="10dp"
-        android:text="@string/playerText" />
+        android:text="@string/playerText"
+        android:textSize="24sp"/>
 
     <view
         android:id="@+id/connectFourView"
