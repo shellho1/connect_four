@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class ConnectFour implements Serializable {
 
     public static final int NUM_COLUMNS = 7;
-    public static final int NUM_ROWS = 6;
+    private static final int NUM_ROWS = 6;
     public static final String WINNER_NAME = "winner_name";
     public static final String LOSER_NAME = "loser_name";
     private static final int WIN_SIZE = 4;
@@ -233,7 +233,7 @@ public class ConnectFour implements Serializable {
         return false;
     }
 
-    public void scale(float moveScale, float x1, float y1) {
+    private void scale(float moveScale, float x1, float y1) {
         gameScale *= moveScale;
 
         for (ArrayList<Space> col : board) {
@@ -429,7 +429,7 @@ public class ConnectFour implements Serializable {
         return false;
     }
 
-    public boolean isTie() {
+    private boolean isTie() {
         for (ArrayList<Space> col : board) {
             for (Space space : col) {
                 if (space.getState() == Space.State.NONE) {
@@ -464,7 +464,7 @@ public class ConnectFour implements Serializable {
         ((Activity) context).finish();
     }
 
-    public void endTieGame() {
+    private void endTieGame() {
         Intent intent = new Intent(context, TieScreenActivity.class);
         context.startActivity(intent);
         ((Activity) context).finish();

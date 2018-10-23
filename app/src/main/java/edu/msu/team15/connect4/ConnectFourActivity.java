@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 public class ConnectFourActivity extends AppCompatActivity {
 
-    public static final String GAME_STATE = "game_state";
+    private static final String GAME_STATE = "game_state";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

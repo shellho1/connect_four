@@ -10,8 +10,8 @@ import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String PLAYER1_DEFAULT = "player1";
-    public static final String PLAYER2_DEFAULT = "player2";
+    private static final String PLAYER1_DEFAULT = "player1";
+    private static final String PLAYER2_DEFAULT = "player2";
     public static final String PLAYER1_NAME = "p1";
     public static final String PLAYER2_NAME = "p2";
 

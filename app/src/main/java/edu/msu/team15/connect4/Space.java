@@ -47,7 +47,7 @@ public class Space implements Serializable {
     /**
      * Space's Row
      */
-    private int row;
+    private final int row;
 
     /**
      * Space's column
@@ -105,7 +105,7 @@ public class Space implements Serializable {
         return spaceBackground.getWidth();
     }
 
-    public int getHeight() {
+    private int getHeight() {
         return spaceBackground.getHeight();
     }
 
