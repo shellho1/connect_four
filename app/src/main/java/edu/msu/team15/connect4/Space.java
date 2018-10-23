@@ -15,10 +15,15 @@ public class Space implements Serializable {
 
     private static final double COLUMN_OFFSET = .5;
     private static final int ROW_OFFSET = 1;
+
     /**
      * The image for the space.
      */
-    transient private Bitmap spaceBackground;
+    private static Bitmap spaceBackground = null;
+
+    private static Bitmap greenPiece = null;
+
+    private static Bitmap whitePiece = null;
 
     /**
      * Image for gamePiece if one is in the space
@@ -49,14 +54,17 @@ public class Space implements Serializable {
      */
     private int column;
 
+    private float boardScale;
+
     public Space(Context context, int row, int column) {
         this.row = row;
         this.column = column;
 
-        spaceBackground = BitmapFactory.decodeResource(context.getResources(), R.drawable.empty_space);
+        if (spaceBackground == null) {
+            spaceBackground = BitmapFactory.decodeResource(context.getResources(), R.drawable.empty_space);
+        }
 
-        this.x = (float) ((column + COLUMN_OFFSET) * getWidth()) / (getWidth() * ConnectFour.NUM_COLUMNS);
-        this.y = (float) ((row + ROW_OFFSET) * getHeight()) / (getWidth() * ConnectFour.NUM_COLUMNS);
+        resetLocation();
     }
 
     /**
@@ -103,9 +111,10 @@ public class Space implements Serializable {
 
     /**
      * Test to see if we have touched a puzzle piece
-     * @param testX X location as a normalized coordinate (0 to 1)
-     * @param testY Y location as a normalized coordinate (0 to 1)
-     * @param boardSize the size of the puzzle in pixels
+     *
+     * @param testX       X location as a normalized coordinate (0 to 1)
+     * @param testY       Y location as a normalized coordinate (0 to 1)
+     * @param boardSize   the size of the puzzle in pixels
      * @param scaleFactor the amount to scale a piece by
      * @return true if we hit the piece
      */
@@ -113,12 +122,12 @@ public class Space implements Serializable {
                        int boardSize, float scaleFactor) {
 
         // Make relative to the location and size to the piece size
-        int pX = (int)((testX - x) * boardSize / scaleFactor) +
+        int pX = (int) ((testX - x) * boardSize / scaleFactor) +
                 getWidth() / 2;
-        int pY = (int)((testY - y) * boardSize / scaleFactor) +
+        int pY = (int) ((testY - y) * boardSize / scaleFactor) +
                 getHeight() / 2;
 
-        if(pX < 0 || pX >= getWidth() ||
+        if (pX < 0 || pX >= getWidth() ||
                 pY < 0 || pY >= getHeight()) {
             return false;
         }
@@ -134,10 +143,16 @@ public class Space implements Serializable {
 
         switch (state) {
             case GREEN:
-                gamePieceBitmap = BitmapFactory.decodeResource(view.getResources(), R.drawable.spartan_green);
+                if (greenPiece == null) {
+                    greenPiece = BitmapFactory.decodeResource(view.getResources(), R.drawable.spartan_green);
+                }
+                gamePieceBitmap = greenPiece;
                 break;
             case WHITE:
-                gamePieceBitmap = BitmapFactory.decodeResource(view.getResources(), R.drawable.spartan_white);
+                if (whitePiece == null) {
+                    whitePiece = BitmapFactory.decodeResource(view.getResources(), R.drawable.spartan_white);
+                }
+                gamePieceBitmap = whitePiece;
                 break;
             case NONE:
                 gamePieceBitmap = null;
@@ -165,7 +180,11 @@ public class Space implements Serializable {
         this.y = y;
     }
 
-    private float boardScale = 1;
+    public void resetLocation() {
+        this.x = (float) ((column + COLUMN_OFFSET) * getWidth()) / (getWidth() * ConnectFour.NUM_COLUMNS);
+        this.y = (float) ((row + ROW_OFFSET) * getHeight()) / (getWidth() * ConnectFour.NUM_COLUMNS);
+        this.boardScale = 1;
+    }
 
     public void setBoardScale(float boardScale) {
         this.boardScale *= boardScale;

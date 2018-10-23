@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
-    public void onInstruct(View view){
+    public void onInstruct(View view) {
         // User has clicked the how to play button
         // Instantiate a dialog box builder
         AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());

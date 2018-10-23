@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class ConnectFourActivity extends AppCompatActivity{
+public class ConnectFourActivity extends AppCompatActivity {
 
     public static final String GAME_STATE = "game_state";
 
@@ -32,8 +32,8 @@ public class ConnectFourActivity extends AppCompatActivity{
         /*
          * Restore any state
          */
-        if(savedInstanceState != null) {
-            getConnectFourView().setConnectFour((ConnectFour)savedInstanceState.getSerializable(GAME_STATE));
+        if (savedInstanceState != null) {
+            getConnectFourView().setConnectFour((ConnectFour) savedInstanceState.getSerializable(GAME_STATE));
         }
     }
 
@@ -46,12 +46,12 @@ public class ConnectFourActivity extends AppCompatActivity{
     public void onDone(View view) {
         if (!getConnectFourView().getConnectFour().endTurn()) {
             Toast.makeText(view.getContext(), R.string.turn_error, Toast.LENGTH_SHORT).show();
-        }
-        else {
+        } else {
             TextView turn = findViewById(R.id.playerText);
             turn.setText(getResources().getString(R.string.playerText, getConnectFourView().getConnectFour().getCurrPlayerName()));
             turn.invalidate();
         }
+        getConnectFourView().invalidate();
     }
 
     public void onUndo(View view) {

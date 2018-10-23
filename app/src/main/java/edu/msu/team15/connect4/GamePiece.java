@@ -44,7 +44,7 @@ public class GamePiece {
 
     private float pieceScale;
 
-    public GamePiece(View view, Space.State color, float x, float y, float gameScale){
+    public GamePiece(View view, Space.State color, float x, float y, float gameScale) {
         this.x = x;
         this.y = y;
 
@@ -64,10 +64,11 @@ public class GamePiece {
 
     /**
      * Draw the puzzle piece
-     * @param canvas Canvas we are drawing on
-     * @param marginX Margin x value in pixels
-     * @param marginY Margin y value in pixels
-     * @param puzzleSize Size we draw the puzzle in pixels
+     *
+     * @param canvas      Canvas we are drawing on
+     * @param marginX     Margin x value in pixels
+     * @param marginY     Margin y value in pixels
+     * @param puzzleSize  Size we draw the puzzle in pixels
      * @param scaleFactor Amount we scale the puzzle pieces when we draw them
      */
     public void draw(Canvas canvas, float marginX, float marginY,
@@ -98,9 +99,10 @@ public class GamePiece {
 
     /**
      * Test to see if we have touched a puzzle piece
-     * @param testX X location as a normalized coordinate (0 to 1)
-     * @param testY Y location as a normalized coordinate (0 to 1)
-     * @param boardSize the size of the puzzle in pixels
+     *
+     * @param testX       X location as a normalized coordinate (0 to 1)
+     * @param testY       Y location as a normalized coordinate (0 to 1)
+     * @param boardSize   the size of the puzzle in pixels
      * @param scaleFactor the amount to scale a piece by
      * @return true if we hit the piece
      */
@@ -108,12 +110,12 @@ public class GamePiece {
                        int boardSize, float scaleFactor) {
 
         // Make relative to the location and size to the piece size
-        int pX = (int)((testX - x) * boardSize / scaleFactor) +
+        int pX = (int) ((testX - x) * boardSize / scaleFactor) +
                 getWidth() / 2;
-        int pY = (int)((testY - y) * boardSize / scaleFactor) +
+        int pY = (int) ((testY - y) * boardSize / scaleFactor) +
                 getHeight() / 2;
 
-        if(pX < 0 || pX >= getWidth() ||
+        if (pX < 0 || pX >= getWidth() ||
                 pY < 0 || pY >= getHeight()) {
             return false;
         }
@@ -125,6 +127,7 @@ public class GamePiece {
 
     /**
      * Move the puzzle piece by dx, dy
+     *
      * @param dx x amount to move
      * @param dy y amount to move
      */
@@ -136,12 +139,13 @@ public class GamePiece {
     /**
      * If we are within SNAP_DISTANCE of the correct
      * answer, snap to the correct answer exactly.
+     *
      * @return
      */
     public boolean maybeSnap(float finalX, float finalY) {
-        if(Math.abs(x - finalX) < SNAP_DISTANCE &&
+        if (Math.abs(x - finalX) < SNAP_DISTANCE &&
                 Math.abs(y - finalY) < SNAP_DISTANCE) {
-            Log.i("Init coords", "x: " + x + " y:" +y);
+            Log.i("Init coords", "x: " + x + " y:" + y);
             Log.i("Final coords", "finalx: " + finalX + " finalY:" + finalY);
 
             x = finalX;
