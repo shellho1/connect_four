@@ -47,7 +47,7 @@ public class Space implements Serializable {
     /**
      * Space's Row
      */
-    private final int row;
+    private int row;
 
     /**
      * Space's column
@@ -122,9 +122,9 @@ public class Space implements Serializable {
                        int boardSize, float scaleFactor) {
 
         // Make relative to the location and size to the piece size
-        int pX = (int) ((testX - x) * boardSize / scaleFactor) +
+        int pX = (int) ((testX - x) * boardSize / (scaleFactor * boardScale)) +
                 getWidth() / 2;
-        int pY = (int) ((testY - y) * boardSize / scaleFactor) +
+        int pY = (int) ((testY - y) * boardSize / (scaleFactor * boardScale)) +
                 getHeight() / 2;
 
         if (pX < 0 || pX >= getWidth() ||
