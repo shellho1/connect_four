@@ -10,23 +10,17 @@ Member 1: Matthew Dennis
 
 Responsibility:
 
-    Checkpoint: Game activity layout and game Grid
-
     Project: The discs, including dragging and deciding what goes where, and detecting "connected 4"
 
 Member 2: Weston Shellhorn
 
 Responsibility:
 
-    Checkpoint: Opening/Home Screen
-
     Project: The custom game play view and zooming behavior.
 
 Member 3: Dowool Chong
 
 Responsibility:
-
-    Checkpoint: Winner Screen
 
     Project: The activities including the opening, game play, and end of game activities.
 
