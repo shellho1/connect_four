@@ -83,6 +83,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/passwordEditText"
             android:layout_centerHorizontal="true"
+            android:onClick="onRememberClicked"
             android:text="@string/remember" />
 
     </RelativeLayout>

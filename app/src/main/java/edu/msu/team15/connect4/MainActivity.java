@@ -8,12 +8,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String PLAYER1_DEFAULT = "player1";
-    private static final String PLAYER2_DEFAULT = "player2";
     public static final String PLAYER1_NAME = "p1";
     public static final String PLAYER2_NAME = "p2";
     private static final String REMEMBER_CHECKED = "checked";
@@ -22,22 +22,60 @@ public class MainActivity extends AppCompatActivity {
 
     private SharedPreferences settings = null;
 
+    private boolean rememberChecked = false;
+
+    private CheckBox rememberCheck = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+        rememberCheck = (CheckBox)findViewById(R.id.rememberCheckBox);
+        EditText userField = (EditText) findViewById(R.id.userEditText);
+        EditText passwordField = (EditText) findViewById(R.id.passwordEditText);
+
+
+        /*
+         * Restore any state
+         */
+        if(savedInstanceState != null) {
+            rememberChecked = savedInstanceState.getBoolean(REMEMBER_CHECKED);
+        }
+
+        settings = PreferenceManager.getDefaultSharedPreferences(this);
+        userField.setText(settings.getString(USER_PREF, ""));
+        passwordField.setText(settings.getString(PASS_PREF, ""));
+        rememberChecked = settings.getBoolean(REMEMBER_CHECKED, false);
+
+        updateUI();
+    }
+
+    /**
+     * Handle the remember checkbox change
+     * @param view view
+     */
+    public void onRememberClicked(View view) {
+        CheckBox cb = (CheckBox)findViewById(R.id.rememberCheckBox);
+        rememberChecked = cb.isChecked();
     }
 
     public void onStart(View view) {
         EditText player1 = findViewById(R.id.userEditText);
-        String userid = player1.getText().toString();
+        String username = player1.getText().toString();
 
         EditText player2 = findViewById(R.id.passwordEditText);
         String password = player2.getText().toString();
 
+        if (rememberChecked) {
+            writePreferences(username, password);
+        } else {
+            clearPreferences();
+        }
+
         Intent intent = new Intent(this, ConnectFourActivity.class);
-        intent.putExtra(PLAYER1_NAME, userid);
+        intent.putExtra(PLAYER1_NAME, username);
         intent.putExtra(PLAYER2_NAME, password);
         startActivity(intent);
         finish();
@@ -64,13 +102,37 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
-    private void writePreferences(String userid, String password) {
+    private void writePreferences(String username, String password) {
         settings = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = settings.edit();
 
-        editor.putString(USER_PREF, userid);
+        editor.putString(USER_PREF, username);
         editor.putString(PASS_PREF, password);
+        editor.putBoolean(REMEMBER_CHECKED, true);
 
         editor.apply();
+    }
+
+    private void clearPreferences() {
+        settings = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = settings.edit();
+
+        editor.clear();
+
+        editor.apply();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putBoolean(REMEMBER_CHECKED, rememberChecked);
+    }
+
+    /**
+     * Ensure the user interface components match the current state
+     */
+    public void updateUI() {
+        rememberCheck.setChecked(rememberChecked);
     }
 }
