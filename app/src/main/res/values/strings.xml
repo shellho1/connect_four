@@ -23,4 +23,10 @@
     <string name="undo_error">Undo not possible!</string>
     <string name="turn_error">You must play before ending your turn!</string>
     <string name="rematch">Rematch?</string>
+    <string name="create_new_user">Create New User</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="re_enter_password">Re-enter Password</string>
+    <string name="create_user">Create User</string>
+    <string name="start">Start</string>
 </resources>

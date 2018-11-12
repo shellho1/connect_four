@@ -23,10 +23,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onStart(View view) {
-        EditText player1 = findViewById(R.id.playerOneText);
+        EditText player1 = findViewById(R.id.userEditText);
         String p1 = player1.getText().toString().equals("") ? PLAYER1_DEFAULT : player1.getText().toString();
 
-        EditText player2 = findViewById(R.id.playerTwoText);
+        EditText player2 = findViewById(R.id.password2EditText);
         String p2 = player2.getText().toString().equals("") ? PLAYER2_DEFAULT : player2.getText().toString();
 
         Intent intent = new Intent(this, ConnectFourActivity.class);
@@ -49,5 +49,11 @@ public class MainActivity extends AppCompatActivity {
         // Create the dialog box and show it
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+    }
+
+    public void onCreateNewUser(View view) {
+        Intent intent = new Intent(this, CreateUserActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

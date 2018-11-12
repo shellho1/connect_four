@@ -11,7 +11,7 @@
         android:id="@+id/connectImage"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="2"
+        android:layout_weight="3"
         android:contentDescription="@string/imageDesc"
         android:padding="20dp"
         app:srcCompat="@drawable/connect_4" />
@@ -23,26 +23,23 @@
         android:layout_weight="2"
         android:padding="20dp">
 
-        <Button
-            android:id="@+id/buttonHow"
+        <TextView
+            android:id="@+id/createUserLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@+id/userEditText"
-            android:layout_alignParentBottom="false"
             android:layout_centerHorizontal="true"
-            android:onClick="onInstruct"
-            android:text="@string/howToPlay" />
+            android:text="@string/create_new_user"
+            android:textAppearance="@android:style/TextAppearance.Material.Medium" />
 
         <EditText
             android:id="@+id/userEditText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_above="@+id/passwordEditText"
             android:layout_alignParentTop="false"
             android:layout_alignWithParentIfMissing="false"
             android:layout_centerHorizontal="true"
-            android:layout_centerInParent="false"
-            android:layout_centerVertical="false"
-            android:layout_above="@+id/passwordEditText"
             android:ems="10"
             android:hint="@string/username"
             android:inputType="textPersonName" />
@@ -51,11 +48,20 @@
             android:id="@+id/passwordEditText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
             android:layout_centerInParent="true"
-            android:layout_centerVertical="true"
             android:ems="10"
             android:hint="@string/password"
+            android:inputType="textPassword" />
+
+        <EditText
+            android:id="@+id/password2EditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
+            android:layout_below="@+id/passwordEditText"
+            android:ems="10"
+            android:hint="@string/re_enter_password"
             android:inputType="textPassword"
             tools:layout_alignParentBottom="false" />
 
@@ -63,19 +69,11 @@
             android:id="@+id/buttonCreateUser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/userEditText"
-            android:layout_below="@+id/passwordEditText"
-            android:onClick="onCreateNewUser"
+            android:layout_alignParentBottom="false"
+            android:layout_below="@+id/password2EditText"
+            android:layout_centerHorizontal="true"
+            android:onClick="onCreateUser"
             android:text="@string/create_user" />
-
-        <Button
-            android:id="@+id/buttonStart"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/userEditText"
-            android:layout_below="@+id/passwordEditText"
-            android:onClick="onStart"
-            android:text="@string/start_game" />
 
     </RelativeLayout>
 

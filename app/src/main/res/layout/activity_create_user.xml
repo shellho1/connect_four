@@ -21,13 +21,13 @@
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <Button
-            android:id="@+id/buttonHow"
+        <TextView
+            android:id="@+id/createUserLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:onClick="onInstruct"
-            android:text="@string/howToPlay" />
+            android:text="@string/create_new_user"
+            android:textAppearance="@android:style/TextAppearance.Material.Medium" />
     </FrameLayout>
 
     <FrameLayout
@@ -60,7 +60,22 @@
             android:inputType="textPassword" />
     </FrameLayout>
 
-    <android.support.constraint.ConstraintLayout
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <EditText
+            android:id="@+id/password2EditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:ems="10"
+            android:hint="@string/re_enter_password"
+            android:inputType="textPassword" />
+    </FrameLayout>
+
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
@@ -69,29 +84,9 @@
             android:id="@+id/buttonCreateUser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:onClick="onCreateNewUser"
-            android:text="@string/create_user"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/buttonStart"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
-            android:id="@+id/buttonStart"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:onClick="onStart"
-            android:text="@string/start"
-            app:layout_constraintBaseline_toBaselineOf="@+id/buttonCreateUser"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/buttonCreateUser" />
-    </android.support.constraint.ConstraintLayout>
-
+            android:layout_gravity="center"
+            android:onClick="onCreateUser"
+            android:text="@string/create_user" />
+    </FrameLayout>
 
 </LinearLayout>
