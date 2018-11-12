@@ -29,4 +29,5 @@
     <string name="re_enter_password">Re-enter Password</string>
     <string name="create_user">Create User</string>
     <string name="start">Start</string>
+    <string name="remember">Remember</string>
 </resources>

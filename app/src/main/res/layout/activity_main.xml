@@ -58,6 +58,20 @@
             android:ems="10"
             android:hint="@string/password"
             android:inputType="textPassword" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".5">
+
+        <CheckBox
+            android:id="@+id/rememberCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/remember" />
     </FrameLayout>
 
     <android.support.constraint.ConstraintLayout
