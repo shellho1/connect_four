@@ -26,10 +26,10 @@ public class MainActivity extends AppCompatActivity {
         EditText player1 = findViewById(R.id.userEditText);
         String p1 = player1.getText().toString().equals("") ? PLAYER1_DEFAULT : player1.getText().toString();
 
-        EditText player2 = findViewById(R.id.password2EditText);
+        EditText player2 = findViewById(R.id.passwordEditText);
         String p2 = player2.getText().toString().equals("") ? PLAYER2_DEFAULT : player2.getText().toString();
 
-        Intent intent = new Intent(this, ConnectFourActivity.class);
+        Intent intent = new Intent(this, WaitActivity.class);
         intent.putExtra(PLAYER1_NAME, p1);
         intent.putExtra(PLAYER2_NAME, p2);
         startActivity(intent);

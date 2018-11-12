@@ -32,7 +32,8 @@
         <activity android:name=".ConnectFourActivity" />
         <activity android:name=".WinnerScreenActivity" />
         <activity android:name=".TieScreenActivity" />
-        <activity android:name=".CreateUserActivity"></activity>
+        <activity android:name=".CreateUserActivity"/>
+        <activity android:name=".WaitActivity"/>
     </application>
 
 </manifest>
