@@ -62,11 +62,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onStart(View view) {
-        EditText player1 = findViewById(R.id.userEditText);
-        String username = player1.getText().toString();
+        EditText usernameEditText = findViewById(R.id.userEditText);
+        String username = usernameEditText.getText().toString();
 
-        EditText player2 = findViewById(R.id.passwordEditText);
-        String password = player2.getText().toString();
+        EditText passwordEditText = findViewById(R.id.passwordEditText);
+        String password = passwordEditText.getText().toString();
 
         if (rememberChecked) {
             writePreferences(username, password);
@@ -74,9 +74,7 @@ public class MainActivity extends AppCompatActivity {
             clearPreferences();
         }
 
-        Intent intent = new Intent(this, ConnectFourActivity.class);
-        intent.putExtra(PLAYER1_NAME, username);
-        intent.putExtra(PLAYER2_NAME, password);
+        Intent intent = new Intent(this, WaitActivity.class);
         startActivity(intent);
         finish();
     }
