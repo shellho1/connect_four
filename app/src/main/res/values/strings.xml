@@ -33,4 +33,6 @@
     <string name="waiting_string">Waiting For Another Player…</string>
     <string name="create_user_error">Error creating user. User already exists.</string>
     <string name="login_user_error">Error logging in user. Username or Password incorrect.</string>
+    <string name="password_match_error">Passwords do not match</string>
+    <string name="empty_error">Empty Username or Password</string>
 </resources>

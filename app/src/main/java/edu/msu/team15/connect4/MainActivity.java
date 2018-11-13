@@ -70,15 +70,22 @@ public class MainActivity extends AppCompatActivity {
 
     public void onStart(View view) {
         EditText usernameEditText = findViewById(R.id.userEditText);
-        String username = usernameEditText.getText().toString();
+        String username = usernameEditText.getText().toString().trim();
 
         EditText passwordEditText = findViewById(R.id.passwordEditText);
-        String password = passwordEditText.getText().toString();
+        String password = passwordEditText.getText().toString().trim();
 
         if (rememberChecked) {
             writePreferences(username, password);
         } else {
             clearPreferences();
+        }
+
+        if (username.equals("") || password.equals("")) {
+            Toast.makeText(this,
+                    R.string.login_user_error,
+                    Toast.LENGTH_SHORT).show();
+            return;
         }
 
         login(username, password, view);

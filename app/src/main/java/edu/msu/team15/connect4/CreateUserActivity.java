@@ -24,17 +24,17 @@ public class CreateUserActivity extends AppCompatActivity {
 
     private String getUser() {
         EditText username  = findViewById(R.id.userEditText);
-        return username.getText().toString();
+        return username.getText().toString().trim();
     }
 
     private String getPass() {
         EditText password = findViewById(R.id.passwordEditText);
-        return password.getText().toString();
+        return password.getText().toString().trim();
     }
 
     private String getPass_confirm() {
         EditText password_confirm = findViewById(R.id.password2EditText);
-        return password_confirm.getText().toString();
+        return password_confirm.getText().toString().trim();
     }
 
     @Override
@@ -60,7 +60,11 @@ public class CreateUserActivity extends AppCompatActivity {
 
         final View view1 = view;
 
-        if (pass.equals(pass_confirm)) {
+        if (!pass.equals(pass_confirm)) {
+            Toast.makeText(view.getContext(), R.string.password_match_error, Toast.LENGTH_SHORT).show();
+        } else if (user.equals("") || pass.equals("")){
+            Toast.makeText(view.getContext(), R.string.empty_error, Toast.LENGTH_SHORT).show();
+        } else {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -112,9 +116,6 @@ public class CreateUserActivity extends AppCompatActivity {
                     });
                 }
             }).start();
-        }
-        else {
-            Toast.makeText(view.getContext(), "Passwords do not match", Toast.LENGTH_SHORT).show();
         }
     }
 }
