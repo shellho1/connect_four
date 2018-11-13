@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -40,9 +39,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-        rememberCheck = (CheckBox)findViewById(R.id.rememberCheckBox);
-        EditText userField = (EditText) findViewById(R.id.userEditText);
-        EditText passwordField = (EditText) findViewById(R.id.passwordEditText);
+        rememberCheck = findViewById(R.id.rememberCheckBox);
+        EditText userField = findViewById(R.id.userEditText);
+        EditText passwordField = findViewById(R.id.passwordEditText);
 
 
         /*
@@ -65,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
      * @param view view
      */
     public void onRememberClicked(View view) {
-        CheckBox cb = (CheckBox)findViewById(R.id.rememberCheckBox);
+        CheckBox cb = findViewById(R.id.rememberCheckBox);
         rememberChecked = cb.isChecked();
     }
 
@@ -193,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Ensure the user interface components match the current state
      */
-    public void updateUI() {
+    private void updateUI() {
         rememberCheck.setChecked(rememberChecked);
     }
 }

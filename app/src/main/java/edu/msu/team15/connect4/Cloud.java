@@ -31,8 +31,7 @@ public class Cloud {
                 return null;
             }
 
-            InputStream stream = conn.getInputStream();
-            return stream;
+            return conn.getInputStream();
 
         } catch (MalformedURLException e) {
             // Should never happen
@@ -55,8 +54,7 @@ public class Cloud {
                 return null;
             }
 
-            InputStream stream = conn.getInputStream();
-            return stream;
+            return conn.getInputStream();
 
         } catch (MalformedURLException e) {
             // Should never happen

@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -24,17 +23,17 @@ public class CreateUserActivity extends AppCompatActivity {
     private String pass_confirm = "";
 
     private String getUser() {
-        EditText username  = (EditText)findViewById(R.id.userEditText);
+        EditText username  = findViewById(R.id.userEditText);
         return username.getText().toString();
     }
 
     private String getPass() {
-        EditText password = (EditText)findViewById(R.id.passwordEditText);
+        EditText password = findViewById(R.id.passwordEditText);
         return password.getText().toString();
     }
 
     private String getPass_confirm() {
-        EditText password_confirm = (EditText)findViewById(R.id.password2EditText);
+        EditText password_confirm = findViewById(R.id.password2EditText);
         return password_confirm.getText().toString();
     }
 
@@ -44,7 +43,7 @@ public class CreateUserActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_user);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-        final Button button = (Button)findViewById(R.id.buttonCreateUser);
+        final Button button = findViewById(R.id.buttonCreateUser);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
