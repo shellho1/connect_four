@@ -1,0 +1,57 @@
+
+Project 2 Submission
+
+Group Name:   Team 15
+
+When you have completed the project, complete the following form and include it with your project. Include this file as a text file in the folder with your project when you turn it in. 
+
+For the Checkpoint, Describe a sequence of operations to create a new account and log onto the server:
+
+A functionality checklist will not be provided for the project. Treat this as you would a request from a client and identify what the client requires. 
+
+Member 1: Matthew Dennis
+
+Responsiblity:
+
+Checkpoint - The ability for the user to log into the system
+
+Overall - Server-side communications
+
+
+Member 2: Weston Shellhorn
+
+Responsiblity:
+
+Checkpoint - The ability to create a user
+
+Overall - Client-side communications
+
+
+Member 3: Dowool Chong
+
+Responsiblity:
+
+Checkpoint - The opening activity and the new user activity
+
+Overall - The sequencing of the activities
+
+
+Member 4 (if applicable): 
+
+Responsiblity:
+
+
+Provide instructions on how to reach the first editing activity if the login button is not yet functional.
+
+User account the server-side communications is running under: Dennis57
+
+Paths to all server-side scripts: (Such as https://www.cse.msu.edu/~carter/project2/login.php).
+
+    Login: https://webdev.cse.msu.edu/~dennis57/cse476/project2/login-user.php?user=&pw=&magic=NechAtHa6RuzeR8x
+
+    Create User: https://webdev.cse.msu.edu/~dennis57/cse476/project2/create-user.php?user=&pw=&magic=NechAtHa6RuzeR8x
+
+Calls in the code to the server (provide a class name and function, or URL used for debugging):
+
+
+

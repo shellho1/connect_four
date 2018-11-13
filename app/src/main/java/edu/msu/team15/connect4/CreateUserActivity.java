@@ -47,9 +47,6 @@ public class CreateUserActivity extends AppCompatActivity {
     }
 
     public void onCreateUser(View view) {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-
         user = getUser();
         pass = getPass();
         pass_confirm = getPass_confirm();
@@ -62,6 +59,9 @@ public class CreateUserActivity extends AppCompatActivity {
                     cloud.createUser(user,pass);
                 }
             }).start();
+
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
         }
         else {
             Toast.makeText(view.getContext(), "Passwords do not match", Toast.LENGTH_SHORT).show();
