@@ -53,5 +53,7 @@ Paths to all server-side scripts: (Such as https://www.cse.msu.edu/~carter/proje
 
 Calls in the code to the server (provide a class name and function, or URL used for debugging):
 
+    Login: Cloud.loginUser()
+    Create: Cloud.createUser()
 
 
