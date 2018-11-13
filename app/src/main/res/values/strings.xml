@@ -9,7 +9,6 @@
     <string name="done">Done</string>
     <string name="playerText">%s\'s Turn</string>
     <string name="howToPlay">How to Play</string>
-    <string name="winner_string">Winner:</string>
     <string name="restart_button">Restart</string>
     <string name="loser_string">Loser:</string>
     <string name="congrats_image">Congrats!</string>
@@ -30,4 +29,6 @@
     <string name="create_user">Create User</string>
     <string name="start">Start</string>
     <string name="remember">Remember</string>
+    <string name="winner_string">Winner:</string>
+    <string name="waiting_string">Waiting For Another Player...</string>
 </resources>

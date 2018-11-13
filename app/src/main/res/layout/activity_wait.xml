@@ -20,7 +20,7 @@
         android:layout_above="@+id/progressBar2"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="30dp"
-        android:text="Waiting For Another Player..."
+        android:text="@string/waiting_string"
         android:textAppearance="@android:style/TextAppearance.Material.Large" />
 
     <Button
