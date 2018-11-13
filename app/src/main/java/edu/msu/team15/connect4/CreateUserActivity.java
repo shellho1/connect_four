@@ -59,7 +59,7 @@ public class CreateUserActivity extends AppCompatActivity {
         pass = getPass();
         pass_confirm = getPass_confirm();
 
-        final TextView createUserLabel = (TextView) findViewById(R.id.createUserLabel);
+        final View view1 = view;
 
         if (pass.equals(pass_confirm)) {
             new Thread(new Runnable() {
@@ -96,16 +96,16 @@ public class CreateUserActivity extends AppCompatActivity {
                     }
 
                     final boolean fail1 = fail;
-                    createUserLabel.post(new Runnable() {
+                    view1.post(new Runnable() {
 
                         @Override
                         public void run() {
                             if(fail1) {
-                                Toast.makeText(createUserLabel.getContext(),
+                                Toast.makeText(view1.getContext(),
                                         R.string.create_user_error,
                                         Toast.LENGTH_SHORT).show();
                             } else {
-                                Intent intent = new Intent(createUserLabel.getContext(), MainActivity.class);
+                                Intent intent = new Intent(view1.getContext(), MainActivity.class);
                                 startActivity(intent);
                                 finish();
                             }
