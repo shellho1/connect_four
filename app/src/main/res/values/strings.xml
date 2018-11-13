@@ -30,6 +30,7 @@
     <string name="start">Start</string>
     <string name="remember">Remember</string>
     <string name="winner_string">Winner:</string>
-    <string name="waiting_string">Waiting For Another Player...</string>
+    <string name="waiting_string">Waiting For Another Player…</string>
     <string name="cancel">CANCEL</string>
+    <string name="create_user_error">Error creating user. User already exists.</string>
 </resources>
