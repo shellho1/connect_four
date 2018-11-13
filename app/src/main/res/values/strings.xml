@@ -31,4 +31,5 @@
     <string name="remember">Remember</string>
     <string name="winner_string">Winner:</string>
     <string name="waiting_string">Waiting For Another Player...</string>
+    <string name="cancel">CANCEL</string>
 </resources>
