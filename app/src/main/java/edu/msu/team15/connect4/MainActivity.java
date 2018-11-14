@@ -166,6 +166,7 @@ public class MainActivity extends AppCompatActivity {
     public void onCreateNewUser(View view) {
         Intent intent = new Intent(this, CreateUserActivity.class);
         startActivity(intent);
+        finish();
     }
 
     private void writePreferences(String username, String password) {

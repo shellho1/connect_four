@@ -15,7 +15,6 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Objects;
 
 public class CreateUserActivity extends AppCompatActivity {
 
@@ -109,6 +108,8 @@ public class CreateUserActivity extends AppCompatActivity {
                                         R.string.create_user_error,
                                         Toast.LENGTH_SHORT).show();
                             } else {
+                                Intent intent = new Intent(view1.getContext(), MainActivity.class);
+                                startActivity(intent);
                                 finish();
                             }
                         }
