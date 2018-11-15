@@ -32,4 +32,6 @@
     <string name="winner_string">Winner:</string>
     <string name="waiting_string">Waiting For Another Player...</string>
     <string name="cancel">CANCEL</string>
+    <string name="lostConnection">Lost Connection With The Server...</string>
+    <string name="findPlayer">Find</string>
 </resources>

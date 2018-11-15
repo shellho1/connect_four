@@ -14,22 +14,43 @@
         android:layout_centerInParent="true" />
 
     <TextView
-        android:id="@+id/waitingLabel"
+        android:id="@+id/lostConnectionLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/progressBar"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="30dp"
-        android:text="@string/waiting_string"
+        android:text="@string/lostConnection"
         android:textAppearance="@android:style/TextAppearance.Material.Large" />
 
-    <Button
-        android:id="@+id/cancelButton"
+    <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/progressBar"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:onClick="onCancel"
-        android:text="@string/cancel" />
+        android:layout_toStartOf="@+id/progressBar">
+
+        <Button
+            android:id="@+id/findButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="@string/findPlayer" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/progressBar"
+        android:layout_toEndOf="@+id/progressBar">
+
+        <Button
+            android:id="@+id/cancelButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:onClick="onCancel"
+            android:text="@string/cancel" />
+    </FrameLayout>
+
 </RelativeLayout>
