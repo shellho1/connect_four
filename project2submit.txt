@@ -7,6 +7,18 @@ When you have completed the project, complete the following form and include it 
 
 For the Checkpoint, Describe a sequence of operations to create a new account and log onto the server:
 
+    Click the Create User button to bring you to the create user screen (CreateUserActivity)
+    Enter Username and password twice and then click create user
+    This calls CreateUserActivity.onCreateUser()
+    This calls Cloud.createUser()
+    This contacts the server and returns a status of yes if the creation was successful and no if it failed or already exists
+    If successful it returns to MainActivity
+    Then the user puts in username and password and presses start
+    This calls CreateUserActivity.onStart()
+    This calls Cloud.loginUser()
+    This contacts the server and returns a status of yes if the login was successful and no if it failed
+    If successful it navigates to WaitActivity
+
 A functionality checklist will not be provided for the project. Treat this as you would a request from a client and identify what the client requires. 
 
 Member 1: Matthew Dennis
@@ -53,5 +65,7 @@ Paths to all server-side scripts: (Such as https://www.cse.msu.edu/~carter/proje
 
 Calls in the code to the server (provide a class name and function, or URL used for debugging):
 
+    Login: Cloud.loginUser()
+    Create: Cloud.createUser()
 
 

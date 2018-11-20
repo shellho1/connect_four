@@ -11,7 +11,7 @@
         android:id="@+id/connectImage"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="3"
+        android:layout_weight="2"
         android:contentDescription="@string/imageDesc"
         android:padding="20dp"
         app:srcCompat="@drawable/connect_4" />
@@ -37,40 +37,54 @@
             android:id="@+id/userEditText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_above="@+id/passwordEditText"
             android:layout_alignParentTop="false"
             android:layout_alignWithParentIfMissing="false"
             android:layout_centerHorizontal="true"
             android:layout_centerInParent="false"
             android:layout_centerVertical="false"
-            android:layout_above="@+id/password2EditText"
-            android:autofillHints=""
             android:ems="10"
-            android:hint="@string/player_one"
+            android:hint="@string/username"
             android:inputType="textPersonName" />
 
         <EditText
-            android:id="@+id/password2EditText"
+            android:id="@+id/passwordEditText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:layout_centerHorizontal="true"
             android:layout_centerInParent="true"
             android:layout_centerVertical="true"
-            android:autofillHints=""
             android:ems="10"
-            android:hint="@string/player_two"
-            android:inputType="textPersonName"
+            android:hint="@string/password"
+            android:inputType="textPassword"
             tools:layout_alignParentBottom="false" />
 
         <Button
             android:id="@+id/buttonCreateUser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="false"
-            android:layout_below="@+id/password2EditText"
-            android:layout_centerHorizontal="true"
+            android:layout_alignStart="@+id/userEditText"
+            android:layout_below="@+id/rememberCheckBox"
+            android:onClick="onCreateNewUser"
+            android:text="@string/create_user" />
+
+        <Button
+            android:id="@+id/buttonStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/userEditText"
+            android:layout_alignTop="@+id/buttonCreateUser"
             android:onClick="onStart"
             android:text="@string/start_game" />
+
+        <CheckBox
+            android:id="@+id/rememberCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/passwordEditText"
+            android:layout_centerHorizontal="true"
+            android:onClick="onRememberClicked"
+            android:text="@string/remember" />
 
     </RelativeLayout>
 

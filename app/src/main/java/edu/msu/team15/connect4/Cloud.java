@@ -1,5 +1,8 @@
 package edu.msu.team15.connect4;
 
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -28,8 +31,7 @@ public class Cloud {
                 return null;
             }
 
-            InputStream stream = conn.getInputStream();
-            return stream;
+            return conn.getInputStream();
 
         } catch (MalformedURLException e) {
             // Should never happen
@@ -52,8 +54,7 @@ public class Cloud {
                 return null;
             }
 
-            InputStream stream = conn.getInputStream();
-            return stream;
+            return conn.getInputStream();
 
         } catch (MalformedURLException e) {
             // Should never happen
@@ -63,6 +64,25 @@ public class Cloud {
         }
     }
 
-
+    /**
+     * Skip the XML parser to the end tag for whatever
+     * tag we are currently within.
+     * @param xml the parser
+     * @throws IOException throws io error
+     * @throws XmlPullParserException throws xml exception
+     */
+    public static void skipToEndTag(XmlPullParser xml)
+            throws IOException, XmlPullParserException {
+        int tag;
+        do
+        {
+            tag = xml.next();
+            if(tag == XmlPullParser.START_TAG) {
+                // Recurse over any start tag
+                skipToEndTag(xml);
+            }
+        } while(tag != XmlPullParser.END_TAG &&
+                tag != XmlPullParser.END_DOCUMENT);
+    }
 }
 

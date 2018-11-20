@@ -6,11 +6,18 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Xml;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.Toast;
+
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,9 +39,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-        rememberCheck = (CheckBox)findViewById(R.id.rememberCheckBox);
-        EditText userField = (EditText) findViewById(R.id.userEditText);
-        EditText passwordField = (EditText) findViewById(R.id.passwordEditText);
+        rememberCheck = findViewById(R.id.rememberCheckBox);
+        EditText userField = findViewById(R.id.userEditText);
+        EditText passwordField = findViewById(R.id.passwordEditText);
 
 
         /*
@@ -57,16 +64,16 @@ public class MainActivity extends AppCompatActivity {
      * @param view view
      */
     public void onRememberClicked(View view) {
-        CheckBox cb = (CheckBox)findViewById(R.id.rememberCheckBox);
+        CheckBox cb = findViewById(R.id.rememberCheckBox);
         rememberChecked = cb.isChecked();
     }
 
     public void onStart(View view) {
         EditText usernameEditText = findViewById(R.id.userEditText);
-        String username = usernameEditText.getText().toString();
+        String username = usernameEditText.getText().toString().trim();
 
         EditText passwordEditText = findViewById(R.id.passwordEditText);
-        String password = passwordEditText.getText().toString();
+        String password = passwordEditText.getText().toString().trim();
 
         if (rememberChecked) {
             writePreferences(username, password);
@@ -74,9 +81,71 @@ public class MainActivity extends AppCompatActivity {
             clearPreferences();
         }
 
-        Intent intent = new Intent(this, WaitActivity.class);
-        startActivity(intent);
-        finish();
+        if (username.equals("") || password.equals("")) {
+            Toast.makeText(this,
+                    R.string.login_user_error,
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        login(username, password, view);
+    }
+
+    private void login(final String username, final String password, View view) {
+
+        final View view1 = view;
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                final Cloud cloud = new Cloud();
+                InputStream stream = cloud.loginUser(username,password);
+
+                // Test for an error
+                boolean fail = stream == null;
+                if(!fail) {
+                    try {
+
+                        XmlPullParser xml = Xml.newPullParser();
+                        xml.setInput(stream, "UTF-8");
+
+                        xml.nextTag();      // Advance to first tag
+                        xml.require(XmlPullParser.START_TAG, null, "connect4");
+                        String status = xml.getAttributeValue(null, "status");
+                        if(!status.equals("yes")) {
+                            fail = true;
+                        }
+
+                    } catch(IOException ex) {
+                        fail = true;
+                    } catch(XmlPullParserException ex) {
+                        fail = true;
+                    } finally {
+                        try {
+                            stream.close();
+                        } catch(IOException ex) {
+                        }
+                    }
+                }
+
+                final boolean fail1 = fail;
+                view1.post(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        if(fail1) {
+                            Toast.makeText(view1.getContext(),
+                                    R.string.login_user_error,
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+                            Intent intent = new Intent(view1.getContext(), WaitActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    }
+                });
+            }
+        }).start();
     }
 
     public void onInstruct(View view) {
@@ -130,7 +199,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Ensure the user interface components match the current state
      */
-    public void updateUI() {
+    private void updateUI() {
         rememberCheck.setChecked(rememberChecked);
     }
 }
