@@ -32,8 +32,16 @@
         <activity android:name=".ConnectFourActivity" />
         <activity android:name=".WinnerScreenActivity" />
         <activity android:name=".TieScreenActivity" />
-        <activity android:name=".CreateUserActivity"/>
-        <activity android:name=".WaitActivity"/>
+        <activity android:name=".CreateUserActivity" />
+        <activity android:name=".WaitActivity" />
+
+        <service
+            android:name=".Firebase">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+
     </application>
 
 </manifest>
