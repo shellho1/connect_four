@@ -1,11 +1,15 @@
 package edu.msu.team15.connect4;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Xml;
 import android.view.View;
 import android.view.WindowManager;
@@ -42,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
         rememberCheck = findViewById(R.id.rememberCheckBox);
         EditText userField = findViewById(R.id.userEditText);
         EditText passwordField = findViewById(R.id.passwordEditText);
-
 
         /*
          * Restore any state
@@ -139,6 +142,7 @@ public class MainActivity extends AppCompatActivity {
                                     Toast.LENGTH_SHORT).show();
                         } else {
                             Intent intent = new Intent(view1.getContext(), WaitActivity.class);
+                            intent.putExtra("p1User",username);
                             startActivity(intent);
                             finish();
                         }

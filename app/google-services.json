@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "170997685761-ruiba7fn3nsvppidoqr6tohv7i9hhfr3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "edu.msu.team15.connect4",
+            "certificate_hash": "b809eaee9446981d6cb7d81949b64376a40bc522"
+          }
+        },
+        {
           "client_id": "170997685761-s00i0an67c0ffflkltu0gcsrc078bpk2.apps.googleusercontent.com",
           "client_type": 3
         }

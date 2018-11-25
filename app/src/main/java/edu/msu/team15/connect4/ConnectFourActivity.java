@@ -3,6 +3,7 @@ package edu.msu.team15.connect4;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,8 +18,8 @@ public class ConnectFourActivity extends AppCompatActivity {
         setContentView(R.layout.activity_connect_four);
 
         Intent intent = getIntent();
-        String player_one = intent.getStringExtra(MainActivity.PLAYER1_NAME);
-        String player_two = intent.getStringExtra(MainActivity.PLAYER2_NAME);
+        String player_one = intent.getStringExtra("PLAYER1_NAME");
+        String player_two = intent.getStringExtra("PLAYER2_NAME");
 
         getConnectFourView().getConnectFour().setPlayer1Name(player_one);
         getConnectFourView().getConnectFour().setPlayer2Name(player_two);

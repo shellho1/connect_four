@@ -38,4 +38,7 @@
     <string name="cancel">CANCEL</string>
     <string name="lostConnection">Lost Connection With The Server...</string>
     <string name="findPlayer">Find</string>
+    <string name="default_notification_channel_id">fcm_default_channel</string>
+    <string name="default_notification_channel_name">login</string>
+    <string name="StartGame">Start</string>
 </resources>
