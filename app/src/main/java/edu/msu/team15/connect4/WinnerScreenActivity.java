@@ -21,6 +21,14 @@ public class WinnerScreenActivity extends AppCompatActivity {
 
         TextView loserTextView = findViewById(R.id.nameLoser);
         loserTextView.setText(loserName);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                final Cloud cloud = new Cloud();
+                cloud.Disconnect();
+            }
+        }).start();
     }
 
     public void onRestart(View view) {

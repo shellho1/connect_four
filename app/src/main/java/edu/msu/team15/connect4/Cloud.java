@@ -20,6 +20,7 @@ public class Cloud {
     private static final String CREATE_USER_URL = "https://webdev.cse.msu.edu/~dennis57/cse476/project2/create-user.php";
     private static final String ADD_TO_GAME_URL = "https://webdev.cse.msu.edu/~shellho1/cse476/project2/add-user.php";
     private static final String CHECK_OPPONENT = "https://webdev.cse.msu.edu/~shellho1/cse476/project2/check-opponent.php";
+    private static final String DISCONNECT = "https://webdev.cse.msu.edu/~shellho1/cse476/project2/disconnect-users.php";
     
     private static final String UTF8 = "UTF-8";
 
@@ -140,6 +141,28 @@ public class Cloud {
 
     public String getOpponent() {
         return opponent;
+    }
+
+    public InputStream Disconnect(){
+        String query = DISCONNECT + "?magic=" + MAGIC;
+
+        try {
+            URL url = new URL(query);
+
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+            int responseCode = conn.getResponseCode();
+            if(responseCode != HttpURLConnection.HTTP_OK) {
+                return null;
+            }
+
+            return conn.getInputStream();
+
+        } catch (MalformedURLException e) {
+            return null;
+        } catch (IOException ex) {
+            return null;
+        }
     }
 
 
