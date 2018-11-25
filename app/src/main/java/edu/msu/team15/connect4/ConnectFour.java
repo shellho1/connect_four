@@ -83,6 +83,26 @@ public class ConnectFour implements Serializable {
 
     private float gameScale = 1;
 
+    private int myRow = 0;
+
+    public int getMyRow() {
+        return myRow;
+    }
+
+    public void setMyRow(int myRow) {
+        this.myRow = myRow;
+    }
+
+    public int getMyColumn() {
+        return myColumn;
+    }
+
+    public void setMyColumn(int myColumn) {
+        this.myColumn = myColumn;
+    }
+
+    private int myColumn = 0;
+
 
     public ConnectFour(Context context) {
         this.context = context;
@@ -297,6 +317,8 @@ public class ConnectFour implements Serializable {
                                 break;
                             default:
                                 board.get(col).get(openRow).setSpaceState(view, getCurrPlayer().color);
+                                setMyColumn(col);
+                                setMyRow(openRow);
                                 played = col;
                                 break;
                         }

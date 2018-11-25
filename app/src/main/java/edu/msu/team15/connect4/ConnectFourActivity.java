@@ -48,6 +48,17 @@ public class ConnectFourActivity extends AppCompatActivity {
         } else {
             TextView turn = findViewById(R.id.playerText);
             turn.setText(getResources().getString(R.string.playerText, getConnectFourView().getConnectFour().getCurrPlayerName()));
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    final Cloud cloud = new Cloud();
+                    cloud.saveToCloud(getConnectFourView().getConnectFour().getCurrPlayerName(),
+                            getConnectFourView().getConnectFour().getMyColumn(),
+                            getConnectFourView().getConnectFour().getMyRow());
+                }
+            }).start();
+
             turn.invalidate();
         }
         getConnectFourView().invalidate();

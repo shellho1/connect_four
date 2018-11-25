@@ -34,6 +34,9 @@ function process($username){
 
     $player2 = $player2['player2id'];
     if ($player1['player1id'] != NULL and $player2['player2id'] != NULL){
+
+        init_game($pdo,$player2);
+
         if ($player1['player1id'] == $username){
             $player2 = $player2['player2id'];
             echo "<connect4 status='yes' message='start' opponent=\"$player2\"/>";
@@ -50,5 +53,11 @@ function process($username){
     }
     exit;
 
+}
 
+function init_game($pdo,$player2){
+    $reset = "TRUNCATE TABLE connect4state";
+    $default = "INSERT INTO connect4state(username,row,col) VALUES(\"$player2\",-1,-1)";
+    $pdo->query($reset);
+    $pdo->query($default);
 }

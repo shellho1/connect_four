@@ -1,5 +1,6 @@
 package edu.msu.team15.connect4;
 
+import android.content.Intent;
 import android.renderscript.ScriptGroup;
 import android.util.Xml;
 
@@ -21,6 +22,7 @@ public class Cloud {
     private static final String ADD_TO_GAME_URL = "https://webdev.cse.msu.edu/~shellho1/cse476/project2/add-user.php";
     private static final String CHECK_OPPONENT = "https://webdev.cse.msu.edu/~shellho1/cse476/project2/check-opponent.php";
     private static final String DISCONNECT = "https://webdev.cse.msu.edu/~shellho1/cse476/project2/disconnect-users.php";
+    private static final String SAVE_STATE = "https://webdev.cse.msu.edu/~shellho1/cse476/project2/save-state.php";
     
     private static final String UTF8 = "UTF-8";
 
@@ -188,6 +190,64 @@ public class Cloud {
         } catch (IOException ex) {
             return null;
         }
+    }
+
+    public boolean saveToCloud(String currPlayer,int col, int row){
+        String column = Integer.toString(col);
+        String myRow = Integer.toString(row);
+        String query = SAVE_STATE + "?user=" + currPlayer + "&magic=" + MAGIC + "&column=" + column + "&row=" + myRow;
+        InputStream stream = null;
+
+        try {
+            URL url = new URL(query);
+
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+            int responseCode = conn.getResponseCode();
+
+            if(responseCode != HttpURLConnection.HTTP_OK) {
+                return false;
+            }
+
+            stream = conn.getInputStream();
+
+            /**
+             * Create an XML parser for the result
+             */
+            try {
+                XmlPullParser xml2 = Xml.newPullParser();
+                xml2.setInput(stream, UTF8);
+
+                xml2.nextTag();      // Advance to first tag
+                xml2.require(XmlPullParser.START_TAG, null, "connect4");
+
+                String status = xml2.getAttributeValue(null, "status");
+                if(status.equals("")) {
+                    return false;
+                }
+
+                // We are done
+            } catch(XmlPullParserException ex) {
+                return false;
+            } catch(IOException ex) {
+                return false;
+            }
+
+        } catch (MalformedURLException e) {
+            return false;
+        } catch (IOException ex) {
+            return false;
+        } finally {
+            if(stream != null) {
+                try {
+                    stream.close();
+                } catch(IOException ex) {
+                    // Fail silently
+                }
+            }
+        }
+
+        return true;
     }
 
     /**
