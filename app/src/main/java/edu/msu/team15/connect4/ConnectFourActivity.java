@@ -17,6 +17,7 @@ public class ConnectFourActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connect_four);
 
+        //TODO: Player 1 and 2 should correlate with the respective player on the server to avoid confusion
         Intent intent = getIntent();
         String player_one = intent.getStringExtra("PLAYER1_NAME");
         String player_two = intent.getStringExtra("PLAYER2_NAME");
