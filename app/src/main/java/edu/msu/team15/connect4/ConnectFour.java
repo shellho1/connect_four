@@ -294,6 +294,10 @@ public class ConnectFour implements Serializable {
         view.invalidate();
     }
 
+    public void setPiece(View view, int row, int col){
+        board.get(col).get(row).setSpaceState(view, getCurrPlayer().color);
+    }
+
     /**
      * Handle a release of a touch message.
      *
@@ -496,6 +500,8 @@ public class ConnectFour implements Serializable {
         return currPlayer == 1 ? player1 : player2;
     }
 
+    public void setCurrPlayer(int user) { currPlayer = user; }
+
     public Player getOtherPlayer() {
         return currPlayer != 1 ? player1 : player2;
     }
@@ -507,10 +513,12 @@ public class ConnectFour implements Serializable {
     public void setPlayer1Name(String name) {
         player1.name = name;
     }
+    public String getPlayer1Name() { return player1.name; }
 
     public void setPlayer2Name(String name) {
         player2.name = name;
     }
+    public String getPlayer2Name() { return player2.name; }
 
     private class Player implements Serializable {
         public String name = null;

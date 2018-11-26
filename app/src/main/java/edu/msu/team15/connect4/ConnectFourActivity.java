@@ -8,9 +8,18 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class ConnectFourActivity extends AppCompatActivity {
 
     private static final String GAME_STATE = "game_state";
+
+    private boolean myTurn = false;
+
+    private volatile boolean success;
+
+    private volatile int count = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +34,8 @@ public class ConnectFourActivity extends AppCompatActivity {
         getConnectFourView().getConnectFour().setPlayer1Name(player_one);
         getConnectFourView().getConnectFour().setPlayer2Name(player_two);
 
+        decideTurn();
+
         TextView initial_turn = findViewById(R.id.playerText);
         initial_turn.setText(getResources().getString(R.string.playerText, getConnectFourView().getConnectFour().getCurrPlayerName()));
 
@@ -34,6 +45,38 @@ public class ConnectFourActivity extends AppCompatActivity {
         if (savedInstanceState != null) {
             getConnectFourView().setConnectFour((ConnectFour) savedInstanceState.getSerializable(GAME_STATE));
         }
+    }
+
+    public void decideTurn(){
+        final Timer timer = new Timer();
+        final TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                String player1 = getConnectFourView().getConnectFour().getPlayer1Name();
+                final Cloud cloud = new Cloud();
+                success = cloud.loadFromCloud();
+                if (success) {
+                    // Set game state
+                    setState(cloud,player1,timer);
+                }
+            }
+        };
+        timer.schedule(task,1,1000);
+    }
+
+    public void setState(Cloud cloud, String p1Name, Timer timer){
+        //TODO: Need to figure out how to determine who's turn it is
+        int row = cloud.getRow();
+        int col = cloud.getColumn();
+        if (row != -1 && col != -1){
+            // A move has been made (values for row/col are not default)
+            getConnectFourView().getConnectFour().setPiece(getConnectFourView(),row,col);
+        }
+        else {
+            timer.cancel();
+            timer.purge();
+        }
+
     }
 
     public void onSurrender(View view) {

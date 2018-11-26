@@ -23,12 +23,40 @@ public class Cloud {
     private static final String CHECK_OPPONENT = "https://webdev.cse.msu.edu/~shellho1/cse476/project2/check-opponent.php";
     private static final String DISCONNECT = "https://webdev.cse.msu.edu/~shellho1/cse476/project2/disconnect-users.php";
     private static final String SAVE_STATE = "https://webdev.cse.msu.edu/~shellho1/cse476/project2/save-state.php";
+    private static final String LOAD_STATE = "https://webdev.cse.msu.edu/~shellho1/cse476/project2/load-state.php";
     
     private static final String UTF8 = "UTF-8";
 
     private String message = "";
-
     private String opponent = "";
+    private String currPlayer = "";
+    private int row = -1;
+    private int column = -1;
+
+    public String getCurrPlayer() {
+        return currPlayer;
+    }
+
+    public void setCurrPlayer(String currPlayer) {
+        this.currPlayer = currPlayer;
+    }
+
+    public int getRow() {
+        return row;
+    }
+
+    public void setRow(int row) {
+        this.row = row;
+    }
+
+    public int getColumn() {
+        return column;
+    }
+
+    public void setColumn(int column) {
+        this.column = column;
+    }
+
 
     public InputStream loginUser(final String username, final String password) {
         // Create a get query
@@ -242,6 +270,65 @@ public class Cloud {
                 try {
                     stream.close();
                 } catch(IOException ex) {
+                    // Fail silently
+                }
+            }
+        }
+
+        return true;
+    }
+
+    public boolean loadFromCloud(){
+        String query = LOAD_STATE + "?magic=" + MAGIC;
+        InputStream stream = null;
+
+        try {
+            URL url = new URL(query);
+
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+            int responseCode = conn.getResponseCode();
+
+            if (responseCode != HttpURLConnection.HTTP_OK) {
+                return false;
+            }
+
+            stream = conn.getInputStream();
+
+            /**
+             * Create an XML parser for the result
+             */
+            try {
+                XmlPullParser xml2 = Xml.newPullParser();
+                xml2.setInput(stream, UTF8);
+
+                xml2.nextTag();      // Advance to first tag
+                xml2.require(XmlPullParser.START_TAG, null, "connect4");
+
+                String status = xml2.getAttributeValue(null, "status");
+                if (status.equals("")) {
+                    return false;
+                }
+
+                currPlayer = xml2.getAttributeValue(null, "user");
+                row = Integer.parseInt(xml2.getAttributeValue(null, "row"));
+                column = Integer.parseInt(xml2.getAttributeValue(null, "col"));
+                // We are done
+            } catch (XmlPullParserException ex) {
+                return false;
+            } catch (IOException ex) {
+                return false;
+            }
+
+        } catch (MalformedURLException e) {
+            return false;
+        } catch (IOException ex) {
+            return false;
+        } finally {
+            if (stream != null) {
+                try {
+                    stream.close();
+                } catch (IOException ex) {
                     // Fail silently
                 }
             }
