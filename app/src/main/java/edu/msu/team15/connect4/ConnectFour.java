@@ -103,6 +103,17 @@ public class ConnectFour implements Serializable {
 
     private int myColumn = 0;
 
+    private boolean myTurn = false;
+
+    private String username;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
     public ConnectFour(Context context) {
         this.context = context;
@@ -499,6 +510,8 @@ public class ConnectFour implements Serializable {
     public Player getCurrPlayer() {
         return currPlayer == 1 ? player1 : player2;
     }
+
+    public Integer getCurrPlayerInt() { return currPlayer; }
 
     public void setCurrPlayer(int user) { currPlayer = user; }
 

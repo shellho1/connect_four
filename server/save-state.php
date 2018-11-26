@@ -10,17 +10,30 @@ require_once  "db.inc.php";
 
 echo '<?xml version="1.0" encoding="UTF-8" ?>';
 
-if(!isset($_GET['magic']) || !isset($_GET['user']) || !isset($_GET['row']) || !isset($_GET['column']) || $_GET['magic'] != "NechAtHa6RuzeR8x") {
+if(!isset($_GET['magic']) || !isset($_GET['user']) || $_GET['magic'] != "NechAtHa6RuzeR8x") {
     echo '<connect4 status="no" msg="magic" />';
     exit;
 }
 
-process($_GET['user'],$_GET['row'],$_GET['column']);
+process($_GET['user'], $_GET['currplayer']);
 
-function process($username, $row, $column){
+function process($username, $curr){
     $pdo = pdo_connect();
-    $usernameQ = $pdo->quote($username);
-    $query = "UPDATE connect4state SET username=$usernameQ,row=$row,col=$column";
+
+    $game = $pdo->query("SELECT player1id, player2id, currPlayer FROM connect4game")->fetch();
+
+    if ($game['currPlayer'] == 1) {
+        $currUsername = $game['player1id'];
+    } else {
+        $currUsername = $game['player2id'];
+    }
+
+    if ($currUsername != $username) {
+        echo '<connect4 status="no" msg="wrong user updating" />';
+        exit;
+    }
+
+    $query = "UPDATE connect4game SET currPlayer=$curr";
     $pdo->query($query);
 
     if ($pdo){

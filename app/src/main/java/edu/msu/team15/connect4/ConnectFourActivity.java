@@ -1,8 +1,8 @@
 package edu.msu.team15.connect4;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.Xml;
 import android.view.View;
 import android.widget.TextView;
@@ -20,8 +20,6 @@ public class ConnectFourActivity extends AppCompatActivity {
 
     private static final String GAME_STATE = "game_state";
 
-    private boolean myTurn = false;
-
     private volatile boolean success;
 
     private volatile int count = 0;
@@ -31,13 +29,12 @@ public class ConnectFourActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connect_four);
 
-        //TODO: Player 1 and 2 should correlate with the respective player on the server to avoid confusion
+        final Intent intent = getIntent();
+        final String user = intent.getExtras().get(WaitActivity.USERNAME).toString();
+
+        getConnectFourView().getConnectFour().setUsername(user);
+
         updateGame();
-
-        //decideTurn();
-
-        TextView initial_turn = findViewById(R.id.playerText);
-        initial_turn.setText(getResources().getString(R.string.playerText, getConnectFourView().getConnectFour().getCurrPlayerName()));
 
         /*
          * Restore any state
@@ -45,6 +42,12 @@ public class ConnectFourActivity extends AppCompatActivity {
         if (savedInstanceState != null) {
             getConnectFourView().setConnectFour((ConnectFour) savedInstanceState.getSerializable(GAME_STATE));
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        waitTurn();
     }
 
     private void updateGame() {
@@ -61,7 +64,7 @@ public class ConnectFourActivity extends AppCompatActivity {
                 String player2 = "";
 
                 boolean fail = stream == null;
-                if(!fail) {
+                if (!fail) {
                     try {
 
                         XmlPullParser xml = Xml.newPullParser();
@@ -70,7 +73,7 @@ public class ConnectFourActivity extends AppCompatActivity {
                         xml.nextTag();      // Advance to first tag
                         xml.require(XmlPullParser.START_TAG, null, "connect4");
                         String status = xml.getAttributeValue(null, "status");
-                        if(!status.equals("yes")) {
+                        if (!status.equals("yes")) {
                             fail = true;
                         }
 
@@ -78,14 +81,14 @@ public class ConnectFourActivity extends AppCompatActivity {
                         player1 = xml.getAttributeValue(null, "player1");
                         player2 = xml.getAttributeValue(null, "player2");
 
-                    } catch(IOException ex) {
+                    } catch (IOException ex) {
                         fail = true;
-                    } catch(XmlPullParserException ex) {
+                    } catch (XmlPullParserException ex) {
                         fail = true;
                     } finally {
                         try {
                             stream.close();
-                        } catch(IOException ex) {
+                        } catch (IOException ex) {
                         }
                     }
                 }
@@ -98,7 +101,7 @@ public class ConnectFourActivity extends AppCompatActivity {
 
                     @Override
                     public void run() {
-                        if(fail1) {
+                        if (fail1) {
                             Toast.makeText(view1.getContext(),
                                     "Error loading game state",
                                     Toast.LENGTH_SHORT).show();
@@ -114,36 +117,92 @@ public class ConnectFourActivity extends AppCompatActivity {
         }).start();
     }
 
-    public void decideTurn(){
+    public void waitTurn() {
+        final View view1 = (View) findViewById(R.id.playerText);
+
+        disableUI();
+
         final Timer timer = new Timer();
         final TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                String player1 = getConnectFourView().getConnectFour().getPlayer1Name();
                 final Cloud cloud = new Cloud();
-                //success = cloud.loadFromCloud();
-                if (success) {
-                    // Set game state
-                    setState(cloud,player1,timer);
+                InputStream stream = cloud.checkTurn(getConnectFourView().getConnectFour().getUsername());
+
+                String currPlayer = "";
+
+                boolean fail = stream == null;
+                if (!fail) {
+                    try {
+
+                        XmlPullParser xml = Xml.newPullParser();
+                        xml.setInput(stream, "UTF-8");
+
+                        xml.nextTag();      // Advance to first tag
+                        xml.require(XmlPullParser.START_TAG, null, "connect4");
+                        String status = xml.getAttributeValue(null, "status");
+                        if (!status.equals("yes")) {
+                            fail = true;
+                        }
+
+                        currPlayer = xml.getAttributeValue(null, "currPlayer");
+                    } catch (IOException ex) {
+                        fail = true;
+                    } catch (XmlPullParserException ex) {
+                        fail = true;
+                    } finally {
+                        try {
+                            stream.close();
+                        } catch (IOException ex) {
+                        }
+                    }
                 }
+
+                final boolean fail1 = fail;
+                final String currPlayer1 = currPlayer;
+                view1.post(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        if (fail1) {
+                            Toast.makeText(view1.getContext(),
+                                    "Error loading game state",
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+                            if (currPlayer1.equals(getConnectFourView().getConnectFour().getUsername())) {
+                                setState(timer);
+                            }
+                        }
+                    }
+                });
             }
         };
-        timer.schedule(task,1,1000);
+        timer.schedule(task, 1, 1000);
     }
 
-    public void setState(Cloud cloud, String p1Name, Timer timer){
+    public void setState(Timer timer) {
         //TODO: Need to figure out how to determine who's turn it is
-        int row = cloud.getRow();
-        int col = cloud.getColumn();
-        if (row != -1 && col != -1){
-            // A move has been made (values for row/col are not default)
-            getConnectFourView().getConnectFour().setPiece(getConnectFourView(),row,col);
-        }
-        else {
-            timer.cancel();
-            timer.purge();
-        }
+        updateGame();
+        enableUI();
+        timer.cancel();
+        timer.purge();
 
+    }
+
+    private void enableUI() {
+        findViewById(R.id.doneButton).setEnabled(true);
+        findViewById(R.id.undoButton).setEnabled(true);
+        findViewById(R.id.surrenderButton).setEnabled(true);
+
+        findViewById(R.id.doneButton).invalidate();
+    }
+
+    private void disableUI() {
+        findViewById(R.id.doneButton).setEnabled(false);
+        findViewById(R.id.undoButton).setEnabled(false);
+        findViewById(R.id.surrenderButton).setEnabled(false);
+
+        findViewById(R.id.doneButton).invalidate();
     }
 
     public void onSurrender(View view) {
@@ -152,24 +211,27 @@ public class ConnectFourActivity extends AppCompatActivity {
                 getConnectFourView().getConnectFour().getCurrPlayer());
     }
 
-    public void onDone(View view) {
+    public void onDone(final View view) {
+        final View view1 = view;
+
         if (!getConnectFourView().getConnectFour().endTurn()) {
             Toast.makeText(view.getContext(), R.string.turn_error, Toast.LENGTH_SHORT).show();
         } else {
-            TextView turn = findViewById(R.id.playerText);
-            turn.setText(getResources().getString(R.string.playerText, getConnectFourView().getConnectFour().getCurrPlayerName()));
-
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     final Cloud cloud = new Cloud();
-                    cloud.saveToCloud(getConnectFourView().getConnectFour().getCurrPlayerName(),
-                            getConnectFourView().getConnectFour().getMyColumn(),
-                            getConnectFourView().getConnectFour().getMyRow());
+                    success = cloud.saveToCloud(getConnectFourView().getConnectFour().getCurrPlayerInt(),
+                            getConnectFourView().getConnectFour().getUsername());
+
+                    view1.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            waitTurn();
+                        }
+                    });
                 }
             }).start();
-
-            turn.invalidate();
         }
         getConnectFourView().invalidate();
     }

@@ -27,7 +27,8 @@ public class Cloud {
     private static final String DISCONNECT = "https://webdev.cse.msu.edu/~dennis57/cse476/project2/disconnect-users.php";
     private static final String SAVE_STATE = "https://webdev.cse.msu.edu/~dennis57/cse476/project2/save-state.php";
     private static final String LOAD_STATE = "https://webdev.cse.msu.edu/~dennis57/cse476/project2/load-state.php";
-    
+    private static final String CHECK_TURN_URL = "https://webdev.cse.msu.edu/~dennis57/cse476/project2/check-turn.php";
+
     private static final String UTF8 = "UTF-8";
 
     private String currPlayer = "";
@@ -244,10 +245,8 @@ public class Cloud {
         }
     }
 
-    public boolean saveToCloud(String currPlayer,int col, int row){
-        String column = Integer.toString(col);
-        String myRow = Integer.toString(row);
-        String query = SAVE_STATE + "?user=" + currPlayer + "&magic=" + MAGIC + "&column=" + column + "&row=" + myRow;
+    public boolean saveToCloud(Integer currPlayer, String user){
+        String query = SAVE_STATE + "?currplayer=" + currPlayer.toString() + "&user=" + user + "&magic=" + MAGIC;
         InputStream stream = null;
 
         try {
@@ -274,7 +273,7 @@ public class Cloud {
                 xml2.require(XmlPullParser.START_TAG, null, "connect4");
 
                 String status = xml2.getAttributeValue(null, "status");
-                if(status.equals("")) {
+                if(!status.equals("yes")) {
                     return false;
                 }
 
@@ -304,6 +303,30 @@ public class Cloud {
 
     public InputStream loadFromCloud(){
         String query = LOAD_STATE + "?magic=" + MAGIC;
+        InputStream stream = null;
+
+        try {
+            URL url = new URL(query);
+
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+            int responseCode = conn.getResponseCode();
+
+            if (responseCode != HttpURLConnection.HTTP_OK) {
+                return null;
+            }
+
+            return conn.getInputStream();
+
+        } catch (MalformedURLException e) {
+            return null;
+        } catch (IOException ex) {
+            return null;
+        }
+    }
+
+    public InputStream checkTurn(String user) {
+        String query = CHECK_TURN_URL + "?magic=" + MAGIC;
         InputStream stream = null;
 
         try {

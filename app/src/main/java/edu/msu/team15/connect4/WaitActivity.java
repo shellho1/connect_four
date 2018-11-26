@@ -12,6 +12,7 @@ import java.util.TimerTask;
 
 public class WaitActivity extends AppCompatActivity {
 
+    public static final String USERNAME = "username";
     volatile boolean success;
     private String opponent = "";
 
@@ -59,6 +60,7 @@ public class WaitActivity extends AppCompatActivity {
 
     public void onStartGame(String user) {
         Intent intent = new Intent(this, ConnectFourActivity.class);
+        intent.putExtra(USERNAME, user);
         startActivity(intent);
         finish();
     }

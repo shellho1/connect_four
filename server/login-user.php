@@ -46,6 +46,11 @@ function getUser($pdo, $user, $password) {
             exit;
         }
 
+        // Start the PHP session system
+        session_start();
+
+        $_SESSION['user'] = $user;
+
         return $row['id'];
     }
 

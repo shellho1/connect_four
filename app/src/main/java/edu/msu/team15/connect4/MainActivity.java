@@ -22,6 +22,8 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.CookieHandler;
+import java.net.CookieManager;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -60,6 +62,9 @@ public class MainActivity extends AppCompatActivity {
         rememberChecked = settings.getBoolean(REMEMBER_CHECKED, false);
 
         updateUI();
+
+        CookieManager cookieManager = new CookieManager();
+        CookieHandler.setDefault(cookieManager);
     }
 
     /**
