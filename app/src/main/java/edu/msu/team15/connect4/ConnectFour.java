@@ -103,7 +103,11 @@ public class ConnectFour implements Serializable {
 
     private int myColumn = 0;
 
-    private boolean myTurn = false;
+    private boolean myTurn = true;
+
+    public void setMyTurn(boolean myTurn) {
+        this.myTurn = myTurn;
+    }
 
     private String username;
 
@@ -301,8 +305,10 @@ public class ConnectFour implements Serializable {
      * @param y y location for the touch, relative to the puzzle - 0 to 1 over the puzzle
      */
     private void onTouched(View view, float x, float y) {
-        dragging = new GamePiece(view, getCurrPlayer().color, x, y, gameScale);
-        view.invalidate();
+        if (myTurn) {
+            dragging = new GamePiece(view, getCurrPlayer().color, x, y, gameScale);
+            view.invalidate();
+        }
     }
 
     public void setPiece(View view, int row, int col){

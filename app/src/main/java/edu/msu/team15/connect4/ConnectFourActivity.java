@@ -110,6 +110,9 @@ public class ConnectFourActivity extends AppCompatActivity {
                             player_text.setText(getResources().getString(R.string.playerText, currPlayer1));
                             getConnectFourView().getConnectFour().setPlayer1Name(player_one);
                             getConnectFourView().getConnectFour().setPlayer2Name(player_two);
+                            getConnectFourView().getConnectFour().setCurrPlayer(currPlayer1.equals(player_one) ? 1 : 2);
+
+                            player_text.invalidate();
                         }
                     }
                 });
@@ -193,6 +196,7 @@ public class ConnectFourActivity extends AppCompatActivity {
         findViewById(R.id.doneButton).setEnabled(true);
         findViewById(R.id.undoButton).setEnabled(true);
         findViewById(R.id.surrenderButton).setEnabled(true);
+        getConnectFourView().getConnectFour().setMyTurn(true);
 
         findViewById(R.id.doneButton).invalidate();
     }
@@ -201,6 +205,7 @@ public class ConnectFourActivity extends AppCompatActivity {
         findViewById(R.id.doneButton).setEnabled(false);
         findViewById(R.id.undoButton).setEnabled(false);
         findViewById(R.id.surrenderButton).setEnabled(false);
+        getConnectFourView().getConnectFour().setMyTurn(false);
 
         findViewById(R.id.doneButton).invalidate();
     }
@@ -227,6 +232,7 @@ public class ConnectFourActivity extends AppCompatActivity {
                     view1.post(new Runnable() {
                         @Override
                         public void run() {
+                            updateGame();
                             waitTurn();
                         }
                     });
