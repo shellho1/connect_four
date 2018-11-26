@@ -83,26 +83,6 @@ public class ConnectFour implements Serializable {
 
     private float gameScale = 1;
 
-    private int myRow = 0;
-
-    public int getMyRow() {
-        return myRow;
-    }
-
-    public void setMyRow(int myRow) {
-        this.myRow = myRow;
-    }
-
-    public int getMyColumn() {
-        return myColumn;
-    }
-
-    public void setMyColumn(int myColumn) {
-        this.myColumn = myColumn;
-    }
-
-    private int myColumn = 0;
-
     private boolean myTurn = true;
 
     public void setMyTurn(boolean myTurn) {
@@ -383,8 +363,6 @@ public class ConnectFour implements Serializable {
                                 break;
                             default:
                                 board.get(col).get(openRow).setSpaceState(view, getCurrPlayer().color);
-                                setMyColumn(col);
-                                setMyRow(openRow);
                                 played = col;
                                 break;
                         }
@@ -545,6 +523,23 @@ public class ConnectFour implements Serializable {
     }
 
     public void endGame(Player winner, Player loser) {
+        Integer winNum;
+        if (player1.name.equals(winner.name)) {
+            winNum = 1;
+        } else {
+            winNum = 2;
+        }
+
+        final Integer winNum1 = winNum;
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                final Cloud cloud = new Cloud();
+                cloud.updateWin(winNum1, getUsername());
+            }
+        }).start();
+
         Intent intent = new Intent(context, WinnerScreenActivity.class);
         intent.putExtra(WINNER_NAME, winner.name);
         intent.putExtra(LOSER_NAME, loser.name);
@@ -552,7 +547,15 @@ public class ConnectFour implements Serializable {
         ((Activity) context).finish();
     }
 
-    private void endTieGame() {
+    public void endGame(String winner, String loser) {
+        Intent intent = new Intent(context, WinnerScreenActivity.class);
+        intent.putExtra(WINNER_NAME, winner);
+        intent.putExtra(LOSER_NAME, loser);
+        context.startActivity(intent);
+        ((Activity) context).finish();
+    }
+
+    public void endTieGame() {
         Intent intent = new Intent(context, TieScreenActivity.class);
         context.startActivity(intent);
         ((Activity) context).finish();

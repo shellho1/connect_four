@@ -137,6 +137,9 @@ public class ConnectFourActivity extends AppCompatActivity {
                 InputStream stream = cloud.checkTurn(getConnectFourView().getConnectFour().getUsername());
 
                 String currPlayer = "";
+                String winner = "";
+                String player1 = "";
+                String player2 = "";
 
                 boolean fail = stream == null;
                 if (!fail) {
@@ -153,6 +156,10 @@ public class ConnectFourActivity extends AppCompatActivity {
                         }
 
                         currPlayer = xml.getAttributeValue(null, "currPlayer");
+                        player1 = xml.getAttributeValue(null, "player1");
+                        player2 = xml.getAttributeValue(null, "player2");
+                        winner = xml.getAttributeValue(null, "winner");
+
                     } catch (IOException ex) {
                         fail = true;
                     } catch (XmlPullParserException ex) {
@@ -167,6 +174,9 @@ public class ConnectFourActivity extends AppCompatActivity {
 
                 final boolean fail1 = fail;
                 final String currPlayer1 = currPlayer;
+                final String player_one = player1;
+                final String player_two = player2;
+                final Integer winner1 = Integer.parseInt(winner);
                 view1.post(new Runnable() {
 
                     @Override
@@ -176,6 +186,9 @@ public class ConnectFourActivity extends AppCompatActivity {
                                     "Error loading game state",
                                     Toast.LENGTH_SHORT).show();
                         } else {
+                            if (winner1 != 0) {
+                                endGame(winner1, player_one, player_two);
+                            }
                             if (currPlayer1.equals(getConnectFourView().getConnectFour().getUsername())) {
                                 setState(timer);
                             }
@@ -185,6 +198,20 @@ public class ConnectFourActivity extends AppCompatActivity {
             }
         };
         timer.schedule(task, 1, 1000);
+    }
+
+    public void endGame(Integer winner, String player1, String player2) {
+        switch (winner) {
+            case 3:
+                getConnectFourView().getConnectFour().endTieGame();
+                break;
+            case 2:
+                getConnectFourView().getConnectFour().endGame(player2, player1);
+                break;
+            case 1:
+                getConnectFourView().getConnectFour().endGame(player1, player2);
+                break;
+        }
     }
 
     public void setState(Timer timer) {

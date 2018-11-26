@@ -24,5 +24,9 @@ if ($game['currPlayer'] == 1) {
     $username = $game['player2id'];
 }
 
-echo "<connect4 status='yes' currPlayer='$username' />";
+$winner = $game['winner'];
+$player1 = $game['player1id'];
+$player2 = $game['player2id'];
+
+echo "<connect4 status='yes' currPlayer='$username' player1='$player1' player2='$player2' winner='$winner' />";
 exit;
