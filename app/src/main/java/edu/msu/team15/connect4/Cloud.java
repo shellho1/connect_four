@@ -2,13 +2,16 @@ package edu.msu.team15.connect4;
 
 import android.content.Intent;
 import android.renderscript.ScriptGroup;
+import android.util.Log;
 import android.util.Xml;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -19,11 +22,11 @@ public class Cloud {
     // Login and Create User expect user, pw, and magic as get params
     private static final String LOGIN_URL = "https://webdev.cse.msu.edu/~dennis57/cse476/project2/login-user.php";
     private static final String CREATE_USER_URL = "https://webdev.cse.msu.edu/~dennis57/cse476/project2/create-user.php";
-    private static final String ADD_TO_GAME_URL = "https://webdev.cse.msu.edu/~shellho1/cse476/project2/add-user.php";
-    private static final String CHECK_OPPONENT = "https://webdev.cse.msu.edu/~shellho1/cse476/project2/check-opponent.php";
-    private static final String DISCONNECT = "https://webdev.cse.msu.edu/~shellho1/cse476/project2/disconnect-users.php";
-    private static final String SAVE_STATE = "https://webdev.cse.msu.edu/~shellho1/cse476/project2/save-state.php";
-    private static final String LOAD_STATE = "https://webdev.cse.msu.edu/~shellho1/cse476/project2/load-state.php";
+    private static final String ADD_TO_GAME_URL = "https://webdev.cse.msu.edu/~dennis57/cse476/project2/add-user.php";
+    private static final String CHECK_OPPONENT = "https://webdev.cse.msu.edu/~dennis57/cse476/project2/check-opponent.php";
+    private static final String DISCONNECT = "https://webdev.cse.msu.edu/~dennis57/cse476/project2/disconnect-users.php";
+    private static final String SAVE_STATE = "https://webdev.cse.msu.edu/~dennis57/cse476/project2/save-state.php";
+    private static final String LOAD_STATE = "https://webdev.cse.msu.edu/~dennis57/cse476/project2/load-state.php";
     
     private static final String UTF8 = "UTF-8";
 
@@ -299,7 +302,7 @@ public class Cloud {
         return true;
     }
 
-    public boolean loadFromCloud(){
+    public InputStream loadFromCloud(){
         String query = LOAD_STATE + "?magic=" + MAGIC;
         InputStream stream = null;
 
@@ -311,51 +314,16 @@ public class Cloud {
             int responseCode = conn.getResponseCode();
 
             if (responseCode != HttpURLConnection.HTTP_OK) {
-                return false;
+                return null;
             }
 
-            stream = conn.getInputStream();
-
-            /**
-             * Create an XML parser for the result
-             */
-            try {
-                XmlPullParser xml2 = Xml.newPullParser();
-                xml2.setInput(stream, UTF8);
-
-                xml2.nextTag();      // Advance to first tag
-                xml2.require(XmlPullParser.START_TAG, null, "connect4");
-
-                String status = xml2.getAttributeValue(null, "status");
-                if (status.equals("")) {
-                    return false;
-                }
-
-                currPlayer = xml2.getAttributeValue(null, "user");
-                row = Integer.parseInt(xml2.getAttributeValue(null, "row"));
-                column = Integer.parseInt(xml2.getAttributeValue(null, "col"));
-                // We are done
-            } catch (XmlPullParserException ex) {
-                return false;
-            } catch (IOException ex) {
-                return false;
-            }
+            return conn.getInputStream();
 
         } catch (MalformedURLException e) {
-            return false;
+            return null;
         } catch (IOException ex) {
-            return false;
-        } finally {
-            if (stream != null) {
-                try {
-                    stream.close();
-                } catch (IOException ex) {
-                    // Fail silently
-                }
-            }
+            return null;
         }
-
-        return true;
     }
 
     /**
@@ -377,6 +345,21 @@ public class Cloud {
             }
         } while(tag != XmlPullParser.END_TAG &&
                 tag != XmlPullParser.END_DOCUMENT);
+    }
+
+    public static void logStream(InputStream stream) {
+        BufferedReader reader = new BufferedReader(
+                new InputStreamReader(stream));
+
+        Log.e("476", "logStream: If you leave this in, code after will not work!");
+        try {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                Log.e("476", line);
+            }
+        } catch (IOException ex) {
+            return;
+        }
     }
 }
 

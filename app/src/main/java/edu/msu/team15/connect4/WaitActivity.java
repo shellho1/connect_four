@@ -59,9 +59,6 @@ public class WaitActivity extends AppCompatActivity {
 
     public void onStartGame(String user) {
         Intent intent = new Intent(this, ConnectFourActivity.class);
-        //shouldn't need these. should get this from the loading the state
-        intent.putExtra("PLAYER1_NAME", user);
-        intent.putExtra("PLAYER2_NAME", "plyr2");
         startActivity(intent);
         finish();
     }

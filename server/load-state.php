@@ -16,16 +16,16 @@ if (!isset($_GET['magic']) || $_GET['magic'] !=  "NechAtHa6RuzeR8x") {
 }
 
 $pdo = pdo_connect();
-$username = $pdo->query("SELECT username FROM connect4state");
-$row = $pdo->query("SELECT row FROM connect4state");
-$column = $pdo->query("SELECT col FROM connect4state");
+$game = $pdo->query("SELECT player1id, player2id, currPlayer, winner FROM connect4game")->fetch();
 
-$username = $username->fetch();
-$row = $row->fetch();
-$column = $column->fetch();
+if ($game['currPlayer'] == 1) {
+    $username = $game['player1id'];
+} else {
+    $username = $game['player2id'];
+}
 
-$username = $username['username'];
-$row = $row['row'];
-$column = $column['col'];
+$player1 = $game['player1id'];
+$player2 = $game['player2id'];
 
-echo "<connect4 status='yes' user=\"$username\" row=\"$row\" col=\"$column\" />";
+echo "<connect4 status='yes' player1='$player1' player2='$player2' currPlayer='$username' />";
+exit;
