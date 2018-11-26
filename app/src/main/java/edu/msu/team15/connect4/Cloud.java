@@ -245,8 +245,8 @@ public class Cloud {
         }
     }
 
-    public boolean saveToCloud(Integer currPlayer, String user){
-        String query = SAVE_STATE + "?currplayer=" + currPlayer.toString() + "&user=" + user + "&magic=" + MAGIC;
+    public boolean saveToCloud(Integer currPlayer, String user, String boardString){
+        String query = SAVE_STATE + "?currplayer=" + currPlayer.toString() + "&user=" + user + "&magic=" + MAGIC + "&boardstate='" + boardString + "'";
         InputStream stream = null;
 
         try {

@@ -10,14 +10,14 @@ require_once  "db.inc.php";
 
 echo '<?xml version="1.0" encoding="UTF-8" ?>';
 
-if(!isset($_GET['magic']) || !isset($_GET['user']) || $_GET['magic'] != "NechAtHa6RuzeR8x") {
+if(!isset($_GET['magic']) || !isset($_GET['user']) || !isset($_GET['boardstate']) || $_GET['magic'] != "NechAtHa6RuzeR8x") {
     echo '<connect4 status="no" msg="magic" />';
     exit;
 }
 
-process($_GET['user'], $_GET['currplayer']);
+process($_GET['user'], $_GET['currplayer'], $_GET['boardstate']);
 
-function process($username, $curr){
+function process($username, $curr, $boardState){
     $pdo = pdo_connect();
 
     $game = $pdo->query("SELECT player1id, player2id, currPlayer FROM connect4game")->fetch();
@@ -33,7 +33,7 @@ function process($username, $curr){
         exit;
     }
 
-    $query = "UPDATE connect4game SET currPlayer=$curr";
+    $query = "UPDATE connect4game SET currPlayer=$curr, boardState=$boardState";
     $pdo->query($query);
 
     if ($pdo){

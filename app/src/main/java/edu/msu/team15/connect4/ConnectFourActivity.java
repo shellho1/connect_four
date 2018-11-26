@@ -62,6 +62,7 @@ public class ConnectFourActivity extends AppCompatActivity {
                 String currPlayer = "";
                 String player1 = "";
                 String player2 = "";
+                String boardState = "";
 
                 boolean fail = stream == null;
                 if (!fail) {
@@ -80,6 +81,7 @@ public class ConnectFourActivity extends AppCompatActivity {
                         currPlayer = xml.getAttributeValue(null, "currPlayer");
                         player1 = xml.getAttributeValue(null, "player1");
                         player2 = xml.getAttributeValue(null, "player2");
+                        boardState = xml.getAttributeValue(null, "boardState");
 
                     } catch (IOException ex) {
                         fail = true;
@@ -97,6 +99,7 @@ public class ConnectFourActivity extends AppCompatActivity {
                 final String currPlayer1 = currPlayer;
                 final String player_one = player1;
                 final String player_two = player2;
+                final String boardState1 = boardState;
                 view1.post(new Runnable() {
 
                     @Override
@@ -111,8 +114,9 @@ public class ConnectFourActivity extends AppCompatActivity {
                             getConnectFourView().getConnectFour().setPlayer1Name(player_one);
                             getConnectFourView().getConnectFour().setPlayer2Name(player_two);
                             getConnectFourView().getConnectFour().setCurrPlayer(currPlayer1.equals(player_one) ? 1 : 2);
+                            getConnectFourView().getConnectFour().setBoard(player_text, boardState1);
 
-                            player_text.invalidate();
+                            findViewById(R.id.connectFourView).invalidate();
                         }
                     }
                 });
@@ -198,7 +202,7 @@ public class ConnectFourActivity extends AppCompatActivity {
         findViewById(R.id.surrenderButton).setEnabled(true);
         getConnectFourView().getConnectFour().setMyTurn(true);
 
-        findViewById(R.id.doneButton).invalidate();
+        findViewById(R.id.connectFourView).invalidate();
     }
 
     private void disableUI() {
@@ -227,7 +231,8 @@ public class ConnectFourActivity extends AppCompatActivity {
                 public void run() {
                     final Cloud cloud = new Cloud();
                     success = cloud.saveToCloud(getConnectFourView().getConnectFour().getCurrPlayerInt(),
-                            getConnectFourView().getConnectFour().getUsername());
+                            getConnectFourView().getConnectFour().getUsername(),
+                            getConnectFourView().getConnectFour().getBoardString());
 
                     view1.post(new Runnable() {
                         @Override

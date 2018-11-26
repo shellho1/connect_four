@@ -130,6 +130,51 @@ public class ConnectFour implements Serializable {
         }
     }
 
+    public void setBoard(View view, String boardString) {
+        if (boardString.length() < 42) {
+            return;
+        }
+        for (Integer i = 0; i < 42; i++) {
+            switch (boardString.charAt(i)) {
+                case '1':
+                    board.get(i / NUM_ROWS).get(i % NUM_ROWS).setSpaceState(view, Space.State.GREEN);
+                    break;
+                case '2':
+                    board.get(i / NUM_ROWS).get(i % NUM_ROWS).setSpaceState(view, Space.State.WHITE);
+                    break;
+                default:
+                    board.get(i / NUM_ROWS).get(i % NUM_ROWS).setSpaceState(view, Space.State.NONE);
+                    break;
+            }
+        }
+
+        view.invalidate();
+    }
+
+    public String getBoardString() {
+        StringBuilder boardString = new StringBuilder();
+
+        for (ArrayList<Space> col : board) {
+            for (Space space : col) {
+                switch (space.getState()) {
+                    case GREEN:
+                        boardString.append("1");
+                        break;
+                    case WHITE:
+                        boardString.append("2");
+                        break;
+                    case NONE:
+                        boardString.append("0");
+                        break;
+                }
+            }
+        }
+
+        Log.i("BOARD", boardString.toString());
+
+        return boardString.toString();
+    }
+
     public void draw(Canvas canvas) {
         int wid = canvas.getWidth();
         int hit = canvas.getHeight();
@@ -311,7 +356,7 @@ public class ConnectFour implements Serializable {
         }
     }
 
-    public void setPiece(View view, int row, int col){
+    public void setPiece(View view, int row, int col) {
         board.get(col).get(row).setSpaceState(view, getCurrPlayer().color);
     }
 
@@ -517,9 +562,13 @@ public class ConnectFour implements Serializable {
         return currPlayer == 1 ? player1 : player2;
     }
 
-    public Integer getCurrPlayerInt() { return currPlayer; }
+    public Integer getCurrPlayerInt() {
+        return currPlayer;
+    }
 
-    public void setCurrPlayer(int user) { currPlayer = user; }
+    public void setCurrPlayer(int user) {
+        currPlayer = user;
+    }
 
     public Player getOtherPlayer() {
         return currPlayer != 1 ? player1 : player2;
@@ -532,12 +581,18 @@ public class ConnectFour implements Serializable {
     public void setPlayer1Name(String name) {
         player1.name = name;
     }
-    public String getPlayer1Name() { return player1.name; }
+
+    public String getPlayer1Name() {
+        return player1.name;
+    }
 
     public void setPlayer2Name(String name) {
         player2.name = name;
     }
-    public String getPlayer2Name() { return player2.name; }
+
+    public String getPlayer2Name() {
+        return player2.name;
+    }
 
     private class Player implements Serializable {
         public String name = null;
