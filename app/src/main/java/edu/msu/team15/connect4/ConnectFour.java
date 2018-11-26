@@ -548,6 +548,14 @@ public class ConnectFour implements Serializable {
     }
 
     public void endGame(String winner, String loser) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                final Cloud cloud = new Cloud();
+                cloud.Disconnect();
+            }
+        }).start();
+
         Intent intent = new Intent(context, WinnerScreenActivity.class);
         intent.putExtra(WINNER_NAME, winner);
         intent.putExtra(LOSER_NAME, loser);

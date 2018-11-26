@@ -176,7 +176,13 @@ public class ConnectFourActivity extends AppCompatActivity {
                 final String currPlayer1 = currPlayer;
                 final String player_one = player1;
                 final String player_two = player2;
-                final Integer winner1 = Integer.parseInt(winner);
+                Integer winner2;
+                try {
+                    winner2 = Integer.parseInt(winner);
+                } catch (NumberFormatException ex) {
+                    winner2 = 0;
+                }
+                final Integer winner1 = winner2;
                 view1.post(new Runnable() {
 
                     @Override
@@ -188,6 +194,8 @@ public class ConnectFourActivity extends AppCompatActivity {
                         } else {
                             if (winner1 != 0) {
                                 endGame(winner1, player_one, player_two);
+                                timer.cancel();
+                                timer.purge();
                             }
                             if (currPlayer1.equals(getConnectFourView().getConnectFour().getUsername())) {
                                 setState(timer);
