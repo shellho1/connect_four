@@ -20,6 +20,9 @@ public class WaitActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wait);
 
+        Button start = (Button)findViewById(R.id.StartGamebutton);
+        start.setEnabled(false);
+
         final Intent intent = getIntent();
         final String user = intent.getExtras().get("p1User").toString();
 
@@ -30,6 +33,7 @@ public class WaitActivity extends AppCompatActivity {
                 final InputStream success = cloud.addToGame(user);
             }
         }).start();
+
 
         // Poll for opponent
         final Timer timer = new Timer();
@@ -46,8 +50,9 @@ public class WaitActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                               Button start = (Button)findViewById(R.id.StartGamebutton);
-                               start.setOnClickListener(new View.OnClickListener() {
+                                Button start = (Button)findViewById(R.id.StartGamebutton);
+                                start.setEnabled(true);
+                                start.setOnClickListener(new View.OnClickListener() {
                                    @Override
                                    public void onClick(View view) {
                                        onStartGame(view,user,opponent);
