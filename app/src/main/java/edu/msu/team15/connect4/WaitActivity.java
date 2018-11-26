@@ -20,7 +20,7 @@ public class WaitActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wait);
 
-        Button start = (Button)findViewById(R.id.StartGamebutton);
+        Button start = (Button) findViewById(R.id.StartGamebutton);
         start.setEnabled(false);
 
         final Intent intent = getIntent();
@@ -30,7 +30,7 @@ public class WaitActivity extends AppCompatActivity {
             @Override
             public void run() {
                 Cloud cloud = new Cloud();
-                final InputStream success = cloud.addToGame(user);
+                final boolean success = cloud.addToGame(user);
             }
         }).start();
 
@@ -42,40 +42,38 @@ public class WaitActivity extends AppCompatActivity {
             public void run() {
                 final Cloud cloud = new Cloud();
                 success = cloud.checkForOpponent(user);
-                if (success){
-                    opponent = cloud.getOpponent();
-                    if (opponent != ""){
-                        timer.cancel();
-                        timer.purge();
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Button start = (Button)findViewById(R.id.StartGamebutton);
-                                start.setEnabled(true);
-                                start.setOnClickListener(new View.OnClickListener() {
-                                   @Override
-                                   public void onClick(View view) {
-                                       onStartGame(view,user,opponent);
-                                   }
-                               });
-                            }
-                        });
-                    }
+                if (success) {
+                    timer.cancel();
+                    timer.purge();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            onStartGame(user);
+                        }
+                    });
                 }
             }
         };
-        timer.schedule(task,1,1000);
+        timer.schedule(task, 1, 1000);
     }
 
-    public void onStartGame(View view,String user,String opponent){
+    public void onStartGame(String user) {
         Intent intent = new Intent(this, ConnectFourActivity.class);
-        intent.putExtra("PLAYER1_NAME",user);
-        intent.putExtra("PLAYER2_NAME",opponent);
+        //shouldn't need these. should get this from the loading the state
+        intent.putExtra("PLAYER1_NAME", user);
+        intent.putExtra("PLAYER2_NAME", "plyr2");
         startActivity(intent);
         finish();
     }
 
     public void onCancel(View view) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Cloud cloud = new Cloud();
+                cloud.Disconnect();
+            }
+        }).start();
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();

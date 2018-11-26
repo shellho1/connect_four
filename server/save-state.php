@@ -31,5 +31,4 @@ function process($username, $row, $column){
         echo '<connect4 status="no" />';
         exit;
     }
-
 }

@@ -27,8 +27,6 @@ public class Cloud {
     
     private static final String UTF8 = "UTF-8";
 
-    private String message = "";
-    private String opponent = "";
     private String currPlayer = "";
     private int row = -1;
     private int column = -1;
@@ -81,10 +79,10 @@ public class Cloud {
         }
     }
 
-    public InputStream addToGame(String user){
+    public boolean addToGame(String user){
         String query = ADD_TO_GAME_URL + "?user=" + user + "&magic=" + MAGIC;
 
-
+        InputStream stream = null;
         try {
             URL url = new URL(query);
 
@@ -92,17 +90,47 @@ public class Cloud {
 
             int responseCode = conn.getResponseCode();
             if(responseCode != HttpURLConnection.HTTP_OK) {
-                return null;
+                return false;
             }
 
-            return conn.getInputStream();
+            stream = conn.getInputStream();
+
+            /*
+             * Create an XML parser for the result
+             */
+            try {
+                XmlPullParser xml2 = Xml.newPullParser();
+                xml2.setInput(stream, UTF8);
+
+                xml2.nextTag();      // Advance to first tag
+                xml2.require(XmlPullParser.START_TAG, null, "connect4");
+
+                String status = xml2.getAttributeValue(null, "status");
+                if(status.equals("no")) {
+                    return false;
+                }
+
+                // We are done
+            } catch(XmlPullParserException ex) {
+                return false;
+            } catch(IOException ex) {
+                return false;
+            }
 
         } catch (MalformedURLException e) {
-            return null;
+            return false;
         } catch (IOException ex) {
-            return null;
+            return false;
+        } finally {
+            if(stream != null) {
+                try {
+                    stream.close();
+                } catch(IOException ex) {
+                    // Fail silently
+                }
+            }
         }
-
+        return true;
     }
 
     public Boolean checkForOpponent(String username){
@@ -120,7 +148,7 @@ public class Cloud {
 
             stream = conn.getInputStream();
 
-            /**
+            /*
              * Create an XML parser for the result
              */
             try {
@@ -131,14 +159,15 @@ public class Cloud {
                 xml2.require(XmlPullParser.START_TAG, null, "connect4");
 
                 String status = xml2.getAttributeValue(null, "status");
-                message = xml2.getAttributeValue(null, "message");
-                if(status.equals("")) {
+                String message = xml2.getAttributeValue(null, "message");
+                if(status.equals("no")) {
                     return false;
                 }
 
-                if (message.equals("start"))
+                if (!message.equals("start"))
                 {
-                    setOpponent(xml2.getAttributeValue(null, "opponent"));
+                    return false;
+                    //setOpponent(xml2.getAttributeValue(null, "opponent"));
                 }
 
                 // We are done
@@ -163,14 +192,6 @@ public class Cloud {
         }
 
         return true;
-    }
-
-    void setOpponent(String op){
-        this.opponent = op;
-    }
-
-    public String getOpponent() {
-        return opponent;
     }
 
     public InputStream Disconnect(){

@@ -32,7 +32,6 @@ function process($username){
     $player1 = $player1->fetch();
     $player2 = $player2->fetch();
 
-    $player2 = $player2['player2id'];
     if ($player1['player1id'] != NULL and $player2['player2id'] != NULL){
 
         init_game($pdo,$player2);

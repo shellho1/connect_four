@@ -39,7 +39,7 @@ function process($username) {
             echo '<connect4 status="no" msg="failed to add user to game" />';
             exit;
         }
-        echo '<connect4 player1=\"userQ\" />';
+        echo '<connect4 status="yes" player1=\"$userQ\" />';
         exit;
     } else {
         // Player 1 slot has already been filled so fill player 2 slot
@@ -49,7 +49,7 @@ function process($username) {
             echo '<connect4 status="no" msg="failed to add user to game" />';
             exit;
         }
-        echo '<connect4 player2=\"userQ\" />';
+        echo '<connect4 status="yes" player2=\"$userQ\" />';
         exit;
     }
 }
