@@ -13,6 +13,8 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -140,6 +142,7 @@ public class ConnectFourActivity extends AppCompatActivity {
                 String winner = "";
                 String player1 = "";
                 String player2 = "";
+                Long timestamp;
 
                 boolean fail = stream == null;
                 if (!fail) {
@@ -159,6 +162,7 @@ public class ConnectFourActivity extends AppCompatActivity {
                         player1 = xml.getAttributeValue(null, "player1");
                         player2 = xml.getAttributeValue(null, "player2");
                         winner = xml.getAttributeValue(null, "winner");
+                        timestamp = Long.valueOf(xml.getAttributeValue(null, "time"));
 
                     } catch (IOException ex) {
                         fail = true;
@@ -170,6 +174,15 @@ public class ConnectFourActivity extends AppCompatActivity {
                         } catch (IOException ex) {
                         }
                     }
+                }
+
+                Date currentTime = Calendar.getInstance().getTime();
+                if ( currentTime - timestamp > 30000)
+                {
+                        endGame(winner, player1, player2);
+                        Intent intent = new Intent(this, LostConnectionActivity.class);
+                        intent.putExtra("username",getConnectFourView().getConnectFour().getUsername());
+                        startActivity(intent);
                 }
 
                 final boolean fail1 = fail;

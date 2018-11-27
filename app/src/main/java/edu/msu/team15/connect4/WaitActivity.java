@@ -21,9 +21,6 @@ public class WaitActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wait);
 
-        Button start = (Button) findViewById(R.id.StartGamebutton);
-        start.setEnabled(false);
-
         final Intent intent = getIntent();
         final String user = intent.getExtras().get("p1User").toString();
 
