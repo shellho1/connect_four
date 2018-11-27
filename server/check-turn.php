@@ -16,7 +16,7 @@ if (!isset($_GET['magic']) || $_GET['magic'] !=  "NechAtHa6RuzeR8x") {
 }
 
 $pdo = pdo_connect();
-$game = $pdo->query("SELECT player1id, player2id, currPlayer, winner FROM connect4game")->fetch();
+$game = $pdo->query("SELECT player1id, player2id, currPlayer, winner, timestamp FROM connect4game")->fetch();
 
 if ($game['currPlayer'] == 1) {
     $username = $game['player1id'];
@@ -27,6 +27,7 @@ if ($game['currPlayer'] == 1) {
 $winner = $game['winner'];
 $player1 = $game['player1id'];
 $player2 = $game['player2id'];
+$timestamp = $game['timestamp'];
 
-echo "<connect4 status='yes' currPlayer='$username' player1='$player1' player2='$player2' winner='$winner' />";
+echo "<connect4 status='yes' currPlayer='$username' player1='$player1' player2='$player2' winner='$winner' timestamp=$timestamp />";
 exit;

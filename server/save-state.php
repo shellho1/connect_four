@@ -33,7 +33,9 @@ function process($username, $curr, $boardState){
         exit;
     }
 
-    $query = "UPDATE connect4game SET currPlayer=$curr, boardState=$boardState";
+    $time = time();
+
+    $query = "UPDATE connect4game SET currPlayer=$curr, boardState=$boardState, timestamp=$time";
     $pdo->query($query);
 
     if ($pdo){
