@@ -29,5 +29,7 @@ $player2 = $game['player2id'];
 
 $boardState = $game['boardState'];
 
-echo "<connect4 status='yes' player1='$player1' player2='$player2' currPlayer='$username' boardState='$boardState' />";
+$winner = $game['winner'];
+
+echo "<connect4 status='yes' player1='$player1' player2='$player2' currPlayer='$username' boardState='$boardState' winner='$winner' />";
 exit;

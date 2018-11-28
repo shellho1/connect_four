@@ -28,6 +28,20 @@ function process($username) {
 
     $userQ = $pdo->quote($username);
 
+    $queryTime = "SELECT timestamp FROM connect4game";
+    $time = $pdo->query($queryTime)->fetch()['timestamp'];
+    $time = strtotime($time);
+
+    if ($time + 30 < time()) {
+        $query = "TRUNCATE TABLE connect4game";
+        $disconnect = $pdo->query($query);
+
+        if (!$disconnect) {
+            echo '<connect4 status="no" msg="failed to add user to game" />';
+            exit;
+        }
+    }
+
     $queryPlayer1 = "SELECT player1id FROM connect4game";
     $player1 = $pdo->query($queryPlayer1);
     $player1 = $player1->fetch();
@@ -39,7 +53,7 @@ function process($username) {
             echo '<connect4 status="no" msg="failed to add user to game" />';
             exit;
         }
-        echo '<connect4 status="yes" player1=\"$userQ\" />';
+        echo '<connect4 status="yes"/>';
         exit;
     } else {
         // Player 1 slot has already been filled so fill player 2 slot
@@ -49,7 +63,7 @@ function process($username) {
             echo '<connect4 status="no" msg="failed to add user to game" />';
             exit;
         }
-        echo '<connect4 status="yes" player2=\"$userQ\" />';
+        echo '<connect4 status="yes"/>';
         exit;
     }
 }

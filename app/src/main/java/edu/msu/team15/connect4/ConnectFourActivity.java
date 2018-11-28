@@ -3,6 +3,7 @@ package edu.msu.team15.connect4;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Xml;
 import android.view.View;
 import android.widget.TextView;
@@ -13,8 +14,11 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -142,7 +146,7 @@ public class ConnectFourActivity extends AppCompatActivity {
                 String winner = "";
                 String player1 = "";
                 String player2 = "";
-                Long timestamp = null;
+                Long timestamp = Calendar.getInstance().getTime().getTime();
 
                 boolean fail = stream == null;
                 if (!fail) {
@@ -162,11 +166,16 @@ public class ConnectFourActivity extends AppCompatActivity {
                         player1 = xml.getAttributeValue(null, "player1");
                         player2 = xml.getAttributeValue(null, "player2");
                         winner = xml.getAttributeValue(null, "winner");
-                        timestamp = Long.valueOf(xml.getAttributeValue(null, "time"));
+
+                        SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        Date d = parser.parse(xml.getAttributeValue(null, "timestamp"));
+                        timestamp = d.getTime();
 
                     } catch (IOException ex) {
                         fail = true;
                     } catch (XmlPullParserException ex) {
+                        fail = true;
+                    } catch (ParseException e) {
                         fail = true;
                     } finally {
                         try {
@@ -176,13 +185,11 @@ public class ConnectFourActivity extends AppCompatActivity {
                     }
                 }
 
-                final Date currentTime = Calendar.getInstance().getTime();
-                final long timeStamp = timestamp;
-
                 final boolean fail1 = fail;
                 final String currPlayer1 = currPlayer;
                 final String player_one = player1;
                 final String player_two = player2;
+                final Long timestamp1 = timestamp;
                 Integer winner2;
                 try {
                     winner2 = Integer.parseInt(winner);
@@ -196,7 +203,7 @@ public class ConnectFourActivity extends AppCompatActivity {
                     public void run() {
                         if (fail1) {
                             Toast.makeText(view1.getContext(),
-                                    "Error loading game state",
+                                    "Error waiting turn",
                                     Toast.LENGTH_SHORT).show();
                         } else {
                             if (winner1 != 0) {
@@ -204,14 +211,17 @@ public class ConnectFourActivity extends AppCompatActivity {
                                 timer.cancel();
                                 timer.purge();
                             }
+
+                            Date currentTime = Calendar.getInstance().getTime();
+                            if ( currentTime.getTime() - timestamp1 > 30000)
+                            {
+                                endGame(getConnectFourView().getConnectFour().getUsername().equals(player_one) ? 1 : 2,
+                                        player_one, player_two);
+                            }
+
                             if (currPlayer1.equals(getConnectFourView().getConnectFour().getUsername())) {
                                 setState(timer);
                             }
-                        }
-
-                        if (currentTime.getTime() - timeStamp > 30000)
-                        {
-                            endGame(winner1 == 1 ? 2 : 1, player_one, player_two);
                         }
                     }
                 });

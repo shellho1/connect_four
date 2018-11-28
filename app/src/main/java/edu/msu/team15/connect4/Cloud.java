@@ -138,9 +138,8 @@ public class Cloud {
         return true;
     }
 
-    public Boolean checkForOpponent(String username){
+    public InputStream checkForOpponent(String username){
         String query = CHECK_OPPONENT + "?user=" + username + "&magic=" + MAGIC;
-        InputStream stream = null;
         try {
             URL url = new URL(query);
 
@@ -148,55 +147,16 @@ public class Cloud {
 
             int responseCode = conn.getResponseCode();
             if(responseCode != HttpURLConnection.HTTP_OK) {
-                return false;
+                return null;
             }
 
-            stream = conn.getInputStream();
-
-            /*
-             * Create an XML parser for the result
-             */
-            try {
-                XmlPullParser xml2 = Xml.newPullParser();
-                xml2.setInput(stream, UTF8);
-
-                xml2.nextTag();      // Advance to first tag
-                xml2.require(XmlPullParser.START_TAG, null, "connect4");
-
-                String status = xml2.getAttributeValue(null, "status");
-                String message = xml2.getAttributeValue(null, "message");
-                if(status.equals("no")) {
-                    return false;
-                }
-
-                if (!message.equals("start"))
-                {
-                    return false;
-                    //setOpponent(xml2.getAttributeValue(null, "opponent"));
-                }
-
-                // We are done
-            } catch(XmlPullParserException ex) {
-                return false;
-            } catch(IOException ex) {
-                return false;
-            }
+            return conn.getInputStream();
 
         } catch (MalformedURLException e) {
-            return false;
+            return null;
         } catch (IOException ex) {
-            return false;
-        } finally {
-            if(stream != null) {
-                try {
-                    stream.close();
-                } catch(IOException ex) {
-                    // Fail silently
-                }
-            }
+            return null;
         }
-
-        return true;
     }
 
     public InputStream Disconnect(){

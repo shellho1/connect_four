@@ -26,37 +26,28 @@ function process($username){
     // Connect to the database
     $pdo = pdo_connect();
 
-    $player1 = $pdo->query("SELECT player1id FROM connect4game");
-    $player2 = $pdo->query("SELECT player2id FROM connect4game");
+    $query = $pdo->query("SELECT player1id, player2id, timestamp FROM connect4game")->fetch();
 
-    $player1 = $player1->fetch();
-    $player2 = $player2->fetch();
+    $player1 = $query['player1id'];
+    $player2 = $query['player2id'];
+    $timestamp = $query['timestamp'];
 
-    if ($player1['player1id'] != NULL and $player2['player2id'] != NULL){
+    if ($player1 != NULL and $player2 != NULL){
 
-        init_game($pdo,$player2);
-
-        if ($player1['player1id'] == $username){
-            $player2 = $player2['player2id'];
+        if ($player1 == $username){
             echo "<connect4 status='yes' message='start' opponent=\"$player2\"/>";
         }
         else {
-            $player1 = $player1['player1id'];
             echo "<connect4 status='yes' message='start' opponent=\"$player1\"/>";
         }
+        exit;
+    }
+    else if (time() - strtotime($timestamp) > 30) {
+        echo "<connect4 status='yes' message='timeout'/>";
         exit;
     }
     else {
         echo "<connect4 status='yes' message='needPlayer'/>";
         exit;
     }
-    exit;
-
-}
-
-function init_game($pdo,$player2){
-    $reset = "TRUNCATE TABLE connect4state";
-    $default = "INSERT INTO connect4state(username,row,col) VALUES(\"$player2\",-1,-1)";
-    $pdo->query($reset);
-    $pdo->query($default);
 }
