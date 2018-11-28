@@ -142,7 +142,7 @@ public class ConnectFourActivity extends AppCompatActivity {
                 String winner = "";
                 String player1 = "";
                 String player2 = "";
-                Long timestamp;
+                Long timestamp = null;
 
                 boolean fail = stream == null;
                 if (!fail) {
@@ -176,14 +176,8 @@ public class ConnectFourActivity extends AppCompatActivity {
                     }
                 }
 
-                Date currentTime = Calendar.getInstance().getTime();
-                if ( currentTime - timestamp > 30000)
-                {
-                        endGame(winner, player1, player2);
-                        Intent intent = new Intent(this, LostConnectionActivity.class);
-                        intent.putExtra("username",getConnectFourView().getConnectFour().getUsername());
-                        startActivity(intent);
-                }
+                final Date currentTime = Calendar.getInstance().getTime();
+                final long timeStamp = timestamp;
 
                 final boolean fail1 = fail;
                 final String currPlayer1 = currPlayer;
@@ -213,6 +207,11 @@ public class ConnectFourActivity extends AppCompatActivity {
                             if (currPlayer1.equals(getConnectFourView().getConnectFour().getUsername())) {
                                 setState(timer);
                             }
+                        }
+
+                        if (currentTime.getTime() - timeStamp > 30000)
+                        {
+                            endGame(winner1 == 1 ? 2 : 1, player_one, player_two);
                         }
                     }
                 });
