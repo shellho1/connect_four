@@ -37,6 +37,14 @@ function getUser($pdo, $user, $password) {
     $userQ = $pdo->quote($user);
     $query = "SELECT id, password from connect4user where user=$userQ";
 
+    $query2 = "SELECT player1id, player2id FROM connect4game";
+    $players = $pdo->query($query2)->fetch();
+
+    if ($players['player1id'] != NULL && $players['player2id'] != NULL) {
+        echo '<connect4 status="no" msg="busy" />';
+        exit;
+    }
+
     $rows = $pdo->query($query);
     if($row = $rows->fetch()) {
         // We found the record in the database

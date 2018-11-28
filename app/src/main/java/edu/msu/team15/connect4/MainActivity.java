@@ -109,6 +109,8 @@ public class MainActivity extends AppCompatActivity {
                 final Cloud cloud = new Cloud();
                 InputStream stream = cloud.loginUser(username,password);
 
+                String message = "";
+
                 // Test for an error
                 boolean fail = stream == null;
                 if(!fail) {
@@ -124,6 +126,8 @@ public class MainActivity extends AppCompatActivity {
                             fail = true;
                         }
 
+                        message = xml.getAttributeValue(null, "msg");
+
                     } catch(IOException ex) {
                         fail = true;
                     } catch(XmlPullParserException ex) {
@@ -137,14 +141,21 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 final boolean fail1 = fail;
+                final String message1 = message;
                 view1.post(new Runnable() {
 
                     @Override
                     public void run() {
                         if(fail1) {
-                            Toast.makeText(view1.getContext(),
-                                    R.string.login_user_error,
-                                    Toast.LENGTH_SHORT).show();
+                            if (message1.equals("busy")) {
+                                Toast.makeText(view1.getContext(),
+                                        R.string.busy_error,
+                                        Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(view1.getContext(),
+                                        R.string.login_user_error,
+                                        Toast.LENGTH_SHORT).show();
+                            }
                         } else {
                             Intent intent = new Intent(view1.getContext(), WaitActivity.class);
                             intent.putExtra("p1User",username);

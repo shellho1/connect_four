@@ -42,7 +42,7 @@ function process($username) {
         }
     }
 
-    $queryPlayer1 = "SELECT player1id FROM connect4game";
+    $queryPlayer1 = "SELECT player1id, player2id FROM connect4game";
     $player1 = $pdo->query($queryPlayer1);
     $player1 = $player1->fetch();
     if ($player1['player1id'] == NULL) {

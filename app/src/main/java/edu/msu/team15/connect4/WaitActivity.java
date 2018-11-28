@@ -37,6 +37,17 @@ public class WaitActivity extends AppCompatActivity {
             public void run() {
                 Cloud cloud = new Cloud();
                 final boolean success = cloud.addToGame(user);
+
+                if (!success) {
+                    view.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent intent = new Intent(view.getContext(), MainActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    });
+                }
             }
         });
         t.start();

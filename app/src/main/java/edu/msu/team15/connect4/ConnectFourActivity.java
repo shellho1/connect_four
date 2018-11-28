@@ -245,7 +245,6 @@ public class ConnectFourActivity extends AppCompatActivity {
     }
 
     public void setState(Timer timer) {
-        //TODO: Need to figure out how to determine who's turn it is
         updateGame();
         enableUI();
         timer.cancel();
