@@ -1,11 +1,10 @@
 package edu.msu.team15.connect4;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Xml;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -13,6 +12,7 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -28,7 +28,7 @@ public class WaitActivity extends AppCompatActivity {
         setContentView(R.layout.activity_wait);
 
         final Intent intent = getIntent();
-        final String user = intent.getExtras().get("p1User").toString();
+        final String user = Objects.requireNonNull(Objects.requireNonNull(intent.getExtras()).get("p1User")).toString();
 
         final View view = findViewById(R.id.progressBar);
 

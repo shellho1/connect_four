@@ -1,17 +1,12 @@
 package edu.msu.team15.connect4;
 
-import android.content.Intent;
-import android.renderscript.ScriptGroup;
-import android.util.Log;
 import android.util.Xml;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -31,35 +26,6 @@ public class Cloud {
     private static final String UPDATE_WIN = "https://webdev.cse.msu.edu/~dennis57/cse476/project2/update-win.php";
 
     private static final String UTF8 = "UTF-8";
-
-    private String currPlayer = "";
-    private int row = -1;
-    private int column = -1;
-
-    public String getCurrPlayer() {
-        return currPlayer;
-    }
-
-    public void setCurrPlayer(String currPlayer) {
-        this.currPlayer = currPlayer;
-    }
-
-    public int getRow() {
-        return row;
-    }
-
-    public void setRow(int row) {
-        this.row = row;
-    }
-
-    public int getColumn() {
-        return column;
-    }
-
-    public void setColumn(int column) {
-        this.column = column;
-    }
-
 
     public InputStream loginUser(final String username, final String password) {
         // Create a get query
@@ -223,7 +189,7 @@ public class Cloud {
 
             stream = conn.getInputStream();
 
-            /**
+            /*
              * Create an XML parser for the result
              */
             try {
@@ -327,7 +293,7 @@ public class Cloud {
 
             stream = conn.getInputStream();
 
-            /**
+            /*
              * Create an XML parser for the result
              */
             try {
@@ -373,7 +339,7 @@ public class Cloud {
      * @throws IOException throws io error
      * @throws XmlPullParserException throws xml exception
      */
-    public static void skipToEndTag(XmlPullParser xml)
+    private static void skipToEndTag(XmlPullParser xml)
             throws IOException, XmlPullParserException {
         int tag;
         do
@@ -385,21 +351,6 @@ public class Cloud {
             }
         } while(tag != XmlPullParser.END_TAG &&
                 tag != XmlPullParser.END_DOCUMENT);
-    }
-
-    public static void logStream(InputStream stream) {
-        BufferedReader reader = new BufferedReader(
-                new InputStreamReader(stream));
-
-        Log.e("476", "logStream: If you leave this in, code after will not work!");
-        try {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                Log.e("476", line);
-            }
-        } catch (IOException ex) {
-            return;
-        }
     }
 }
 

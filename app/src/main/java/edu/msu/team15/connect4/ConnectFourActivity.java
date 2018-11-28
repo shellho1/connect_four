@@ -1,9 +1,8 @@
 package edu.msu.team15.connect4;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Xml;
 import android.view.View;
 import android.widget.TextView;
@@ -19,6 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -26,17 +26,13 @@ public class ConnectFourActivity extends AppCompatActivity {
 
     private static final String GAME_STATE = "game_state";
 
-    private volatile boolean success;
-
-    private volatile int count = 0;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connect_four);
 
         final Intent intent = getIntent();
-        final String user = intent.getExtras().get(WaitActivity.USERNAME).toString();
+        final String user = Objects.requireNonNull(Objects.requireNonNull(intent.getExtras()).get(WaitActivity.USERNAME)).toString();
 
         getConnectFourView().getConnectFour().setUsername(user);
 
@@ -57,7 +53,7 @@ public class ConnectFourActivity extends AppCompatActivity {
     }
 
     private void updateGame() {
-        final View view1 = (View) findViewById(R.id.playerText);
+        final View view1 = findViewById(R.id.playerText);
 
         new Thread(new Runnable() {
             @Override
@@ -130,8 +126,8 @@ public class ConnectFourActivity extends AppCompatActivity {
         }).start();
     }
 
-    public void waitTurn() {
-        final View view1 = (View) findViewById(R.id.playerText);
+    private void waitTurn() {
+        final View view1 = findViewById(R.id.playerText);
 
         disableUI();
 
@@ -167,7 +163,7 @@ public class ConnectFourActivity extends AppCompatActivity {
                         player2 = xml.getAttributeValue(null, "player2");
                         winner = xml.getAttributeValue(null, "winner");
 
-                        SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
                         Date d = parser.parse(xml.getAttributeValue(null, "timestamp"));
                         timestamp = d.getTime();
 
@@ -230,7 +226,7 @@ public class ConnectFourActivity extends AppCompatActivity {
         timer.schedule(task, 1, 1000);
     }
 
-    public void endGame(Integer winner, String player1, String player2) {
+    private void endGame(Integer winner, String player1, String player2) {
         switch (winner) {
             case 3:
                 getConnectFourView().getConnectFour().endTieGame();
@@ -244,7 +240,7 @@ public class ConnectFourActivity extends AppCompatActivity {
         }
     }
 
-    public void setState(Timer timer) {
+    private void setState(Timer timer) {
         updateGame();
         enableUI();
         timer.cancel();
@@ -277,7 +273,6 @@ public class ConnectFourActivity extends AppCompatActivity {
     }
 
     public void onDone(final View view) {
-        final View view1 = view;
 
         if (!getConnectFourView().getConnectFour().endTurn()) {
             Toast.makeText(view.getContext(), R.string.turn_error, Toast.LENGTH_SHORT).show();
@@ -286,11 +281,11 @@ public class ConnectFourActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     final Cloud cloud = new Cloud();
-                    success = cloud.saveToCloud(getConnectFourView().getConnectFour().getCurrPlayerInt(),
+                    cloud.saveToCloud(getConnectFourView().getConnectFour().getCurrPlayerInt(),
                             getConnectFourView().getConnectFour().getUsername(),
                             getConnectFourView().getConnectFour().getBoardString());
 
-                    view1.post(new Runnable() {
+                    view.post(new Runnable() {
                         @Override
                         public void run() {
                             updateGame();

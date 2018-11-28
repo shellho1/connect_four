@@ -1,15 +1,11 @@
 package edu.msu.team15.connect4;
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 import android.util.Xml;
 import android.view.View;
 import android.view.WindowManager;
@@ -27,8 +23,6 @@ import java.net.CookieManager;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String PLAYER1_NAME = "p1";
-    public static final String PLAYER2_NAME = "p2";
     private static final String REMEMBER_CHECKED = "checked";
     private static final String USER_PREF = "userid";
     private static final String PASS_PREF = "password";

@@ -1,8 +1,8 @@
 package edu.msu.team15.connect4;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Xml;
 import android.view.View;
 import android.view.WindowManager;
@@ -20,7 +20,6 @@ public class CreateUserActivity extends AppCompatActivity {
 
     private String user = "";
     private String pass = "";
-    private String pass_confirm = "";
 
     private String getUser() {
         EditText username  = findViewById(R.id.userEditText);
@@ -56,7 +55,7 @@ public class CreateUserActivity extends AppCompatActivity {
     public void onCreateUser(View view) {
         user = getUser();
         pass = getPass();
-        pass_confirm = getPass_confirm();
+        String pass_confirm = getPass_confirm();
 
         final View view1 = view;
 
