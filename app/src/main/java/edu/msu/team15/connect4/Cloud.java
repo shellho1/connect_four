@@ -12,7 +12,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class Cloud {
-    private static final String MAGIC = "NechAtHa6RuzeR8x";
+    private static final String MAGIC = BuildConfig.KEY;
 
     // Login and Create User expect user, pw, and magic as get params
     private static final String LOGIN_URL = "https://webdev.cse.msu.edu/~dennis57/cse476/project2/login-user.php";

@@ -143,6 +143,7 @@ public class ConnectFourActivity extends AppCompatActivity {
                 String player1 = "";
                 String player2 = "";
                 Long timestamp = Calendar.getInstance().getTime().getTime();
+                String temp = "";
 
                 boolean fail = stream == null;
                 if (!fail) {
@@ -163,8 +164,9 @@ public class ConnectFourActivity extends AppCompatActivity {
                         player2 = xml.getAttributeValue(null, "player2");
                         winner = xml.getAttributeValue(null, "winner");
 
+                        temp = xml.getAttributeValue(null,"timestamp");
                         SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
-                        Date d = parser.parse(xml.getAttributeValue(null, "timestamp"));
+                        Date d = parser.parse(temp);
                         timestamp = d.getTime();
 
                     } catch (IOException ex) {
@@ -213,6 +215,8 @@ public class ConnectFourActivity extends AppCompatActivity {
                             {
                                 endGame(getConnectFourView().getConnectFour().getUsername().equals(player_one) ? 1 : 2,
                                         player_one, player_two);
+                                timer.cancel();
+                                timer.purge();
                             }
 
                             if (currPlayer1.equals(getConnectFourView().getConnectFour().getUsername())) {
